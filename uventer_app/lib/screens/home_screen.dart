@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
-          'assets/uventerlogo.png',
+          'assets/uventer-logo.png',
           height: 40,
           errorBuilder: (context, error, stackTrace) => const Text('UVENTER'),
         ),
