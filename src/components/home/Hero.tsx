@@ -10,21 +10,22 @@ const Hero = () => {
   return (
     <section className="relative w-full bg-white pt-24 md:pt-32 min-h-[90vh] overflow-hidden flex flex-col items-center">
       {/* Content Section */}
-      <div className="relative z-20 max-w-5xl mx-auto px-6 text-center">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="flex flex-col items-center"
         >
           <span className="inline-block px-5 py-1.5 mb-8 text-[11px] font-black uppercase tracking-[0.2em] text-[#008080] bg-[#008080]/5 rounded-full">
             Discover & Book
           </span>
-          <h1 className="text-6xl md:text-[5.5rem] font-black tracking-tight text-[#1D1D1F] mb-8 leading-[1.05]">
+          <h1 className="max-w-4xl text-6xl md:text-[5.5rem] font-black tracking-tight text-[#1D1D1F] mb-8 leading-[1.05] [text-wrap:balance]">
             Experience Unforgettable <br /> 
             <span className="text-[#008080] italic font-serif">Moments</span> Together.
           </h1>
-          <p className="max-w-2xl mx-auto text-xl md:text-2xl text-[#6E6E73] font-medium leading-relaxed mb-12">
-            Uventer is your premium gateway to the most exclusive events. <br className="hidden md:block" />
+          <p className="max-w-2xl text-xl md:text-2xl text-[#6E6E73] font-medium leading-relaxed mb-12 [text-wrap:balance]">
+            Uventer is your premium gateway to the most exclusive events. 
             From intimate workshops to grand festivals, find your next story here.
           </p>
         </motion.div>
