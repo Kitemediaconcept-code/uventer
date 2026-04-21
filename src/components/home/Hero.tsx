@@ -55,7 +55,7 @@ const Hero = () => {
         className="w-full mt-auto"
       >
         <Image
-          src="/herosectionimg.png"
+          src="/heroimg.png"
           alt="Uventer Community"
           width={1920}
           height={800}
