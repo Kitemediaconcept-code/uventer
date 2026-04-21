@@ -47,25 +47,21 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* Hero Image Section - Anchored to the bottom and filling the width */}
+      {/* Hero Image Section - Full Width without side margins */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full mt-auto"
+        className="w-full mt-auto"
       >
-        <div className="w-full flex justify-center">
-          <div className="w-full max-w-[1600px] relative">
-            <Image
-              src="/herosectionimg.png"
-              alt="Uventer Community"
-              width={1600}
-              height={800}
-              className="w-full h-auto object-contain select-none pointer-events-none"
-              priority
-            />
-          </div>
-        </div>
+        <Image
+          src="/herosectionimg.png"
+          alt="Uventer Community"
+          width={1920}
+          height={800}
+          className="w-full h-auto object-cover md:object-contain select-none pointer-events-none"
+          priority
+        />
         {/* Subtle Bottom Fade to White for smooth transition */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
       </motion.div>
