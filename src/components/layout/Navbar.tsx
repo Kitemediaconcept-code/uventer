@@ -18,8 +18,8 @@ const Navbar = () => {
           <Image
             src="/uventer-logo.png"
             alt="Uventer Logo"
-            width={120}
-            height={40}
+            width={140}
+            height={50}
             className="object-contain"
             priority
           />

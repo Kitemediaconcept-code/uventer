@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Image.asset(
           'assets/uventer-logo.png',
-          height: 40,
+          height: 45,
           errorBuilder: (context, error, stackTrace) => const Text('UVENTER'),
         ),
         actions: [
