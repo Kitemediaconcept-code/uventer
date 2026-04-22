@@ -1,4 +1,5 @@
 'use client';
+// Updated UI: Black button, removed lines, added OR divider.
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
