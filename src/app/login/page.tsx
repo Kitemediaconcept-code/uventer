@@ -68,21 +68,23 @@ function LoginContent() {
         }
 
         .lp-top-btn button {
-          background: linear-gradient(135deg, #ff7a2f, #ff9a4d);
+          background: #000;
           border: none;
           padding: 16px 40px;
           border-radius: 50px;
           color: white;
           font-size: 16px;
           cursor: pointer;
-          box-shadow: 0 10px 25px rgba(255, 122, 47, 0.4);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
           transition: 0.3s;
           width: 80%;
           max-width: 320px;
+          font-weight: 600;
         }
 
         .lp-top-btn button:hover {
           transform: translateY(-2px);
+          background: #222;
         }
 
         .lp-email-input {
@@ -101,15 +103,40 @@ function LoginContent() {
         .lp-email-input::placeholder { color: rgba(0,0,0,0.35); }
 
         .lp-login-text {
-          color: rgba(0,0,0,0.45);
-          font-size: 13px;
-          margin-top: 14px;
+          color: rgba(0,0,0,0.6);
+          font-size: 14px;
+          margin-top: 20px;
           cursor: pointer;
-          text-decoration: underline;
+          font-weight: 500;
+        }
+
+        .lp-divider {
+          display: flex;
+          align-items: center;
+          width: 80%;
+          max-width: 320px;
+          margin: 25px 0;
+        }
+
+        .lp-divider::before,
+        .lp-divider::after {
+          content: "";
+          flex: 1;
+          height: 1px;
+          background: #eee;
+        }
+
+        .lp-divider span {
+          padding: 0 15px;
+          color: #ccc;
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 1px;
         }
 
         .lp-message {
-          color: #ff7a2f;
+          color: #000;
           font-size: 13px;
           margin-top: 10px;
           text-align: center;
@@ -118,13 +145,11 @@ function LoginContent() {
 
         /* Social Login */
         .lp-social {
-          position: absolute;
-          top: 190px;
-          width: 100%;
           display: flex;
           justify-content: center;
           gap: 20px;
           z-index: 10;
+          margin-top: 10px;
         }
 
         .lp-icon {
@@ -136,27 +161,14 @@ function LoginContent() {
           align-items: center;
           justify-content: center;
           font-size: 22px;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.08);
           cursor: pointer;
           font-weight: bold;
+          border: 1px solid #f0f0f0;
         }
 
         .lp-icon.google { color: #DB4437; }
         .lp-icon.facebook { color: #4267B2; }
-
-        /* Network Background Lines */
-        .lp-network span {
-          position: absolute;
-          width: 120px;
-          height: 3px;
-          background: rgba(0,0,0,0.08);
-          border-radius: 2px;
-          z-index: 1;
-        }
-        .lp-network span:nth-child(1) { top: 280px; left: 10%; transform: rotate(45deg); }
-        .lp-network span:nth-child(2) { top: 280px; right: 10%; transform: rotate(-45deg); }
-        .lp-network span:nth-child(3) { top: 350px; left: 22%; transform: rotate(-25deg); }
-        .lp-network span:nth-child(4) { top: 350px; right: 22%; transform: rotate(25deg); }
 
         /* Bottom Hero Image */
         .lp-hero {
@@ -203,6 +215,21 @@ function LoginContent() {
               <p className="lp-login-text" onClick={() => setShowEmailInput(true)}>
                 I already have an account
               </p>
+
+              <div className="lp-divider">
+                <span>OR</span>
+              </div>
+
+              {/* Social Icons moved inside top-btn for layout flow */}
+              <div className="lp-social">
+                <div className="lp-icon apple">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+                  </svg>
+                </div>
+                <div className="lp-icon google">G</div>
+                <div className="lp-icon facebook">f</div>
+              </div>
             </>
           ) : (
             <form onSubmit={handleLogin} style={{display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}}>
@@ -221,25 +248,6 @@ function LoginContent() {
               <p className="lp-login-text" onClick={() => setShowEmailInput(false)}>← Back</p>
             </form>
           )}
-        </div>
-
-        {/* Social Icons */}
-        <div className="lp-social">
-          <div className="lp-icon apple">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-              <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
-            </svg>
-          </div>
-          <div className="lp-icon google">G</div>
-          <div className="lp-icon facebook">f</div>
-        </div>
-
-        {/* Network decorative lines */}
-        <div className="lp-network">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
         </div>
 
         {/* Bottom hero image */}
