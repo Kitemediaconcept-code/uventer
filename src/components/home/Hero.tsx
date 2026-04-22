@@ -20,11 +20,11 @@ const Hero = () => {
           <span className="inline-block px-5 py-1.5 mb-8 text-[11px] font-black uppercase tracking-[0.2em] text-[#008080] bg-[#008080]/5 rounded-full">
             Discover & Book
           </span>
-          <h1 className="max-w-4xl text-4xl md:text-[5.5rem] font-black tracking-tight text-[#1D1D1F] mb-6 md:mb-8 leading-[1.1] md:leading-[1.05] [text-wrap:balance]">
-            Experience Unforgettable <br className="hidden md:block" /> 
+          <h1 className="max-w-2xl text-2xl sm:text-3xl md:text-5xl lg:text-[4.5rem] font-bold tracking-tight text-[#1D1D1F] mb-4 md:mb-8 leading-[1.2] md:leading-[1.05] [text-wrap:balance]">
+            Experience Unforgettable <br className="hidden sm:block" /> 
             <span className="text-[#008080] italic font-serif">Moments</span> Together.
           </h1>
-          <p className="max-w-xl text-lg md:text-2xl text-[#6E6E73] font-medium leading-relaxed mb-10 md:mb-12 [text-wrap:balance]">
+          <p className="max-w-lg text-base md:text-xl text-[#6E6E73] font-medium leading-relaxed mb-8 md:mb-12 [text-wrap:balance]">
             Uventer is your premium gateway to the most exclusive events. 
             From intimate workshops to grand festivals, find your next story here.
           </p>

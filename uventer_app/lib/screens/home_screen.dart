@@ -63,14 +63,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 'Find Your Next Event',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontSize: 22, // Slightly reduced from default 24
+                  fontSize: 18, // Further reduced
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 'Experience the best events around you',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 13, // Slightly reduced from default 14
+                  fontSize: 12, // Further reduced
                 ),
               ),
               const SizedBox(height: 24),
