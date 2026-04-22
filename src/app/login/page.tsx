@@ -1,5 +1,5 @@
 'use client';
-// Updated UI: Black button, removed lines, added OR divider.
+// UI Version: 2.1 (Black button, No lines, Desktop Footer, Laptop BG)
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -67,7 +67,7 @@ function LoginContent() {
           }
         }
 
-        /* Top Button Area */
+        /* Login Card Area */
         .lp-top-btn {
           position: relative;
           margin-top: 60px;
@@ -81,83 +81,88 @@ function LoginContent() {
 
         @media (min-width: 768px) {
           .lp-top-btn {
-            margin-top: 10vh;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 30px;
+            margin-top: 15vh;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 40px;
             width: auto;
-            min-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
+            min-width: 440px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            backdrop-filter: blur(20px);
           }
         }
 
         .lp-top-btn button {
-          background: #000;
+          background: #000 !important;
           border: none;
-          padding: 16px 40px;
+          padding: 18px 40px;
           border-radius: 50px;
           color: white;
           font-size: 16px;
           cursor: pointer;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
           transition: 0.3s;
-          width: 80%;
-          max-width: 320px;
+          width: 85%;
+          max-width: 340px;
           font-weight: 600;
         }
 
         @media (min-width: 768px) {
           .lp-top-btn button {
             width: 100%;
+            max-width: none;
           }
         }
 
         .lp-top-btn button:hover {
           transform: translateY(-2px);
-          background: #222;
+          background: #333 !important;
         }
 
         .lp-email-input {
-          width: 80%;
-          max-width: 320px;
-          padding: 16px 24px;
+          width: 85%;
+          max-width: 340px;
+          padding: 18px 28px;
           border-radius: 50px;
-          border: 1px solid rgba(0,0,0,0.12);
-          background: rgba(0,0,0,0.04);
-          color: #111;
-          font-size: 15px;
+          border: 1px solid rgba(0,0,0,0.1);
+          background: rgba(0,0,0,0.05);
+          color: #000;
+          font-size: 16px;
           outline: none;
-          margin-bottom: 12px;
+          margin-bottom: 15px;
         }
 
         @media (min-width: 768px) {
           .lp-email-input {
             width: 100%;
+            max-width: none;
           }
         }
 
-        .lp-email-input::placeholder { color: rgba(0,0,0,0.35); }
+        .lp-email-input::placeholder { color: rgba(0,0,0,0.4); }
 
         .lp-login-text {
-          color: rgba(0,0,0,0.6);
+          color: rgba(0,0,0,0.5);
           font-size: 14px;
           margin-top: 20px;
           cursor: pointer;
           font-weight: 500;
         }
 
+        .lp-login-text:hover { color: #000; }
+
         .lp-divider {
           display: flex;
           align-items: center;
-          width: 80%;
-          max-width: 320px;
-          margin: 25px 0;
+          width: 85%;
+          max-width: 340px;
+          margin: 30px 0;
         }
 
         @media (min-width: 768px) {
           .lp-divider {
             width: 100%;
+            max-width: none;
           }
         }
 
@@ -170,18 +175,18 @@ function LoginContent() {
         }
 
         .lp-divider span {
-          padding: 0 15px;
-          color: #ccc;
+          padding: 0 20px;
+          color: #bbb;
           font-size: 12px;
-          font-weight: 600;
+          font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 2px;
         }
 
         .lp-message {
           color: #000;
-          font-size: 13px;
-          margin-top: 10px;
+          font-size: 14px;
+          margin-top: 12px;
           text-align: center;
           padding: 0 20px;
         }
@@ -190,30 +195,31 @@ function LoginContent() {
         .lp-social {
           display: flex;
           justify-content: center;
-          gap: 20px;
+          gap: 25px;
           z-index: 10;
-          margin-top: 10px;
         }
 
         .lp-icon {
-          width: 55px;
-          height: 55px;
+          width: 60px;
+          height: 60px;
           background: #fff;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 22px;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+          font-size: 24px;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.06);
           cursor: pointer;
           font-weight: bold;
-          border: 1px solid #f0f0f0;
+          border: 1px solid #f2f2f2;
+          transition: 0.2s;
         }
 
+        .lp-icon:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .lp-icon.google { color: #DB4437; }
         .lp-icon.facebook { color: #4267B2; }
 
-        /* Bottom Hero Image */
+        /* Bottom Hero Image (Mobile) */
         .lp-hero {
           position: absolute;
           bottom: 0;
@@ -222,9 +228,7 @@ function LoginContent() {
         }
 
         @media (min-width: 768px) {
-          .lp-hero {
-            display: none;
-          }
+          .lp-hero { display: none; }
         }
 
         .lp-hero img {
@@ -232,6 +236,42 @@ function LoginContent() {
           object-fit: cover;
           display: block;
         }
+
+        /* Desktop Footer */
+        .lp-footer {
+          display: none;
+          position: absolute;
+          bottom: 40px;
+          width: 100%;
+          text-align: center;
+          z-index: 10;
+        }
+
+        @media (min-width: 768px) {
+          .lp-footer { display: block; }
+        }
+
+        .lp-footer p {
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+
+        .lp-footer-links {
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+        }
+
+        .lp-footer-links span {
+          color: rgba(255, 255, 255, 0.4);
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: 0.2s;
+        }
+
+        .lp-footer-links span:hover { color: #fff; }
       `}} />
 
       {/* LOGIN UI */}
@@ -254,7 +294,7 @@ function LoginContent() {
 
               <div className="lp-social">
                 <div className="lp-icon apple">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                     <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
                   </svg>
                 </div>
@@ -283,8 +323,18 @@ function LoginContent() {
 
         {/* Bottom hero image (visible on mobile only) */}
         <div className="lp-hero">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/hero-mobile.png" alt="Community" />
+        </div>
+
+        {/* Desktop Footer */}
+        <div className="lp-footer">
+          <p>© 2026 Uventer. Empowering your next unforgettable moment.</p>
+          <div className="lp-footer-links">
+            <span>Privacy Policy</span>
+            <span>Terms of Service</span>
+            <span>Help Center</span>
+            <span>Contact Us</span>
+          </div>
         </div>
 
       </div>
