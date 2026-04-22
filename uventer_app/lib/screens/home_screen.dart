@@ -51,14 +51,27 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.asset(
+                  'assets/hero-mobile.png',
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 32),
               Text(
                 'Find Your Next Event',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontSize: 22, // Slightly reduced from default 24
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 'Experience the best events around you',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 13, // Slightly reduced from default 14
+                ),
               ),
               const SizedBox(height: 24),
               TextField(

@@ -20,11 +20,11 @@ const Hero = () => {
           <span className="inline-block px-5 py-1.5 mb-8 text-[11px] font-black uppercase tracking-[0.2em] text-[#008080] bg-[#008080]/5 rounded-full">
             Discover & Book
           </span>
-          <h1 className="max-w-4xl text-6xl md:text-[5.5rem] font-black tracking-tight text-[#1D1D1F] mb-8 leading-[1.05] [text-wrap:balance]">
-            Experience Unforgettable <br /> 
+          <h1 className="max-w-4xl text-4xl md:text-[5.5rem] font-black tracking-tight text-[#1D1D1F] mb-6 md:mb-8 leading-[1.1] md:leading-[1.05] [text-wrap:balance]">
+            Experience Unforgettable <br className="hidden md:block" /> 
             <span className="text-[#008080] italic font-serif">Moments</span> Together.
           </h1>
-          <p className="max-w-2xl text-xl md:text-2xl text-[#6E6E73] font-medium leading-relaxed mb-12 [text-wrap:balance]">
+          <p className="max-w-xl text-lg md:text-2xl text-[#6E6E73] font-medium leading-relaxed mb-10 md:mb-12 [text-wrap:balance]">
             Uventer is your premium gateway to the most exclusive events. 
             From intimate workshops to grand festivals, find your next story here.
           </p>
@@ -55,14 +55,26 @@ const Hero = () => {
         transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="w-full mt-auto"
       >
-        <Image
-          src="/heroimg.png"
-          alt="Uventer Community"
-          width={1920}
-          height={800}
-          className="w-full h-auto object-cover md:object-contain select-none pointer-events-none"
-          priority
-        />
+        <div className="md:hidden w-full">
+          <Image
+            src="/hero-mobile.png"
+            alt="Uventer Community Mobile"
+            width={800}
+            height={800}
+            className="w-full h-auto object-cover select-none pointer-events-none"
+            priority
+          />
+        </div>
+        <div className="hidden md:block w-full">
+          <Image
+            src="/heroimg.png"
+            alt="Uventer Community"
+            width={1920}
+            height={800}
+            className="w-full h-auto object-cover md:object-contain select-none pointer-events-none"
+            priority
+          />
+        </div>
         {/* Subtle Bottom Fade to White for smooth transition */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
       </motion.div>
