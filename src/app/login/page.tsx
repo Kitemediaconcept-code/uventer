@@ -54,18 +54,42 @@ function LoginContent() {
           background: #fff;
           overflow: hidden;
           font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
-        /* Top Button */
+        /* Desktop specific background */
+        @media (min-width: 768px) {
+          .lp-container {
+            background: url("/login-hero-laptop.png") no-repeat center center;
+            background-size: cover;
+          }
+        }
+
+        /* Top Button Area */
         .lp-top-btn {
-          position: absolute;
-          top: 60px;
+          position: relative;
+          margin-top: 60px;
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
           z-index: 10;
           gap: 0;
+        }
+
+        @media (min-width: 768px) {
+          .lp-top-btn {
+            margin-top: 10vh;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            width: auto;
+            min-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+          }
         }
 
         .lp-top-btn button {
@@ -81,6 +105,12 @@ function LoginContent() {
           width: 80%;
           max-width: 320px;
           font-weight: 600;
+        }
+
+        @media (min-width: 768px) {
+          .lp-top-btn button {
+            width: 100%;
+          }
         }
 
         .lp-top-btn button:hover {
@@ -101,6 +131,12 @@ function LoginContent() {
           margin-bottom: 12px;
         }
 
+        @media (min-width: 768px) {
+          .lp-email-input {
+            width: 100%;
+          }
+        }
+
         .lp-email-input::placeholder { color: rgba(0,0,0,0.35); }
 
         .lp-login-text {
@@ -117,6 +153,12 @@ function LoginContent() {
           width: 80%;
           max-width: 320px;
           margin: 25px 0;
+        }
+
+        @media (min-width: 768px) {
+          .lp-divider {
+            width: 100%;
+          }
         }
 
         .lp-divider::before,
@@ -179,34 +221,23 @@ function LoginContent() {
           z-index: 5;
         }
 
+        @media (min-width: 768px) {
+          .lp-hero {
+            display: none;
+          }
+        }
+
         .lp-hero img {
           width: 100%;
           object-fit: cover;
           display: block;
         }
-
-        /* Desktop fallback */
-        .lp-desktop {
-          display: none;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 100vh;
-          background: #fff;
-          text-align: center;
-          padding: 48px;
-        }
-
-        @media (min-width: 768px) {
-          .lp-container { display: none; }
-          .lp-desktop { display: flex; }
-        }
       `}} />
 
-      {/* MOBILE LOGIN UI */}
+      {/* LOGIN UI */}
       <div className="lp-container">
 
-        {/* Top button / email form */}
+        {/* Top button / email form area */}
         <div className="lp-top-btn">
           {!showEmailInput ? (
             <>
@@ -221,7 +252,6 @@ function LoginContent() {
                 <span>OR</span>
               </div>
 
-              {/* Social Icons moved inside top-btn for layout flow */}
               <div className="lp-social">
                 <div className="lp-icon apple">
                   <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
@@ -251,24 +281,12 @@ function LoginContent() {
           )}
         </div>
 
-        {/* Bottom hero image */}
+        {/* Bottom hero image (visible on mobile only) */}
         <div className="lp-hero">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/hero-mobile.png" alt="Community" />
         </div>
 
-      </div>
-
-      {/* DESKTOP FALLBACK */}
-      <div className="lp-desktop">
-        <h2 style={{fontSize:'24px', fontWeight:'bold', marginBottom:'12px'}}>Mobile Experience Only</h2>
-        <p style={{color:'#666', marginBottom:'32px'}}>Please access this page from a mobile device.</p>
-        <button
-          onClick={() => router.push('/')}
-          style={{padding:'14px 32px', background:'#ff7a2f', color:'#fff', border:'none', borderRadius:'50px', fontSize:'15px', fontWeight:'600', cursor:'pointer'}}
-        >
-          Go Back Home
-        </button>
       </div>
     </>
   );
