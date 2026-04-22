@@ -242,9 +242,16 @@ function LoginContent() {
           display: none;
           position: absolute;
           bottom: 40px;
-          width: 100%;
-          text-align: center;
+          left: 50%;
+          transform: translateX(-50%);
           z-index: 10;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          padding: 20px 40px;
+          border-radius: 50px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
         }
 
         @media (min-width: 768px) {
@@ -254,7 +261,7 @@ function LoginContent() {
         .lp-footer p {
           color: rgba(255, 255, 255, 0.6);
           font-size: 13px;
-          margin-bottom: 12px;
+          margin: 0 0 8px 0;
         }
 
         .lp-footer-links {
