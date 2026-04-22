@@ -82,13 +82,15 @@ function LoginContent() {
         @media (min-width: 768px) {
           .lp-top-btn {
             margin-top: 15vh;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.4);
             padding: 50px 40px;
             border-radius: 40px;
             width: auto;
             min-width: 440px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
-            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
           }
         }
 
