@@ -84,7 +84,7 @@ function LoginContent() {
             margin-top: 15vh;
             background: rgba(255, 255, 255, 0.4);
             padding: 50px 40px;
-            border-radius: 40px;
+            border-radius: 50px;
             width: auto;
             min-width: 440px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.1);

@@ -21,7 +21,7 @@ const EventCard = ({ title, category, date, location, imageUrl, price }: EventCa
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -8 }}
-      className="group relative bg-white rounded-3xl overflow-hidden border border-accent hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500"
+      className="group relative bg-white rounded-[40px] overflow-hidden border border-accent hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500"
     >
       <div className="relative h-64 w-full overflow-hidden">
         <Image
