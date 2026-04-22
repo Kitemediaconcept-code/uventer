@@ -1,26 +1,27 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function LoginPage() {
+function LoginContent() {
   const [showEmailInput, setShowEmailInput] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect_to') || '/';
 
   useEffect(() => {
-    // Check if user is already logged in
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        router.push('/');
+        router.push(redirectTo);
       }
     };
     checkUser();
-  }, [router]);
+  }, [router, redirectTo]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: window.location.origin,
+          emailRedirectTo: `${window.location.origin}${redirectTo}`,
         },
       });
 
@@ -185,16 +186,15 @@ export default function LoginPage() {
             <button className="primary-btn" onClick={() => setShowEmailInput(true)}>
               Create new account →
             </button>
-
             <p className="login-text" onClick={() => setShowEmailInput(true)}>
               I already have an account
             </p>
           </>
         ) : (
           <form onSubmit={handleLogin}>
-            <input 
-              type="email" 
-              placeholder="Enter your email" 
+            <input
+              type="email"
+              placeholder="Enter your email"
               className="email-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -216,8 +216,10 @@ export default function LoginPage() {
 
         <div className="social-login">
           <button className="icon-btn">
-            {/* Apple Icon placeholder */}
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 3"/></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/>
+              <path d="M10 2c1 .5 2 2 2 3"/>
+            </svg>
           </button>
           <button className="icon-btn" style={{color: '#DB4437', fontWeight: 'bold'}}>G</button>
           <button className="icon-btn" style={{color: '#4267B2', fontWeight: 'bold'}}>f</button>
@@ -228,7 +230,7 @@ export default function LoginPage() {
       <div className="hidden md:flex flex-col items-center justify-center min-h-screen p-12 text-center bg-white">
         <h2 className="text-2xl font-bold mb-4">Mobile Experience Only</h2>
         <p className="text-gray-500">Please access this page from a mobile device.</p>
-        <button 
+        <button
           onClick={() => router.push('/')}
           className="mt-8 px-6 py-3 bg-[#e07b39] text-white rounded-full font-bold"
         >
@@ -236,5 +238,17 @@ export default function LoginPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#f5f5f5]">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#e07b39]"></div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }

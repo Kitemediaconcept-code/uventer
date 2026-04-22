@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Upload, Send, Calendar, User, Tag, Phone, DollarSign } from 'lucide-react';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 export default function AddEventPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -23,13 +24,33 @@ export default function AddEventPage() {
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push('/login?redirect_to=/add-event');
+      } else {
+        setAuthChecked(true);
+      }
+    };
+    checkAuth();
+  }, [router]);
+
+  useEffect(() => {
     return () => {
       if (preview) {
         URL.revokeObjectURL(preview);
       }
     };
   }, [preview]);
+
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-secondary/30">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
