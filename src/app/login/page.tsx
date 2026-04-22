@@ -50,7 +50,7 @@ function LoginContent() {
           position: relative;
           width: 100%;
           height: 100vh;
-          background: #000;
+          background: #fff;
           overflow: hidden;
           font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
@@ -90,19 +90,18 @@ function LoginContent() {
           max-width: 320px;
           padding: 16px 24px;
           border-radius: 50px;
-          border: 1px solid rgba(255,255,255,0.2);
-          background: rgba(255,255,255,0.1);
-          color: #fff;
+          border: 1px solid rgba(0,0,0,0.12);
+          background: rgba(0,0,0,0.04);
+          color: #111;
           font-size: 15px;
           outline: none;
           margin-bottom: 12px;
-          backdrop-filter: blur(10px);
         }
 
-        .lp-email-input::placeholder { color: rgba(255,255,255,0.5); }
+        .lp-email-input::placeholder { color: rgba(0,0,0,0.35); }
 
         .lp-login-text {
-          color: rgba(255,255,255,0.6);
+          color: rgba(0,0,0,0.45);
           font-size: 13px;
           margin-top: 14px;
           cursor: pointer;
@@ -110,7 +109,7 @@ function LoginContent() {
         }
 
         .lp-message {
-          color: #ff9a4d;
+          color: #ff7a2f;
           font-size: 13px;
           margin-top: 10px;
           text-align: center;
@@ -150,7 +149,7 @@ function LoginContent() {
           position: absolute;
           width: 120px;
           height: 3px;
-          background: rgba(255,255,255,0.15);
+          background: rgba(0,0,0,0.08);
           border-radius: 2px;
           z-index: 1;
         }
@@ -269,7 +268,7 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div style={{minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#000'}}>
+      <div style={{minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#fff'}}>
         <div style={{width:'40px', height:'40px', border:'3px solid #ff7a2f', borderTopColor:'transparent', borderRadius:'50%', animation:'spin 0.8s linear infinite'}} />
       </div>
     }>
