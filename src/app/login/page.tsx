@@ -36,11 +36,15 @@ function LoginContent() {
       });
       const data = await res.json();
       if (!res.ok || data.error) {
-        throw new Error(data.error || 'Failed to send login link');
+        throw new Error(data.error || `Server error ${res.status}`);
       }
       setMessage('Check your email for the login link!');
     } catch (error: any) {
-      setMessage(error.message || 'An error occurred');
+      if (error.message === 'Failed to fetch') {
+        setMessage('Network error: Could not reach the server. Please check your connection or try again.');
+      } else {
+        setMessage(error.message || 'An error occurred');
+      }
     } finally {
       setLoading(false);
     }
