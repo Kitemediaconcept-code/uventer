@@ -8,12 +8,34 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, redirectTo } = await request.json();
+    const { email, password, redirectTo, type } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
+    // Password-based sign in
+    if (type === 'password') {
+      if (!password) {
+        return NextResponse.json({ error: 'Password is required' }, { status: 400 });
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        console.error('[auth] Password sign-in error:', error.message);
+        return NextResponse.json({ error: error.message }, { status: 400 });
+      }
+
+      return NextResponse.json({
+        success: true,
+        accessToken: data.session?.access_token,
+        refreshToken: data.session?.refresh_token,
+        user: { email: data.user?.email, id: data.user?.id },
+      });
+    }
+
+    // Magic link (OTP) sign in
     const origin = request.headers.get('origin') || 'http://localhost:3000';
     const redirectUrl = `${origin}${redirectTo || '/'}`;
 
@@ -31,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    console.error('[send-magic-link] Unexpected error:', err);
+    console.error('[auth] Unexpected error:', err);
     return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
   }
 }
