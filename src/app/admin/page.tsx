@@ -31,12 +31,12 @@ export default function AdminDashboard() {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       
-      const adminEmails = ['ajmaloffical04@gmail.com', 'digital@kitemediaconcept.com'];
+      const adminEmail = 'digital@kitemediaconcept.com';
       
       if (!session) {
         // If not logged in, send to login with redirect back here
         router.push('/login?redirect_to=/admin');
-      } else if (!session.user.email || !adminEmails.includes(session.user.email)) {
+      } else if (session.user.email !== adminEmail) {
         // If logged in but not an admin, redirect to home page
         router.push('/');
       } else {
