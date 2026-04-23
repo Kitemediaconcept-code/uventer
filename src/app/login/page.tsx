@@ -29,11 +29,15 @@ function LoginContent() {
     setLoading(true);
     setMessage('');
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: `${window.location.origin}${redirectTo}` },
+      const res = await fetch('/api/send-magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, redirectTo }),
       });
-      if (error) throw error;
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Failed to send login link');
+      }
       setMessage('Check your email for the login link!');
     } catch (error: any) {
       setMessage(error.message || 'An error occurred');
