@@ -365,6 +365,34 @@ function LoginContent() {
               }
             </button>
 
+            {tab === 'signin' && (
+              <>
+                <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
+                  <div style={{ flex: 1, height: '1px', background: '#eee' }}></div>
+                  <span style={{ padding: '0 10px', fontSize: '12px', color: '#bbb', fontWeight: 600 }}>OR</span>
+                  <div style={{ flex: 1, height: '1px', background: '#eee' }}></div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleMagicLink}
+                  disabled={loading}
+                  style={{
+                    width: '100%',
+                    padding: '14px',
+                    borderRadius: '14px',
+                    border: '1.5px solid #e8e8e8',
+                    background: 'transparent',
+                    color: '#111',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  ✉️ Sign in with Magic Link
+                </button>
+              </>
+            )}
+
             {message && (
               <p className={`lp-msg ${isError ? 'err' : 'ok'}`}>{message}</p>
             )}
