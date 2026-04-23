@@ -69,18 +69,25 @@ export default function AddEventPage() {
       let imageUrl = '';
 
       if (image) {
-        const fileExt = image.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `event_images/${fileName}`;
+        try {
+          const fileExt = image.name.split('.').pop();
+          const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${fileExt}`;
+          const filePath = `event_images/${fileName}`;
 
-        const { error: uploadError } = await supabase.storage
-          .from('events')
-          .upload(filePath, image);
+          const { error: uploadError } = await supabase.storage
+            .from('events')
+            .upload(filePath, image);
 
-        if (uploadError) throw uploadError;
-
-        const { data: urlData } = supabase.storage.from('events').getPublicUrl(filePath);
-        imageUrl = urlData.publicUrl;
+          if (uploadError) {
+            console.warn('Image upload failed (bucket may not exist):', uploadError.message);
+            // Don't throw — just submit without image
+          } else {
+            const { data: urlData } = supabase.storage.from('events').getPublicUrl(filePath);
+            imageUrl = urlData.publicUrl;
+          }
+        } catch (imgErr: any) {
+          console.warn('Image upload skipped:', imgErr.message);
+        }
       }
 
       const { data: { session } } = await supabase.auth.getSession();
