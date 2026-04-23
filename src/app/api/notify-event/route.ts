@@ -28,39 +28,54 @@ export async function POST(request: NextRequest) {
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
-                <span style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Submitter Name</span><br/>
-                <span style="color: #111; font-size: 16px; font-weight: 600; margin-top: 4px; display: block;">${name}</span>
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Submitter Name</span><br/>
+                <span style="color: #111; font-size: 16px; font-weight: 700; margin-top: 4px; display: block;">${name}</span>
               </td>
             </tr>
             <tr>
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
-                <span style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Event Name</span><br/>
-                <span style="color: #111; font-size: 16px; font-weight: 600; margin-top: 4px; display: block;">${event_name}</span>
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Event Name</span><br/>
+                <span style="color: #111; font-size: 16px; font-weight: 700; margin-top: 4px; display: block;">${event_name || 'Untitled Event'}</span>
               </td>
             </tr>
             <tr>
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
-                <span style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Contact</span><br/>
-                <span style="color: #111; font-size: 16px; font-weight: 600; margin-top: 4px; display: block;">${contact_details}</span>
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Location</span><br/>
+                <span style="color: #111; font-size: 16px; font-weight: 700; margin-top: 4px; display: block;">📍 ${location}</span>
               </td>
             </tr>
             <tr>
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
-                <span style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Event Date</span><br/>
-                <span style="color: #111; font-size: 16px; font-weight: 600; margin-top: 4px; display: block;">${event_date}</span>
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Dates & Time</span><br/>
+                <span style="color: #111; font-size: 16px; font-weight: 700; margin-top: 4px; display: block;">📅 ${start_date} to ${end_date}</span>
+                <span style="color: #666; font-size: 14px; margin-top: 2px; display: block;">⏰ ${time_slot}</span>
               </td>
             </tr>
             <tr>
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
-                <span style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Entry Price</span><br/>
-                <span style="color: #111; font-size: 16px; font-weight: 600; margin-top: 4px; display: block;">₹${price}</span>
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Estimated Budget</span><br/>
+                <span style="color: #2563eb; font-size: 20px; font-weight: 800; margin-top: 4px; display: block;">₹${budget}</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Vision & Requirements</span><br/>
+                <span style="color: #333; font-size: 15px; font-weight: 500; margin-top: 8px; display: block; line-height: 1.6; background: #f9fafb; padding: 16px; border-radius: 12px; border: 1px solid #eee;">
+                  ${vision_requirements}
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Contact</span><br/>
+                <span style="color: #111; font-size: 16px; font-weight: 700; margin-top: 4px; display: block;">${contact_details}</span>
               </td>
             </tr>
             ${image_url ? `
             <tr>
               <td style="padding: 14px 0;">
-                <span style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Event Image</span><br/>
-                <img src="${image_url}" alt="Event" style="margin-top: 10px; width: 100%; max-height: 200px; object-fit: cover; border-radius: 12px;" />
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Event Image</span><br/>
+                <img src="${image_url}" alt="Event" style="margin-top: 12px; width: 100%; max-height: 240px; object-fit: cover; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
               </td>
             </tr>` : ''}
           </table>
@@ -68,7 +83,7 @@ export async function POST(request: NextRequest) {
 
         <!-- CTA -->
         <div style="background: #f8f9fa; padding: 28px 40px; text-align: center; border-top: 1px solid #eee;">
-          <a href="https://uventerapp.vercel.app/admin" style="display: inline-block; background: #111; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700;">
+          <a href="https://uventerapp.vercel.app/admin" style="display: inline-block; background: #111; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
             Review in Admin Dashboard →
           </a>
           <p style="color: #aaa; font-size: 12px; margin: 16px 0 0;">Uventer · We Organizing</p>

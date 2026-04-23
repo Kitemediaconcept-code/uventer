@@ -13,7 +13,13 @@ interface Event {
   event_name: string;
   contact_details: string;
   event_date: string;
+  start_date: string;
+  end_date: string;
+  time_slot: string;
+  budget: number;
   price: number;
+  location: string;
+  vision_requirements: string;
   image_url: string;
   status: string;
 }
@@ -237,17 +243,32 @@ export default function AdminDashboard() {
                   
                   <div className="flex-1 p-8 flex flex-col justify-between">
                     <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-black uppercase tracking-widest text-primary px-3 py-1 bg-primary/10 rounded-full">
-                          {event.event_date}
-                        </span>
-                        <span className="text-xl font-bold text-foreground">${event.price}</span>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex flex-wrap gap-2">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-primary px-3 py-1.5 bg-primary/10 rounded-full">
+                            📅 {event.start_date || (event as any).event_date} - {event.end_date}
+                          </span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-muted px-3 py-1.5 bg-secondary rounded-full">
+                            ⏰ {event.time_slot}
+                          </span>
+                        </div>
+                        <span className="text-2xl font-black text-foreground">₹{event.budget || event.price}</span>
                       </div>
-                      <h2 className="text-2xl font-bold mb-2">{event.event_name}</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
-                        <p className="text-muted"><span className="font-bold text-foreground">Submitted by:</span> {event.name}</p>
-                        <p className="text-muted"><span className="font-bold text-foreground">Contact:</span> {event.contact_details}</p>
+                      
+                      <h2 className="text-2xl font-extrabold mb-3 tracking-tight">{event.event_name}</h2>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm mb-6">
+                        <p className="text-muted"><span className="font-bold text-foreground">📍 Location:</span> {event.location || 'Not specified'}</p>
+                        <p className="text-muted"><span className="font-bold text-foreground">👤 Submitter:</span> {event.name}</p>
+                        <p className="text-muted"><span className="font-bold text-foreground">📞 Contact:</span> {event.contact_details}</p>
                       </div>
+
+                      {event.vision_requirements && (
+                        <div className="bg-secondary/20 p-5 rounded-2xl border border-accent mb-6">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-muted block mb-2">Vision & Requirements</span>
+                          <p className="text-sm text-foreground/80 leading-relaxed italic">"{event.vision_requirements}"</p>
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-4 mt-8">

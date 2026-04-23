@@ -123,8 +123,12 @@ export default function AddEventPage() {
     name: '',
     event_name: '',
     contact_details: '',
-    event_date: '',
-    price: '',
+    start_date: '',
+    end_date: '',
+    time_slot: '',
+    budget: '',
+    location: '',
+    vision_requirements: '',
   });
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -191,10 +195,16 @@ export default function AddEventPage() {
 
       const eventData: Record<string, any> = {
         name: formData.name,
-        event_name: formData.event_name,
+        event_name: formData.event_name || 'Untitled Event',
         contact_details: formData.contact_details,
-        event_date: formData.event_date,
-        price: parseFloat(formData.price),
+        event_date: formData.start_date, // Keeping legacy field for compatibility
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        time_slot: formData.time_slot,
+        budget: parseFloat(formData.budget) || 0,
+        price: parseFloat(formData.budget) || 0, // Keeping legacy field
+        location: formData.location,
+        vision_requirements: formData.vision_requirements,
         image_url: imageUrl,
         status: 'pending',
       };
@@ -206,22 +216,17 @@ export default function AddEventPage() {
       const { error: dbError } = await supabase.from('events').insert(eventData);
       if (dbError) throw dbError;
 
-      // Send email notification (non-blocking, fire-and-forget)
+      // Send email notification
       fetch('/api/notify-event', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.name,
-          event_name: formData.event_name,
-          contact_details: formData.contact_details,
-          event_date: formData.event_date,
-          price: formData.price,
+          ...formData,
           image_url: imageUrl,
         }),
-      }).catch(() => {}); // silently ignore email errors
+      }).catch(() => {});
 
-      // Show beautiful success modal
-      setSubmittedEventName(formData.event_name);
+      setSubmittedEventName(formData.event_name || 'Your Event');
       setShowSuccess(true);
 
     } catch (error: any) {
@@ -243,7 +248,7 @@ export default function AddEventPage() {
       )}
 
       <div className="min-h-screen bg-secondary/30 pb-20">
-        <div className="max-w-3xl mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto px-6 py-12">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors mb-12"
@@ -255,39 +260,40 @@ export default function AddEventPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-[2rem] border border-accent shadow-sm overflow-hidden"
+            className="bg-white rounded-[2.5rem] border border-accent shadow-sm overflow-hidden"
           >
-            <div className="p-8 md:p-12">
-              <div className="mb-10">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
-                  Submit Your <span className="text-primary italic font-serif">Event</span>
+            <div className="p-8 md:p-14">
+              <div className="mb-12">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+                  Plan Your <span className="text-primary italic font-serif">Event</span>
                 </h1>
-                <p className="text-muted">
-                  Share your experience with the community. Our team will review and publish it within 24 hours.
+                <p className="text-muted text-lg">
+                  Fill in the details below and our experts will help you bring your vision to life.
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-8">
+              <form onSubmit={handleSubmit} className="space-y-10">
+                {/* Image Upload */}
                 <div className="space-y-4">
-                  <label className="text-sm font-bold uppercase tracking-widest text-muted">Thumbnail Image</label>
+                  <label className="text-xs font-black uppercase tracking-widest text-muted">Thumbnail Image</label>
                   <div
-                    className={`relative h-64 w-full rounded-2xl border-2 border-dashed transition-all cursor-pointer overflow-hidden flex flex-col items-center justify-center
-                      ${preview ? 'border-primary' : 'border-accent hover:border-primary/50'}`}
+                    className={`relative h-72 w-full rounded-3xl border-2 border-dashed transition-all cursor-pointer overflow-hidden flex flex-col items-center justify-center
+                      ${preview ? 'border-primary' : 'border-accent hover:border-primary/50 bg-secondary/10'}`}
                     onClick={() => fileInputRef.current?.click()}
                   >
                     {preview ? (
                       <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
-                      <div className="text-center">
-                        <div className="h-16 w-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Upload className="text-primary" size={24} />
+                      <div className="text-center p-8">
+                        <div className="h-20 w-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
+                          <Upload className="text-primary" size={28} />
                         </div>
-                        <p className="text-sm font-medium text-muted">Click to upload event thumbnail</p>
+                        <p className="text-sm font-bold text-foreground mb-1">Click to upload event thumbnail</p>
+                        <p className="text-xs text-muted">Recommended: 1200 x 800px (JPG/PNG)</p>
                       </div>
                     )}
                     <input
                       ref={fileInputRef}
-                      id="imageInput"
                       type="file"
                       accept="image/*"
                       className="hidden"
@@ -296,40 +302,41 @@ export default function AddEventPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+                  {/* Basic Info */}
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-widest text-muted flex items-center gap-2">
-                      <User size={14} className="text-primary" /> Your Name
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <User size={14} className="text-primary" /> Submitter Name
                     </label>
                     <input
                       required type="text"
-                      className="w-full h-14 px-6 rounded-xl border border-accent bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                      placeholder="Enter full name"
+                      className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+                      placeholder="Enter your full name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Tag size={14} className="text-primary" /> Event Name
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <Tag size={14} className="text-primary" /> Event Name (Optional)
                     </label>
                     <input
-                      required type="text"
-                      className="w-full h-14 px-6 rounded-xl border border-accent bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                      placeholder="e.g. Summer Music Fest"
+                      type="text"
+                      className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+                      placeholder="e.g. Annual Tech Symposium"
                       value={formData.event_name}
                       onChange={(e) => setFormData({ ...formData, event_name: e.target.value })}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-widest text-muted flex items-center gap-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
                       <Phone size={14} className="text-primary" /> Contact Details
                     </label>
                     <input
                       required type="text"
-                      className="w-full h-14 px-6 rounded-xl border border-accent bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                      className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
                       placeholder="Email or Phone Number"
                       value={formData.contact_details}
                       onChange={(e) => setFormData({ ...formData, contact_details: e.target.value })}
@@ -337,49 +344,111 @@ export default function AddEventPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Calendar size={14} className="text-primary" /> Date
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <Send size={14} className="text-primary" /> City / Location
+                    </label>
+                    <input
+                      required type="text"
+                      className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+                      placeholder="Enter city or specific venue"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    />
+                  </div>
+
+                  {/* Dates */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <Calendar size={14} className="text-primary" /> Start Date
                     </label>
                     <input
                       required type="date"
-                      className="w-full h-14 px-6 rounded-xl border border-accent bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                      value={formData.event_date}
-                      onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
+                      className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+                      value={formData.start_date}
+                      onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-widest text-muted flex items-center gap-2">
-                      <DollarSign size={14} className="text-primary" /> Entry Price
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <Calendar size={14} className="text-primary" /> End Date
                     </label>
                     <input
-                      required type="number"
-                      className="w-full h-14 px-6 rounded-xl border border-accent bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                      placeholder="0.00"
-                      value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      required type="date"
+                      className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+                      value={formData.end_date}
+                      onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
                     />
                   </div>
+
+                  {/* Slot & Budget */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <Clock size={14} className="text-primary" /> Preferred Time Slot
+                    </label>
+                    <select
+                      required
+                      className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none"
+                      value={formData.time_slot}
+                      onChange={(e) => setFormData({ ...formData, time_slot: e.target.value })}
+                    >
+                      <option value="">Select a slot</option>
+                      <option value="Morning (9 AM – 12 PM)">Morning (9 AM – 12 PM)</option>
+                      <option value="Afternoon (12 PM – 4 PM)">Afternoon (12 PM – 4 PM)</option>
+                      <option value="Evening (4 PM – 8 PM)">Evening (4 PM – 8 PM)</option>
+                      <option value="Full Day">Full Day</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <DollarSign size={14} className="text-primary" /> Estimated Budget (₹)
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-foreground">₹</span>
+                      <input
+                        required type="number"
+                        className="w-full h-16 pl-12 pr-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+                        placeholder="0.00"
+                        value={formData.budget}
+                        onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Requirements */}
+                <div className="space-y-2">
+                  <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                    Vision & Requirements
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    className="w-full p-6 rounded-3xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium resize-none"
+                    placeholder="Describe your event goals, audience, and specific needs..."
+                    value={formData.vision_requirements}
+                    onChange={(e) => setFormData({ ...formData, vision_requirements: e.target.value })}
+                  />
                 </div>
 
                 <div className="pt-6">
                   <button
                     disabled={loading}
                     type="submit"
-                    className="w-full h-16 bg-primary text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-all disabled:opacity-50 shadow-lg shadow-primary/20"
+                    className="w-full h-20 bg-primary text-white rounded-[1.25rem] font-bold text-xl flex items-center justify-center gap-4 hover:bg-primary/90 transition-all disabled:opacity-50 shadow-xl shadow-primary/20"
                   >
                     {loading ? (
-                      <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+                      <div className="animate-spin rounded-full h-7 w-7 border-t-2 border-b-2 border-white"></div>
                     ) : (
                       <>
-                        <Send size={20} />
+                        <Send size={24} />
                         Submit Event for Review
                       </>
                     )}
                   </button>
                 </div>
               </form>
-            </div>
           </motion.div>
         </div>
       </div>
