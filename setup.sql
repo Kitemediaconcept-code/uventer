@@ -22,6 +22,14 @@ create table if not exists events (
 -- By default, you may need to allow anonymous inserts if you don't have auth setup yet.
 alter table events enable row level security;
 
+-- Add user_id column if it doesn't exist
+do $$ 
+begin 
+  if not exists (select 1 from information_schema.columns where table_name='events' and column_name='user_id') then
+    alter table events add column user_id uuid references auth.users(id);
+  end if;
+end $$;
+
 create policy "Allow public read access"
   on events for select
   using ( status = 'approved' );
@@ -29,3 +37,7 @@ create policy "Allow public read access"
 create policy "Allow public insert access"
   on events for insert
   with check ( true );
+
+create policy "Users can view their own submissions"
+  on events for select
+  using ( auth.uid() = user_id );

@@ -4,8 +4,10 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 
 interface EventCardProps {
+  id: string;
   title: string;
   category: string;
   date: string;
@@ -14,7 +16,7 @@ interface EventCardProps {
   price: number;
 }
 
-const EventCard = ({ title, category, date, location, imageUrl, price }: EventCardProps) => {
+const EventCard = ({ id, title, category, date, location, imageUrl, price }: EventCardProps) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -42,9 +44,12 @@ const EventCard = ({ title, category, date, location, imageUrl, price }: EventCa
           <h3 className="text-xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
             {title}
           </h3>
-          <div className="h-10 w-10 bg-secondary rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+          <Link 
+            href={`/events/${id}`}
+            className="h-10 w-10 bg-secondary rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors"
+          >
             <ArrowUpRight size={20} />
-          </div>
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
@@ -63,9 +68,12 @@ const EventCard = ({ title, category, date, location, imageUrl, price }: EventCa
             <span className="text-[10px] uppercase font-bold text-muted tracking-widest">Entry From</span>
             <span className="text-lg font-bold text-primary">${price}</span>
           </div>
-          <button className="text-sm font-bold text-foreground hover:text-primary transition-colors">
+          <Link 
+            href={`/events/${id}`}
+            className="text-sm font-bold text-foreground hover:text-primary transition-colors"
+          >
             View Details
-          </button>
+          </Link>
         </div>
       </div>
     </motion.div>

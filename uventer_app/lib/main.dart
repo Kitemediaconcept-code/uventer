@@ -7,10 +7,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Supabase
-  // Replace these with your actual Supabase project credentials
   await Supabase.initialize(
-    url: 'YOUR_SUPABASE_URL',
-    anonKey: 'YOUR_SUPABASE_ANON_KEY',
+    url: 'https://kgwehgvokxhlgvkhygsx.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtnd2VoZ3Zva3hobGd2a2h5Z3N4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4ODk3NTgsImV4cCI6MjA5MjQ2NTc1OH0.NwzDaUbzk_u720R7ZcxorLHd2Sz17lQef7iUpZAfwZ0',
   );
 
   runApp(const UventerApp());

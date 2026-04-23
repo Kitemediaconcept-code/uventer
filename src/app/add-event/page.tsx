@@ -83,6 +83,8 @@ export default function AddEventPage() {
         imageUrl = urlData.publicUrl;
       }
 
+      const { data: { session } } = await supabase.auth.getSession();
+
       const { error: dbError } = await supabase.from('events').insert({
         name: formData.name,
         event_name: formData.event_name,
@@ -91,11 +93,35 @@ export default function AddEventPage() {
         price: parseFloat(formData.price),
         image_url: imageUrl,
         status: 'pending',
+        user_id: session?.user?.id,
       });
 
       if (dbError) throw dbError;
 
-      alert('Event submitted successfully! It will appear on the site after review.');
+      // --- NOTIFICATION LOGIC ---
+      const ADMIN_WHATSAPP = "919946266898"; // Admin WhatsApp
+      const ADMIN_EMAIL = "digital@kitemediaconcept.com, ajmaloffical04@gmail.com"; // Admin Emails
+
+      const message = `
+🌟 *New Event Submission* 🌟
+----------------------------
+👤 *Submitter:* ${formData.name}
+📅 *Event:* ${formData.event_name}
+📞 *Contact:* ${formData.contact_details}
+📆 *Date:* ${formData.event_date}
+💰 *Price:* $${formData.price}
+🖼️ *Image:* ${imageUrl || 'No image uploaded'}
+----------------------------
+Please review and approve in the Supabase Dashboard.
+      `;
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodedMessage}`;
+
+      // We'll alert first, then redirect to WhatsApp
+      alert('Event submitted successfully! Redirecting to WhatsApp for final confirmation...');
+      window.open(whatsappUrl, '_blank');
+
       router.push('/');
     } catch (error: any) {
       alert('Error: ' + error.message);
@@ -107,8 +133,8 @@ export default function AddEventPage() {
   return (
     <div className="min-h-screen bg-secondary/30 pb-20">
       <div className="max-w-3xl mx-auto px-6 py-12">
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="inline-flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors mb-12"
         >
           <ChevronLeft size={16} />
@@ -133,7 +159,7 @@ export default function AddEventPage() {
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="space-y-4">
                 <label className="text-sm font-bold uppercase tracking-widest text-muted">Thumbnail Image</label>
-                <div 
+                <div
                   className={`relative h-64 w-full rounded-2xl border-2 border-dashed transition-all cursor-pointer overflow-hidden flex flex-col items-center justify-center
                     ${preview ? 'border-primary' : 'border-accent hover:border-primary/50'}`}
                   onClick={() => fileInputRef.current?.click()}
@@ -148,12 +174,12 @@ export default function AddEventPage() {
                       <p className="text-sm font-medium text-muted">Click to upload event thumbnail</p>
                     </div>
                   )}
-                  <input 
+                  <input
                     ref={fileInputRef}
                     id="imageInput"
-                    type="file" 
-                    accept="image/*" 
-                    className="hidden" 
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
                     onChange={handleImageChange}
                   />
                 </div>

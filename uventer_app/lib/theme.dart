@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static const Color primaryTeal = Color(0xFF008080);
   static const Color backgroundWhite = Color(0xFFFFFFFF);
-  static const Color surfaceGrey = Color(0xFFF5F5F5);
-  static const Color textDark = Color(0xFF1A1A1A);
-  static const Color textGrey = Color(0xFF757575);
+  static const Color surfaceGrey = Color(0xFFF3F4F6);
+  static const Color borderGrey = Color(0xFFE5E7EB);
+  static const Color textDark = Color(0xFF111827);
+  static const Color textGrey = Color(0xFF6B7280);
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -23,55 +24,61 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         elevation: 0,
-        centerTitle: true,
+        centerTitle: false, // More modern left-aligned
         iconTheme: IconThemeData(color: textDark),
         titleTextStyle: TextStyle(
           color: textDark,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.5,
         ),
       ),
       cardTheme: CardTheme(
         color: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: Colors.grey.shade200, width: 1),
+          borderRadius: BorderRadius.circular(24),
+          side: const BorderSide(color: borderGrey, width: 1),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryTeal,
+          backgroundColor: textDark, // Black buttons like login
           foregroundColor: Colors.white,
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: const Size(double.infinity, 60),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           elevation: 0,
           textStyle: const TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.5,
           ),
         ),
       ),
       textTheme: const TextTheme(
         headlineMedium: TextStyle(
           color: textDark,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+          fontSize: 28,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -1,
         ),
         titleLarge: TextStyle(
           color: textDark,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          letterSpacing: -0.5,
         ),
         bodyLarge: TextStyle(
           color: textDark,
           fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
         bodyMedium: TextStyle(
           color: textGrey,
           fontSize: 14,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

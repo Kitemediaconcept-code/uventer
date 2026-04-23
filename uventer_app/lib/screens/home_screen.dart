@@ -177,62 +177,152 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildEventCard(BuildContext context, String title, String location, String date, String imageUrl) {
-    return Card(
+  Widget _buildEventCard(BuildContext context, String title, String price, String date, String imageUrl) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(32),
+        border: Border.all(color: AppTheme.borderGrey),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.network(
-              imageUrl,
-              height: 180,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                height: 180,
-                color: AppTheme.surfaceGrey,
-                child: const Icon(Icons.broken_image_outlined, color: AppTheme.textGrey),
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+                child: Image.network(
+                  imageUrl,
+                  height: 220,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 220,
+                    color: AppTheme.surfaceGrey,
+                    child: const Icon(Icons.broken_image_outlined, color: AppTheme.textGrey),
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                top: 16,
+                left: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, py: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'TECHNOLOGY',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: AppTheme.primaryTeal,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(Icons.location_on_outlined, size: 16, color: AppTheme.textGrey),
-                    const SizedBox(width: 4),
-                    Text(location, style: Theme.of(context).textTheme.bodyMedium),
-                    const Spacer(),
-                    const Icon(Icons.calendar_today_outlined, size: 16, color: AppTheme.textGrey),
-                    const SizedBox(width: 4),
-                    Text(date, style: Theme.of(context).textTheme.bodyMedium),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontSize: 22,
+                          height: 1.1,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 44,
+                      width: 44,
+                      decoration: BoxDecoration(
+                        color: AppTheme.surfaceGrey,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.arrow_outward, size: 20),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EventDetailScreen(
-                          title: title,
-                          location: location,
-                          date: date,
-                          imageUrl: imageUrl,
+                Row(
+                  children: [
+                    const Icon(Icons.calendar_today_outlined, size: 16, color: AppTheme.primaryTeal),
+                    const SizedBox(width: 8),
+                    Text(date, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 16),
+                    const Icon(Icons.location_on_outlined, size: 16, color: AppTheme.primaryTeal),
+                    const SizedBox(width: 8),
+                    const Text('Virtual Event', style: TextStyle(color: AppTheme.textGrey, fontWeight: FontWeight.bold, fontSize: 12)),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                const Divider(color: AppTheme.borderGrey),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'ENTRY FROM',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                            color: AppTheme.textGrey,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        Text(
+                          price,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            color: AppTheme.primaryTeal,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EventDetailScreen(
+                              title: title,
+                              location: 'Virtual Event',
+                              date: date,
+                              imageUrl: imageUrl,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'View Details',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: AppTheme.textDark,
                         ),
                       ),
-                    );
-                  },
-                  child: const Text('View Details'),
+                    ),
+                  ],
                 ),
               ],
             ),

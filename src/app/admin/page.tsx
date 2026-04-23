@@ -1,23 +1,70 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, Calendar, User, Phone, MapPin, DollarSign, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Check, Trash2, Clock, ExternalLink, ShieldCheck, ChevronLeft, Search, RotateCcw, TrendingUp, CheckCircle } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function AdminDashboard() {
-  const [events, setEvents] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [processing, setProcessing] = useState<string | null>(null);
+interface Event {
+  id: string;
+  name: string;
+  event_name: string;
+  contact_details: string;
+  event_date: string;
+  price: number;
+  image_url: string;
+  status: string;
+}
 
-  const fetchPendingEvents = async () => {
+export default function AdminDashboard() {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [activeTab, setActiveTab] = useState<'pending' | 'approved'>('pending');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [stats, setStats] = useState({ pending: 0, approved: 0 });
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      const adminEmails = ['ajmaloffical04@gmail.com', 'digital@kitemediaconcept.com'];
+      
+      if (!session) {
+        // If not logged in, send to login with redirect back here
+        router.push('/login?redirect_to=/admin');
+      } else if (!session.user.email || !adminEmails.includes(session.user.email)) {
+        // If logged in but not an admin, redirect to home page
+        router.push('/');
+      } else {
+        // Authorized admin
+        setAuthChecked(true);
+        fetchEvents(activeTab);
+        fetchStats();
+      }
+    };
+    checkAuth();
+  }, [router, activeTab]);
+
+  const fetchStats = async () => {
+    const { data: pendingData } = await supabase.from('events').select('id', { count: 'exact' }).eq('status', 'pending');
+    const { data: approvedData } = await supabase.from('events').select('id', { count: 'exact' }).eq('status', 'approved');
+    
+    setStats({
+      pending: pendingData?.length || 0,
+      approved: approvedData?.length || 0
+    });
+  };
+
+  const fetchEvents = async (status: string) => {
     setLoading(true);
     const { data, error } = await supabase
       .from('events')
       .select('*')
-      .eq('status', 'pending')
+      .eq('status', status)
       .order('created_at', { ascending: false });
 
     if (!error && data) {
@@ -26,12 +73,7 @@ export default function AdminDashboard() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchPendingEvents();
-  }, []);
-
-  const handleApprove = async (id: string) => {
-    setProcessing(id);
+  const approveEvent = async (id: string) => {
     const { error } = await supabase
       .from('events')
       .update({ status: 'approved' })
@@ -39,17 +81,27 @@ export default function AdminDashboard() {
 
     if (!error) {
       setEvents(events.filter(e => e.id !== id));
-      alert('Event approved and pushed to live site!');
-    } else {
-      alert('Error approving event: ' + error.message);
+      fetchStats();
+      alert('Event approved and live!');
     }
-    setProcessing(null);
   };
 
-  const handleReject = async (id: string) => {
-    if (!confirm('Are you sure you want to reject and delete this submission?')) return;
-    
-    setProcessing(id);
+  const unapproveEvent = async (id: string) => {
+    const { error } = await supabase
+      .from('events')
+      .update({ status: 'pending' })
+      .eq('id', id);
+
+    if (!error) {
+      setEvents(events.filter(e => e.id !== id));
+      fetchStats();
+      alert('Event moved back to pending.');
+    }
+  };
+
+  const deleteEvent = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this submission?')) return;
+
     const { error } = await supabase
       .from('events')
       .delete()
@@ -57,131 +109,171 @@ export default function AdminDashboard() {
 
     if (!error) {
       setEvents(events.filter(e => e.id !== id));
-      alert('Event submission rejected and deleted.');
-    } else {
-      alert('Error rejecting event: ' + error.message);
+      fetchStats();
     }
-    setProcessing(null);
   };
+
+  const filteredEvents = events.filter(event => 
+    event.event_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    event.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  if (!authChecked) return null;
 
   return (
     <div className="min-h-screen bg-secondary/30 pb-20">
-      {/* Admin Navbar */}
-      <div className="bg-white border-b border-accent px-6 py-4 mb-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary/10 p-2 rounded-lg text-primary">
-              <ShieldCheck size={24} />
-            </div>
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="flex flex-col gap-8 mb-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <h1 className="text-xl font-bold text-foreground">Admin Dashboard</h1>
-              <p className="text-xs text-muted font-medium uppercase tracking-widest">Uventer Organizer Portal</p>
+              <Link 
+                href="/" 
+                className="inline-flex items-center gap-2 text-sm font-bold text-muted hover:text-primary transition-colors mb-4"
+              >
+                <ChevronLeft size={16} />
+                Back to Site
+              </Link>
+              <h1 className="text-4xl font-bold tracking-tight text-foreground flex items-center gap-3">
+                Admin <span className="text-primary italic font-serif">Panel</span>
+                <ShieldCheck className="text-primary" size={28} />
+              </h1>
+              <p className="text-muted mt-2">Manage and oversee all event submissions</p>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <div className="bg-white px-6 py-3 rounded-2xl border border-accent flex items-center gap-4 shadow-sm">
+                <div className="flex items-center gap-2 border-r border-accent pr-4">
+                  <Clock size={16} className="text-yellow-500" />
+                  <span className="font-bold text-sm">{stats.pending} Pending</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle size={16} className="text-green-500" />
+                  <span className="font-bold text-sm">{stats.approved} Live</span>
+                </div>
+              </div>
             </div>
           </div>
-          <Link href="/" className="text-sm font-bold text-muted hover:text-primary transition-colors flex items-center gap-2">
-            View Live Site <ExternalLink size={16} />
-          </Link>
-        </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="mb-10 text-center md:text-left">
-          <h2 className="text-3xl font-bold tracking-tight mb-2">
-            Pending <span className="text-primary italic font-serif">Approvals</span>
-          </h2>
-          <p className="text-muted">You have {events.length} submission(s) waiting for review.</p>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="flex bg-white p-1.5 rounded-2xl border border-accent shadow-sm w-full md:w-auto">
+              <button
+                onClick={() => setActiveTab('pending')}
+                className={`flex-1 md:w-40 py-3 rounded-xl font-bold text-sm transition-all ${
+                  activeTab === 'pending' 
+                    ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                    : 'text-muted hover:text-foreground'
+                }`}
+              >
+                Pending
+              </button>
+              <button
+                onClick={() => setActiveTab('approved')}
+                className={`flex-1 md:w-40 py-3 rounded-xl font-bold text-sm transition-all ${
+                  activeTab === 'approved' 
+                    ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                    : 'text-muted hover:text-foreground'
+                }`}
+              >
+                Approved
+              </button>
+            </div>
+
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-muted" size={20} />
+              <input
+                type="text"
+                placeholder="Search by event or submitter name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full h-14 pl-14 pr-6 rounded-2xl border border-accent bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+              />
+            </div>
+          </div>
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          <div className="flex items-center justify-center py-20">
+            <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
           </div>
-        ) : events.length === 0 ? (
+        ) : filteredEvents.length === 0 ? (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white rounded-[2rem] border-2 border-dashed border-accent py-32 text-center"
+            className="bg-white rounded-[2rem] border border-accent p-12 text-center"
           >
-            <Check size={48} className="mx-auto text-primary/30 mb-4" />
-            <h3 className="text-xl font-bold text-muted">All Caught Up!</h3>
-            <p className="text-muted/60">No pending submissions at the moment.</p>
+            <div className="h-20 w-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 text-muted">
+              {searchQuery ? <Search size={32} /> : <Clock size={32} />}
+            </div>
+            <h3 className="text-2xl font-bold mb-2">
+              {searchQuery ? 'No Results Found' : 'All Caught Up!'}
+            </h3>
+            <p className="text-muted">
+              {searchQuery 
+                ? `We couldn't find any events matching "${searchQuery}"`
+                : activeTab === 'pending' 
+                  ? 'No pending events to review right now.'
+                  : 'No approved events yet.'}
+            </p>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
-            <AnimatePresence>
-              {events.map((event) => (
+            <AnimatePresence mode="popLayout">
+              {filteredEvents.map((event) => (
                 <motion.div
                   key={event.id}
                   layout
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white rounded-3xl border border-accent shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col md:flex-row"
+                  className="bg-white rounded-[2rem] border border-accent overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row"
                 >
-                  {/* Event Thumbnail Preview */}
-                  <div className="relative w-full md:w-64 h-48 md:h-auto bg-secondary">
-                    <Image
-                      src={event.image_url}
+                  <div className="md:w-64 h-48 md:h-auto relative overflow-hidden">
+                    <img 
+                      src={event.image_url || '/heroimg.png'} 
                       alt={event.event_name}
-                      fill
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
-
-                  {/* Event Details */}
-                  <div className="flex-grow p-6 md:p-8 flex flex-col justify-between">
+                  
+                  <div className="flex-1 p-8 flex flex-col justify-between">
                     <div>
-                      <div className="flex flex-wrap items-center gap-4 mb-4">
-                        <h3 className="text-2xl font-bold text-foreground">{event.event_name}</h3>
-                        <span className="px-3 py-1 bg-primary/10 text-[10px] font-bold text-primary uppercase tracking-widest rounded-full">
-                          Pending Review
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-black uppercase tracking-widest text-primary px-3 py-1 bg-primary/10 rounded-full">
+                          {event.event_date}
                         </span>
+                        <span className="text-xl font-bold text-foreground">${event.price}</span>
                       </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8 text-sm">
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted block">Submitted By</label>
-                          <div className="flex items-center gap-2 font-semibold">
-                            <User size={16} className="text-primary" /> {event.name}
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted block">Contact</label>
-                          <div className="flex items-center gap-2 font-semibold">
-                            <Phone size={16} className="text-primary" /> {event.contact_details}
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted block">Event Date</label>
-                          <div className="flex items-center gap-2 font-semibold">
-                            <Calendar size={16} className="text-primary" /> {new Date(event.event_date).toLocaleDateString()}
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted block">Price</label>
-                          <div className="flex items-center gap-2 font-semibold">
-                            <DollarSign size={16} className="text-primary" /> ${event.price}
-                          </div>
-                        </div>
+                      <h2 className="text-2xl font-bold mb-2">{event.event_name}</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                        <p className="text-muted"><span className="font-bold text-foreground">Submitted by:</span> {event.name}</p>
+                        <p className="text-muted"><span className="font-bold text-foreground">Contact:</span> {event.contact_details}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 pt-6 border-t border-accent">
+                    <div className="flex items-center gap-4 mt-8">
+                      {event.status === 'pending' ? (
+                        <button
+                          onClick={() => approveEvent(event.id)}
+                          className="flex-1 h-14 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                        >
+                          <Check size={18} />
+                          Approve Event
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => unapproveEvent(event.id)}
+                          className="flex-1 h-14 bg-secondary text-foreground rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-accent transition-all border border-accent"
+                        >
+                          <RotateCcw size={18} />
+                          Move to Pending
+                        </button>
+                      )}
                       <button
-                        disabled={processing === event.id}
-                        onClick={() => handleApprove(event.id)}
-                        className="flex-grow md:flex-grow-0 bg-primary text-white h-12 px-8 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all disabled:opacity-50"
+                        onClick={() => deleteEvent(event.id)}
+                        className="h-14 px-6 bg-red-50 text-red-500 rounded-xl font-bold flex items-center justify-center hover:bg-red-100 transition-all border border-red-100"
+                        title="Delete Permanently"
                       >
-                        {processing === event.id ? <div className="animate-spin h-4 w-4 border-2 border-white rounded-full border-t-transparent" /> : <Check size={20} />}
-                        Approve Submission
-                      </button>
-                      <button
-                        disabled={processing === event.id}
-                        onClick={() => handleReject(event.id)}
-                        className="bg-white text-muted border border-accent h-12 px-6 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all disabled:opacity-50"
-                      >
-                        <X size={20} />
-                        Reject
+                        <Trash2 size={18} />
                       </button>
                     </div>
                   </div>

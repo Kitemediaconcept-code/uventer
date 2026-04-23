@@ -69,6 +69,7 @@ const EventGrid = () => {
         {events.map((event, index) => (
           <EventCard
             key={event.id}
+            id={event.id}
             title={event.event_name}
             category="Technology" // Placeholder for category if not in DB
             date={new Date(event.event_date).toLocaleDateString()}
