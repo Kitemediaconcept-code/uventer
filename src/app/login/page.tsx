@@ -29,6 +29,36 @@ function LoginContent() {
     setMessage(''); setIsError(false);
   };
 
+  const handleMagicLink = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!email) {
+      setIsError(true);
+      setMessage('Please enter your email first');
+      return;
+    }
+    setLoading(true);
+    setMessage('');
+    setIsError(false);
+    try {
+      const res = await fetch('/api/send-magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, redirectTo }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setIsError(true);
+        throw new Error(data.error || `Error ${res.status}`);
+      }
+      setMessage('✉️ Check your email for the login link!');
+    } catch (error: any) {
+      setIsError(true);
+      setMessage(error.message || 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
