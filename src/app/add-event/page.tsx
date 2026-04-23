@@ -92,7 +92,7 @@ export default function AddEventPage() {
 
       const { data: { session } } = await supabase.auth.getSession();
 
-      const { error: dbError } = await supabase.from('events').insert({
+      const eventData: Record<string, any> = {
         name: formData.name,
         event_name: formData.event_name,
         contact_details: formData.contact_details,
@@ -100,8 +100,14 @@ export default function AddEventPage() {
         price: parseFloat(formData.price),
         image_url: imageUrl,
         status: 'pending',
-        user_id: session?.user?.id,
-      });
+      };
+
+      // Only add user_id if we have a session (column may not exist yet)
+      if (session?.user?.id) {
+        eventData.user_id = session.user.id;
+      }
+
+      const { error: dbError } = await supabase.from('events').insert(eventData);
 
       if (dbError) throw dbError;
 
