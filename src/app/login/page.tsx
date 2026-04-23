@@ -1,12 +1,13 @@
 'use client';
-// UI Version: 3.0 (Email + Password login, server-side auth)
+// UI Version: 4.0 (Sign In / Sign Up tabs + personalized redirect)
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function LoginContent() {
-  const [mode, setMode] = useState<'options' | 'password' | 'magic'>('options');
+  const [tab, setTab] = useState<'signin' | 'signup'>('signin');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -15,68 +16,55 @@ function LoginContent() {
   const [isError, setIsError] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect_to') || '/';
+  const redirectTo = searchParams.get('redirect_to') || '/dashboard';
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        router.push(redirectTo);
-      }
-    };
-    checkUser();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) router.push(redirectTo);
+    });
   }, [router, redirectTo]);
 
-  const handlePasswordLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage('');
-    setIsError(false);
-    try {
-      const res = await fetch('/api/send-magic-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, type: 'password' }),
-      });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        setIsError(true);
-        throw new Error(data.error || `Error ${res.status}`);
-      }
-      // Set session in supabase client using tokens from server
-      await supabase.auth.setSession({
-        access_token: data.accessToken,
-        refresh_token: data.refreshToken,
-      });
-      router.push(redirectTo);
-    } catch (error: any) {
-      setIsError(true);
-      setMessage(error.message || 'Sign in failed');
-    } finally {
-      setLoading(false);
-    }
+  const resetForm = () => {
+    setName(''); setEmail(''); setPassword('');
+    setMessage(''); setIsError(false);
   };
 
-  const handleMagicLink = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
     setIsError(false);
+
     try {
+      const body = tab === 'signup'
+        ? { type: 'signup', name, email, password }
+        : { type: 'password', email, password };
+
       const res = await fetch('/api/send-magic-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, redirectTo }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
+
       if (!res.ok || data.error) {
         setIsError(true);
-        throw new Error(data.error || `Error ${res.status}`);
+        setMessage(data.error || 'Something went wrong');
+        return;
       }
-      setMessage('✉️ Check your email for the login link!');
-    } catch (error: any) {
+
+      // Set the session client-side with tokens from server
+      if (data.accessToken && data.refreshToken) {
+        await supabase.auth.setSession({
+          access_token: data.accessToken,
+          refresh_token: data.refreshToken,
+        });
+      }
+
+      router.push(redirectTo);
+    } catch (err: any) {
       setIsError(true);
-      setMessage(error.message || 'An error occurred');
+      setMessage(err.message || 'Could not connect to server');
     } finally {
       setLoading(false);
     }
@@ -87,16 +75,20 @@ function LoginContent() {
       <style dangerouslySetInnerHTML={{__html: `
         html, body { margin: 0; padding: 0; }
 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
         .lp-container {
           position: relative;
           width: 100%;
-          height: 100vh;
-          background: #fff;
+          min-height: 100vh;
+          background: #f5f5f7;
           overflow: hidden;
-          font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           display: flex;
-          flex-direction: column;
           align-items: center;
+          justify-content: center;
+          padding: 24px;
+          box-sizing: border-box;
         }
 
         @media (min-width: 768px) {
@@ -106,370 +98,279 @@ function LoginContent() {
           }
         }
 
-        .lp-top-btn {
-          position: relative;
-          margin-top: 60px;
+        /* Card */
+        .lp-card {
           width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          z-index: 10;
-          gap: 0;
-        }
-
-        @media (min-width: 768px) {
-          .lp-top-btn {
-            margin-top: 15vh;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 50px 40px;
-            border-radius: 50px;
-            width: auto;
-            min-width: 440px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-          }
-        }
-
-        .lp-btn-primary {
-          background: #000 !important;
-          border: none;
-          padding: 18px 40px;
-          border-radius: 50px;
-          color: white;
-          font-size: 16px;
-          cursor: pointer;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-          transition: 0.3s;
-          width: 85%;
-          max-width: 340px;
-          font-weight: 600;
-          letter-spacing: 0.3px;
-        }
-
-        @media (min-width: 768px) {
-          .lp-btn-primary { width: 100%; max-width: none; }
-        }
-
-        .lp-btn-primary:hover:not(:disabled) {
-          transform: translateY(-2px);
-          background: #333 !important;
-        }
-
-        .lp-btn-primary:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .lp-btn-secondary {
-          background: transparent !important;
-          border: 1.5px solid rgba(0,0,0,0.15);
-          padding: 16px 40px;
-          border-radius: 50px;
-          color: #333;
-          font-size: 15px;
-          cursor: pointer;
-          transition: 0.3s;
-          width: 85%;
-          max-width: 340px;
-          font-weight: 500;
-          margin-top: 12px;
-        }
-
-        @media (min-width: 768px) {
-          .lp-btn-secondary { width: 100%; max-width: none; }
-        }
-
-        .lp-btn-secondary:hover {
-          background: rgba(0,0,0,0.04) !important;
-          border-color: rgba(0,0,0,0.3);
-        }
-
-        .lp-input-wrap {
-          position: relative;
-          width: 85%;
-          max-width: 340px;
-          margin-bottom: 14px;
-        }
-
-        @media (min-width: 768px) {
-          .lp-input-wrap { width: 100%; max-width: none; }
-        }
-
-        .lp-email-input {
-          width: 100%;
-          padding: 18px 28px;
-          border-radius: 50px;
-          border: 1px solid rgba(0,0,0,0.1);
-          background: rgba(0,0,0,0.05);
-          color: #000;
-          font-size: 16px;
-          outline: none;
+          max-width: 420px;
+          background: rgba(255,255,255,0.92);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border-radius: 32px;
+          border: 1px solid rgba(255,255,255,0.6);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+          padding: 36px 36px 40px;
           box-sizing: border-box;
         }
 
-        .lp-email-input::placeholder { color: rgba(0,0,0,0.4); }
+        /* Logo / brand */
+        .lp-brand {
+          text-align: center;
+          margin-bottom: 28px;
+        }
+        .lp-brand-logo {
+          font-size: 22px;
+          font-weight: 800;
+          color: #111;
+          letter-spacing: -0.5px;
+        }
+        .lp-brand-logo span { color: #2563eb; }
 
-        .lp-email-input:focus {
-          border-color: rgba(0,0,0,0.25);
-          background: rgba(0,0,0,0.03);
+        /* Tab switcher */
+        .lp-tabs {
+          display: flex;
+          background: #f0f0f5;
+          border-radius: 16px;
+          padding: 4px;
+          margin-bottom: 28px;
+        }
+        .lp-tab {
+          flex: 1;
+          padding: 10px;
+          border: none;
+          border-radius: 12px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.25s;
+          background: transparent;
+          color: #888;
+        }
+        .lp-tab.active {
+          background: #fff;
+          color: #111;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .lp-eye-btn {
+        /* Form heading */
+        .lp-heading {
+          font-size: 24px;
+          font-weight: 800;
+          color: #111;
+          margin: 0 0 4px 0;
+          letter-spacing: -0.5px;
+        }
+        .lp-subheading {
+          font-size: 14px;
+          color: #888;
+          margin: 0 0 24px 0;
+        }
+
+        /* Inputs */
+        .lp-field {
+          margin-bottom: 14px;
+        }
+        .lp-label {
+          display: block;
+          font-size: 12px;
+          font-weight: 700;
+          color: #555;
+          margin-bottom: 6px;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+        }
+        .lp-input-wrap {
+          position: relative;
+        }
+        .lp-input {
+          width: 100%;
+          padding: 14px 18px;
+          border-radius: 14px;
+          border: 1.5px solid #e8e8e8;
+          background: #fafafa;
+          color: #111;
+          font-size: 15px;
+          outline: none;
+          box-sizing: border-box;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          font-family: inherit;
+        }
+        .lp-input::placeholder { color: #bbb; }
+        .lp-input:focus {
+          border-color: #2563eb;
+          background: #fff;
+          box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+        .lp-eye {
           position: absolute;
-          right: 20px;
+          right: 14px;
           top: 50%;
           transform: translateY(-50%);
           background: none;
           border: none;
           cursor: pointer;
-          color: rgba(0,0,0,0.4);
-          font-size: 18px;
+          color: #aaa;
+          font-size: 17px;
           padding: 4px;
+          line-height: 1;
         }
 
-        .lp-login-text {
-          color: rgba(0,0,0,0.5);
-          font-size: 14px;
-          margin-top: 16px;
-          cursor: pointer;
-          font-weight: 500;
-        }
-        .lp-login-text:hover { color: #000; }
-
-        .lp-divider {
-          display: flex;
-          align-items: center;
-          width: 85%;
-          max-width: 340px;
-          margin: 24px 0;
-        }
-
-        @media (min-width: 768px) {
-          .lp-divider { width: 100%; max-width: none; }
-        }
-
-        .lp-divider::before, .lp-divider::after {
-          content: "";
-          flex: 1;
-          height: 1px;
-          background: #eee;
-        }
-
-        .lp-divider span {
-          padding: 0 16px;
-          color: #bbb;
-          font-size: 11px;
+        /* Submit button */
+        .lp-submit {
+          width: 100%;
+          padding: 16px;
+          border-radius: 14px;
+          border: none;
+          background: #111;
+          color: #fff;
+          font-size: 15px;
           font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 2px;
+          cursor: pointer;
+          transition: all 0.25s;
+          margin-top: 8px;
+          font-family: inherit;
+          letter-spacing: 0.2px;
+        }
+        .lp-submit:hover:not(:disabled) {
+          background: #333;
+          transform: translateY(-1px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .lp-submit:disabled {
+          opacity: 0.55;
+          cursor: not-allowed;
         }
 
-        .lp-message {
-          font-size: 14px;
+        /* Message */
+        .lp-msg {
           margin-top: 14px;
-          text-align: center;
-          padding: 10px 20px;
+          padding: 12px 16px;
           border-radius: 12px;
-          width: 85%;
-          max-width: 340px;
-          box-sizing: border-box;
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
         }
+        .lp-msg.err  { background: #fff0f0; color: #c00; }
+        .lp-msg.ok   { background: #f0fff4; color: #007a3d; }
 
-        .lp-message.error {
-          color: #c00;
-          background: rgba(200,0,0,0.06);
-        }
-
-        .lp-message.success {
-          color: #007a3d;
-          background: rgba(0,122,61,0.06);
-        }
-
-        @media (min-width: 768px) {
-          .lp-message { width: 100%; max-width: none; }
-        }
-
+        /* Bottom hero (mobile only) */
         .lp-hero {
-          position: absolute;
+          position: fixed;
           bottom: 0;
           width: 100%;
-          z-index: 5;
+          z-index: 0;
+          pointer-events: none;
         }
-
         @media (min-width: 768px) { .lp-hero { display: none; } }
-
-        .lp-hero img { width: 100%; object-fit: cover; display: block; }
-
-        .lp-footer {
-          display: none;
-          position: absolute;
-          bottom: 40px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 10;
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          padding: 20px 40px;
-          border-radius: 50px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          text-align: center;
-        }
-
-        @media (min-width: 768px) { .lp-footer { display: block; } }
-
-        .lp-footer p {
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 13px;
-          margin: 0 0 8px 0;
-        }
-
-        .lp-footer-links {
-          display: flex;
-          justify-content: center;
-          gap: 30px;
-        }
-
-        .lp-footer-links span {
-          color: rgba(255, 255, 255, 0.4);
-          font-size: 12px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: 0.2s;
-        }
-
-        .lp-footer-links span:hover { color: #fff; }
-
-        .lp-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: #111;
-          margin: 0 0 6px 0;
-          text-align: center;
-        }
-
-        .lp-subtitle {
-          font-size: 14px;
-          color: rgba(0,0,0,0.45);
-          margin: 0 0 28px 0;
-          text-align: center;
-        }
+        .lp-hero img { width: 100%; display: block; }
       `}} />
 
       <div className="lp-container">
-        <div className="lp-top-btn">
+        <div className="lp-card">
 
-          {/* --- DEFAULT OPTIONS VIEW --- */}
-          {mode === 'options' && (
-            <>
-              <p className="lp-title">Welcome Back</p>
-              <p className="lp-subtitle">Sign in to your Uventer account</p>
-              <button className="lp-btn-primary" onClick={() => { setMode('password'); setMessage(''); }}>
-                Sign in with Password →
-              </button>
-              <div className="lp-divider"><span>OR</span></div>
-              <button className="lp-btn-secondary" onClick={() => { setMode('magic'); setMessage(''); }}>
-                ✉️ Send Magic Link
-              </button>
-            </>
-          )}
-
-          {/* --- PASSWORD LOGIN VIEW --- */}
-          {mode === 'password' && (
-            <>
-              <p className="lp-title">Sign In</p>
-              <p className="lp-subtitle">Enter your email and password</p>
-              <form onSubmit={handlePasswordLogin} style={{display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}}>
-                <div className="lp-input-wrap">
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="lp-email-input"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    autoFocus
-                  />
-                </div>
-                <div className="lp-input-wrap">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
-                    className="lp-email-input"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="lp-eye-btn"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label="Toggle password visibility"
-                  >
-                    {showPassword ? '🙈' : '👁️'}
-                  </button>
-                </div>
-                <button type="submit" className="lp-btn-primary" disabled={loading}>
-                  {loading ? 'Signing in...' : 'Sign In →'}
-                </button>
-                {message && <p className={`lp-message ${isError ? 'error' : 'success'}`}>{message}</p>}
-              </form>
-              <div className="lp-divider"><span>OR</span></div>
-              <button className="lp-btn-secondary" onClick={() => { setMode('magic'); setEmail(''); setMessage(''); }}>
-                ✉️ Use Magic Link instead
-              </button>
-              <p className="lp-login-text" onClick={() => { setMode('options'); setMessage(''); }}>← Back</p>
-            </>
-          )}
-
-          {/* --- MAGIC LINK VIEW --- */}
-          {mode === 'magic' && (
-            <>
-              <p className="lp-title">Magic Link</p>
-              <p className="lp-subtitle">We'll email you a sign-in link</p>
-              <form onSubmit={handleMagicLink} style={{display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}}>
-                <div className="lp-input-wrap">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="lp-email-input"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    autoFocus
-                  />
-                </div>
-                <button type="submit" className="lp-btn-primary" disabled={loading}>
-                  {loading ? 'Sending...' : 'Send Login Link →'}
-                </button>
-                {message && <p className={`lp-message ${isError ? 'error' : 'success'}`}>{message}</p>}
-              </form>
-              <div className="lp-divider"><span>OR</span></div>
-              <button className="lp-btn-secondary" onClick={() => { setMode('password'); setEmail(''); setMessage(''); }}>
-                🔒 Sign in with Password instead
-              </button>
-              <p className="lp-login-text" onClick={() => { setMode('options'); setMessage(''); }}>← Back</p>
-            </>
-          )}
-
-        </div>
-
-        {/* Bottom hero image (mobile only) */}
-        <div className="lp-hero">
-          <img src="/hero-mobile.png" alt="Community" />
-        </div>
-
-        {/* Desktop Footer */}
-        <div className="lp-footer">
-          <p>© 2026 Uventer. Empowering your next unforgettable moment.</p>
-          <div className="lp-footer-links">
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
-            <span>Help Center</span>
-            <span>Contact Us</span>
+          {/* Brand */}
+          <div className="lp-brand">
+            <div className="lp-brand-logo">u<span>venter</span></div>
           </div>
+
+          {/* Tabs */}
+          <div className="lp-tabs">
+            <button
+              className={`lp-tab ${tab === 'signin' ? 'active' : ''}`}
+              onClick={() => { setTab('signin'); resetForm(); }}
+            >
+              Sign In
+            </button>
+            <button
+              className={`lp-tab ${tab === 'signup' ? 'active' : ''}`}
+              onClick={() => { setTab('signup'); resetForm(); }}
+            >
+              Create Account
+            </button>
+          </div>
+
+          {/* Heading */}
+          {tab === 'signin' ? (
+            <>
+              <h1 className="lp-heading">Welcome back</h1>
+              <p className="lp-subheading">Sign in to your Uventer account</p>
+            </>
+          ) : (
+            <>
+              <h1 className="lp-heading">Create account</h1>
+              <p className="lp-subheading">Join Uventer and explore events</p>
+            </>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleSubmit}>
+            {tab === 'signup' && (
+              <div className="lp-field">
+                <label className="lp-label">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Your full name"
+                  className="lp-input"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  required
+                  autoFocus={tab === 'signup'}
+                />
+              </div>
+            )}
+
+            <div className="lp-field">
+              <label className="lp-label">Email Address</label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                className="lp-input"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                autoFocus={tab === 'signin'}
+              />
+            </div>
+
+            <div className="lp-field">
+              <label className="lp-label">Password</label>
+              <div className="lp-input-wrap">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder={tab === 'signup' ? 'Minimum 6 characters' : 'Your password'}
+                  className="lp-input"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                  minLength={tab === 'signup' ? 6 : undefined}
+                />
+                <button
+                  type="button"
+                  className="lp-eye"
+                  onClick={() => setShowPassword(v => !v)}
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" className="lp-submit" disabled={loading}>
+              {loading
+                ? (tab === 'signup' ? 'Creating account…' : 'Signing in…')
+                : (tab === 'signup' ? 'Create Account →' : 'Sign In →')
+              }
+            </button>
+
+            {message && (
+              <p className={`lp-msg ${isError ? 'err' : 'ok'}`}>{message}</p>
+            )}
+          </form>
+
+        </div>
+
+        {/* Mobile background image */}
+        <div className="lp-hero">
+          <img src="/hero-mobile.png" alt="" />
         </div>
       </div>
     </>
@@ -479,8 +380,8 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div style={{minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#fff'}}>
-        <div style={{width:'40px', height:'40px', border:'3px solid #000', borderTopColor:'transparent', borderRadius:'50%', animation:'spin 0.8s linear infinite'}} />
+      <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'#f5f5f7'}}>
+        <div style={{width:'36px',height:'36px',border:'3px solid #111',borderTopColor:'transparent',borderRadius:'50%',animation:'spin 0.8s linear infinite'}} />
       </div>
     }>
       <LoginContent />

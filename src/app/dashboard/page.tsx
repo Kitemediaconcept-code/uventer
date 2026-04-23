@@ -32,6 +32,7 @@ export default function UserDashboard() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
+  const [userName, setUserName] = useState('there');
   const router = useRouter();
 
   useEffect(() => {
@@ -40,6 +41,10 @@ export default function UserDashboard() {
       if (!session) {
         router.push('/login?redirect_to=/dashboard');
       } else {
+        // Extract name from user metadata
+        const meta = session.user.user_metadata;
+        const name = meta?.full_name || meta?.name || session.user.email?.split('@')[0] || 'there';
+        setUserName(name);
         setAuthChecked(true);
         fetchMyEvents(session.user.id);
       }
@@ -97,11 +102,11 @@ export default function UserDashboard() {
               <ChevronLeft size={16} />
               Back to Home
             </Link>
-            <h1 className="text-4xl font-bold tracking-tight text-foreground flex items-center gap-3">
-              My <span className="text-primary italic font-serif">Dashboard</span>
-              <LayoutDashboard className="text-primary" size={28} />
+            {/* Personalized Greeting */}
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">
+              Hi, <span className="text-primary italic font-serif">{userName}</span> 👋
             </h1>
-            <p className="text-muted mt-2">Track and manage your event submissions</p>
+            <p className="text-muted mt-2 text-lg">Explore Events Around You</p>
           </div>
           
           <Link href="/add-event">

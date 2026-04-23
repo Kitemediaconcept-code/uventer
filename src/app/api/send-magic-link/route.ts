@@ -8,17 +8,43 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password, redirectTo, type } = await request.json();
+    const { email, password, name, redirectTo, type } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    // Password-based sign in
-    if (type === 'password') {
-      if (!password) {
-        return NextResponse.json({ error: 'Password is required' }, { status: 400 });
+    // ── SIGN UP ──────────────────────────────────────────────────────────────
+    if (type === 'signup') {
+      if (!password) return NextResponse.json({ error: 'Password is required' }, { status: 400 });
+      if (!name)     return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: name, name } },
+      });
+
+      if (error) {
+        console.error('[auth] Sign-up error:', error.message);
+        return NextResponse.json({ error: error.message }, { status: 400 });
       }
+
+      return NextResponse.json({
+        success: true,
+        accessToken: data.session?.access_token,
+        refreshToken: data.session?.refresh_token,
+        user: {
+          email: data.user?.email,
+          id:    data.user?.id,
+          name:  data.user?.user_metadata?.full_name || name,
+        },
+      });
+    }
+
+    // ── PASSWORD SIGN IN ─────────────────────────────────────────────────────
+    if (type === 'password') {
+      if (!password) return NextResponse.json({ error: 'Password is required' }, { status: 400 });
 
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -31,15 +57,17 @@ export async function POST(request: NextRequest) {
         success: true,
         accessToken: data.session?.access_token,
         refreshToken: data.session?.refresh_token,
-        user: { email: data.user?.email, id: data.user?.id },
+        user: {
+          email: data.user?.email,
+          id:    data.user?.id,
+          name:  data.user?.user_metadata?.full_name || data.user?.email?.split('@')[0] || 'User',
+        },
       });
     }
 
-    // Magic link (OTP) sign in
+    // ── MAGIC LINK ───────────────────────────────────────────────────────────
     const origin = request.headers.get('origin') || 'http://localhost:3000';
     const redirectUrl = `${origin}${redirectTo || '/'}`;
-
-    console.log('[send-magic-link] Sending OTP to:', email, '-> redirect:', redirectUrl);
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
@@ -47,11 +75,11 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
-      console.error('[send-magic-link] Supabase error:', error.message);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     return NextResponse.json({ success: true });
+
   } catch (err: any) {
     console.error('[auth] Unexpected error:', err);
     return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
