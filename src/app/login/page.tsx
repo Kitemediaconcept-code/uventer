@@ -49,7 +49,11 @@ function LoginContent() {
 
       if (!res.ok || data.error) {
         setIsError(true);
-        setMessage(data.error || 'Something went wrong');
+        if (data.error === 'User already registered') {
+          setMessage('This email is already registered. Please switch to the "Sign In" tab.');
+        } else {
+          setMessage(data.error || 'Something went wrong');
+        }
         return;
       }
 
