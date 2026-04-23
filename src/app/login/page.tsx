@@ -385,10 +385,49 @@ function LoginContent() {
                     color: '#111',
                     fontSize: '14px',
                     fontWeight: 600,
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    marginBottom: '12px'
                   }}
                 >
                   ✉️ Sign in with Magic Link
+                </button>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setEmail('digital@kitemediaconcept.com');
+                    // We need a small delay for state to update or just pass email directly
+                    setLoading(true);
+                    try {
+                      const res = await fetch('/api/send-magic-link', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: 'digital@kitemediaconcept.com', redirectTo }),
+                      });
+                      const data = await res.json();
+                      if (!res.ok || data.error) throw new Error(data.error);
+                      setMessage('🌟 Admin Magic Link sent to digital@kitemediaconcept.com');
+                    } catch (err: any) {
+                      setIsError(true);
+                      setMessage(err.message);
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                  disabled={loading}
+                  style={{
+                    width: '100%',
+                    padding: '14px',
+                    borderRadius: '14px',
+                    border: 'none',
+                    background: 'rgba(37, 99, 235, 0.1)',
+                    color: '#2563eb',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    cursor: 'pointer'
+                  }}
+                >
+                  🛡️ Admin Login (Magic Link)
                 </button>
               </>
             )}
