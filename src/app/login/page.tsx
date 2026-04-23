@@ -395,38 +395,17 @@ function LoginContent() {
               }
             </button>
 
-            {tab === 'signin' && (
+            {tab === 'signin' && redirectTo === '/admin' && (
               <>
                 <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
                   <div style={{ flex: 1, height: '1px', background: '#eee' }}></div>
-                  <span style={{ padding: '0 10px', fontSize: '12px', color: '#bbb', fontWeight: 600 }}>OR</span>
+                  <span style={{ padding: '0 10px', fontSize: '12px', color: '#bbb', fontWeight: 600 }}>ADMIN PORTAL</span>
                   <div style={{ flex: 1, height: '1px', background: '#eee' }}></div>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleMagicLink}
-                  disabled={loading}
-                  style={{
-                    width: '100%',
-                    padding: '14px',
-                    borderRadius: '14px',
-                    border: '1.5px solid #e8e8e8',
-                    background: 'transparent',
-                    color: '#111',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    marginBottom: '12px'
-                  }}
-                >
-                  ✉️ Sign in with Magic Link
-                </button>
-
+                
                 <button
                   type="button"
                   onClick={async () => {
-                    setEmail('digital@kitemediaconcept.com');
-                    // We need a small delay for state to update or just pass email directly
                     setLoading(true);
                     try {
                       const res = await fetch('/api/send-magic-link', {
@@ -436,7 +415,7 @@ function LoginContent() {
                       });
                       const data = await res.json();
                       if (!res.ok || data.error) throw new Error(data.error);
-                      setMessage('🌟 Admin Magic Link sent to digital@kitemediaconcept.com');
+                      setMessage('🛡️ Admin Magic Link sent to your inbox!');
                     } catch (err: any) {
                       setIsError(true);
                       setMessage(err.message);
@@ -447,17 +426,38 @@ function LoginContent() {
                   disabled={loading}
                   style={{
                     width: '100%',
-                    padding: '14px',
+                    padding: '16px',
+                    borderRadius: '16px',
+                    border: '2px solid #2563eb',
+                    background: '#2563eb',
+                    color: '#fff',
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    boxShadow: '0 10px 20px rgba(37, 99, 235, 0.2)',
+                    marginBottom: '12px'
+                  }}
+                >
+                  🛡️ Secure Admin Login
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleMagicLink}
+                  disabled={loading}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
                     borderRadius: '14px',
-                    border: 'none',
-                    background: 'rgba(37, 99, 235, 0.1)',
-                    color: '#2563eb',
-                    fontSize: '14px',
-                    fontWeight: 700,
+                    border: '1px solid #e8e8e8',
+                    background: '#fff',
+                    color: '#666',
+                    fontSize: '13px',
+                    fontWeight: 600,
                     cursor: 'pointer'
                   }}
                 >
-                  🛡️ Admin Login (Magic Link)
+                  ✉️ Standard Magic Link
                 </button>
               </>
             )}
