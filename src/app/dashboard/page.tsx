@@ -11,7 +11,7 @@ import {
   LayoutDashboard,
   ExternalLink,
   Calendar,
-  DollarSign,
+  IndianRupee,
   Ticket
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -226,8 +226,8 @@ export default function UserDashboard() {
                         <span className="text-xs font-bold">{new Date(event.event_date).toLocaleDateString()}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted">
-                        <DollarSign size={14} className="text-primary" />
-                        <span className="text-xs font-bold">${event.price}</span>
+                        <IndianRupee size={14} className="text-primary" />
+                        <span className="text-xs font-bold">₹{event.price}</span>
                       </div>
                     </div>
 

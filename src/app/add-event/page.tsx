@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, Upload, Send, Calendar, User, Tag, Phone, DollarSign, CheckCircle, X, Clock } from 'lucide-react';
+import { ChevronLeft, Upload, Send, Calendar, User, Tag, Phone, IndianRupee, CheckCircle, X, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
@@ -420,7 +420,7 @@ export default function AddEventPage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <DollarSign size={14} className="text-primary" /> ENTRY PRICE (₹)
+                      <IndianRupee size={14} className="text-primary" /> ENTRY PRICE (₹)
                     </label>
                     <div className="relative">
                       <span className="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-foreground">₹</span>

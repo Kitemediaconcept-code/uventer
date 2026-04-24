@@ -66,7 +66,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price }: Eve
         <div className="pt-4 border-t border-accent flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-[10px] uppercase font-bold text-muted tracking-widest">Entry From</span>
-            <span className="text-lg font-bold text-primary">${price}</span>
+            <span className="text-lg font-bold text-primary">₹{price}</span>
           </div>
           <Link 
             href={`/events/${id}`}
