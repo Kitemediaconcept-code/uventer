@@ -8,11 +8,40 @@ create table if not exists events (
   event_name text not null,
   contact_details text not null,
   event_date date not null,
+  start_date date,
+  end_date date,
+  time_slot text,
+  budget numeric,
   price numeric not null,
+  location text,
+  vision_requirements text,
   image_url text not null,
   status text not null default 'pending',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Add missing columns if table already exists
+do $$ 
+begin 
+  if not exists (select 1 from information_schema.columns where table_name='events' and column_name='start_date') then
+    alter table events add column start_date date;
+  end if;
+  if not exists (select 1 from information_schema.columns where table_name='events' and column_name='end_date') then
+    alter table events add column end_date date;
+  end if;
+  if not exists (select 1 from information_schema.columns where table_name='events' and column_name='time_slot') then
+    alter table events add column time_slot text;
+  end if;
+  if not exists (select 1 from information_schema.columns where table_name='events' and column_name='budget') then
+    alter table events add column budget numeric;
+  end if;
+  if not exists (select 1 from information_schema.columns where table_name='events' and column_name='location') then
+    alter table events add column location text;
+  end if;
+  if not exists (select 1 from information_schema.columns where table_name='events' and column_name='vision_requirements') then
+    alter table events add column vision_requirements text;
+  end if;
+end $$;
 
 -- 2. Storage Setup
 -- NOTE: Manual action required in Supabase UI:

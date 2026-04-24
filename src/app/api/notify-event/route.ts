@@ -3,7 +3,18 @@ import nodemailer from 'nodemailer';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, event_name, contact_details, event_date, price, image_url } = await request.json();
+    const { 
+      name, 
+      event_name, 
+      contact_details, 
+      start_date, 
+      end_date, 
+      time_slot, 
+      budget, 
+      location, 
+      vision_requirements, 
+      image_url 
+    } = await request.json();
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -41,7 +52,7 @@ export async function POST(request: NextRequest) {
             <tr>
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
                 <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Location</span><br/>
-                <span style="color: #111; font-size: 16px; font-weight: 700; margin-top: 4px; display: block;">📍 ${location}</span>
+                <span style="color: #111; font-size: 16px; font-weight: 700; margin-top: 4px; display: block;">📍 ${location || 'N/A'}</span>
               </td>
             </tr>
             <tr>
@@ -53,7 +64,7 @@ export async function POST(request: NextRequest) {
             </tr>
             <tr>
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
-                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Estimated Budget</span><br/>
+                <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Entry Price / Budget</span><br/>
                 <span style="color: #2563eb; font-size: 20px; font-weight: 800; margin-top: 4px; display: block;">₹${budget}</span>
               </td>
             </tr>
@@ -61,7 +72,7 @@ export async function POST(request: NextRequest) {
               <td style="padding: 14px 0; border-bottom: 1px solid #f0f0f0;">
                 <span style="color: #888; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">Vision & Requirements</span><br/>
                 <span style="color: #333; font-size: 15px; font-weight: 500; margin-top: 8px; display: block; line-height: 1.6; background: #f9fafb; padding: 16px; border-radius: 12px; border: 1px solid #eee;">
-                  ${vision_requirements}
+                   ${vision_requirements || 'No specific requirements mentioned.'}
                 </span>
               </td>
             </tr>
@@ -83,7 +94,7 @@ export async function POST(request: NextRequest) {
 
         <!-- CTA -->
         <div style="background: #f8f9fa; padding: 28px 40px; text-align: center; border-top: 1px solid #eee;">
-          <a href="https://uventerapp.vercel.app/admin" style="display: inline-block; background: #111; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+          <a href="https://uventer-website.vercel.app/admin" style="display: inline-block; background: #111; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
             Review in Admin Dashboard →
           </a>
           <p style="color: #aaa; font-size: 12px; margin: 16px 0 0;">Uventer · We Organizing</p>

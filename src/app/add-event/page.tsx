@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, Upload, Send, Calendar, User, Tag, Phone, DollarSign, CheckCircle, X } from 'lucide-react';
+import { ChevronLeft, Upload, Send, Calendar, User, Tag, Phone, DollarSign, CheckCircle, X, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
@@ -265,10 +265,10 @@ export default function AddEventPage() {
             <div className="p-8 md:p-14">
               <div className="mb-12">
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
-                  Plan Your <span className="text-primary italic font-serif">Event</span>
+                  Submit Your <span className="text-primary italic font-serif">Event</span>
                 </h1>
                 <p className="text-muted text-lg">
-                  Fill in the details below and our experts will help you bring your vision to life.
+                  Share your experience with the community. Our team will review and publish it within 24 hours.
                 </p>
               </div>
 
@@ -306,7 +306,7 @@ export default function AddEventPage() {
                   {/* Basic Info */}
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <User size={14} className="text-primary" /> Submitter Name
+                      <User size={14} className="text-primary" /> YOUR NAME
                     </label>
                     <input
                       required type="text"
@@ -319,7 +319,7 @@ export default function AddEventPage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Tag size={14} className="text-primary" /> Event Name (Optional)
+                      <Tag size={14} className="text-primary" /> EVENT NAME
                     </label>
                     <input
                       type="text"
@@ -332,7 +332,7 @@ export default function AddEventPage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Phone size={14} className="text-primary" /> Contact Details
+                      <Phone size={14} className="text-primary" /> CONTACT DETAILS
                     </label>
                     <input
                       required type="text"
@@ -345,7 +345,7 @@ export default function AddEventPage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Send size={14} className="text-primary" /> City / Location
+                      <Send size={14} className="text-primary" /> CITY / LOCATION
                     </label>
                     <input
                       required type="text"
@@ -359,7 +359,7 @@ export default function AddEventPage() {
                   {/* Dates */}
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Calendar size={14} className="text-primary" /> Start Date
+                      <Calendar size={14} className="text-primary" /> START DATE
                     </label>
                     <input
                       required type="date"
@@ -371,7 +371,7 @@ export default function AddEventPage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Calendar size={14} className="text-primary" /> End Date
+                      <Calendar size={14} className="text-primary" /> END DATE
                     </label>
                     <input
                       required type="date"
@@ -384,7 +384,7 @@ export default function AddEventPage() {
                   {/* Slot & Budget */}
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <Clock size={14} className="text-primary" /> Preferred Time Slot
+                      <Clock size={14} className="text-primary" /> PREFERRED TIME SLOT
                     </label>
                     <select
                       required
@@ -402,7 +402,7 @@ export default function AddEventPage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                      <DollarSign size={14} className="text-primary" /> Estimated Budget (₹)
+                      <DollarSign size={14} className="text-primary" /> ENTRY PRICE (₹)
                     </label>
                     <div className="relative">
                       <span className="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-foreground">₹</span>
@@ -420,7 +420,7 @@ export default function AddEventPage() {
                 {/* Requirements */}
                 <div className="space-y-2">
                   <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
-                    Vision & Requirements
+                    VISION & REQUIREMENTS
                   </label>
                   <textarea
                     required
