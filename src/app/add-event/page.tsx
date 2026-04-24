@@ -449,6 +449,7 @@ export default function AddEventPage() {
                   </button>
                 </div>
               </form>
+            </div>
           </motion.div>
         </div>
       </div>
