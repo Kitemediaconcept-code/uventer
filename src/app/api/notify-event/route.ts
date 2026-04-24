@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
 
         <!-- CTA -->
         <div style="background: #f8f9fa; padding: 28px 40px; text-align: center; border-top: 1px solid #eee;">
-          <a href="https://uventer-website.vercel.app/admin" style="display: inline-block; background: #111; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+          <a href="https://uventerevents.com/admin" style="display: inline-block; background: #111; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
             Review in Admin Dashboard →
           </a>
           <p style="color: #aaa; font-size: 12px; margin: 16px 0 0;">Uventer · We Organizing</p>
