@@ -3,12 +3,19 @@ import Stripe from 'stripe';
 import { supabase } from '@/lib/supabase';
 import { headers } from 'next/headers';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // @ts-ignore
-  apiVersion: '2025-01-27-ac',
-});
+const stripe = process.env.STRIPE_SECRET_KEY 
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      // @ts-ignore
+      apiVersion: '2025-01-27-ac',
+    })
+  : null;
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  if (!stripe) {
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 });
+  }
   const body = await req.text();
   const signature = (await headers()).get('stripe-signature') as string;
 

@@ -2,13 +2,20 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabase';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // @ts-ignore
-  apiVersion: '2025-01-27-ac',
-});
+const stripe = process.env.STRIPE_SECRET_KEY 
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      // @ts-ignore
+      apiVersion: '2025-01-27-ac',
+    })
+  : null;
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
+    if (!stripe) {
+      throw new Error('Stripe is not configured. Please add STRIPE_SECRET_KEY to environment variables.');
+    }
     const { name, email, phone, occupation, eventId, eventName, price } = await req.json();
 
     // 1. Create a pending booking in Supabase
