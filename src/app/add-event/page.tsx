@@ -75,20 +75,38 @@ function SuccessModal({ eventName, onClose }: { eventName: string; onClose: () =
           <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#111', margin: '0 0 10px', letterSpacing: '-0.5px' }}>
             Event Submitted! 🎉
           </h2>
-          <p style={{ color: '#555', fontSize: '15px', margin: '0 0 8px', lineHeight: 1.6 }}>
+          <p style={{ color: '#555', fontSize: '15px', margin: '0 0 20px', lineHeight: 1.6 }}>
             <strong style={{ color: '#111' }}>{eventName}</strong> has been submitted successfully.
           </p>
-          <p style={{ color: '#888', fontSize: '14px', margin: '0 0 28px', lineHeight: 1.6 }}>
-            Our team has been notified and will review your event within 24 hours.
-          </p>
 
-          {/* Info pill */}
-          <div style={{
-            background: '#f0fdf4', border: '1px solid #bbf7d0',
-            borderRadius: '12px', padding: '12px 16px',
-            marginBottom: '28px', fontSize: '13px', color: '#166534',
-          }}>
-            📧 Confirmation sent to <strong>digital@kitemediaconcept.com</strong>
+          {/* Steps */}
+          <div style={{ textAlign: 'left', marginBottom: '24px' }}>
+            {/* Step 1 */}
+            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#008080', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>1</div>
+              <div>
+                <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', color: '#111' }}>Confirmation Email Sent</p>
+                <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#666', lineHeight: 1.5 }}>
+                  A confirmation email has been sent to{' '}
+                  <strong style={{ color: '#008080' }}>digital@kitemediaconcept.com</strong>.
+                  Open it to view the full event details.
+                </p>
+              </div>
+            </div>
+            {/* Step 2 */}
+            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#008080', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>2</div>
+              <div>
+                <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', color: '#111' }}>Admin Review</p>
+                <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#666', lineHeight: 1.5 }}>
+                  Click <strong>"Review"</strong> in the email to access the Admin Dashboard and confirm the event.
+                </p>
+              </div>
+            </div>
+            {/* Note */}
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '12px', padding: '12px 14px', fontSize: '12px', color: '#166534', lineHeight: 1.6 }}>
+              🔒 The Admin Dashboard is accessible only to <strong>digital@kitemediaconcept.com</strong>
+            </div>
           </div>
 
           <button
