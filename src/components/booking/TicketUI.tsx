@@ -26,8 +26,7 @@ export default function TicketUI({ booking, event }: TicketProps) {
     if (ticketRef.current) {
       const canvas = await html2canvas(ticketRef.current, {
         scale: 2,
-        backgroundColor: '#ffffff',
-        borderRadius: 40
+        backgroundColor: '#ffffff'
       });
       const link = document.createElement('a');
       link.download = `uventer-ticket-${booking.id.slice(0, 8)}.png`;
