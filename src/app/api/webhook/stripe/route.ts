@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { headers } from 'next/headers';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  // @ts-ignore
   apiVersion: '2025-01-27-ac',
 });
 
