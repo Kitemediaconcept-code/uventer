@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import Razorpay from 'razorpay';
 import { supabase } from '@/lib/supabase';
 
-const stripe = process.env.STRIPE_SECRET_KEY 
-  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
-      // @ts-ignore
-      apiVersion: '2025-01-27-ac',
+const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
+  ? new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
     })
   : null;
 
@@ -13,8 +13,8 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    if (!stripe) {
-      throw new Error('Stripe is not configured. Please add STRIPE_SECRET_KEY to environment variables.');
+    if (!razorpay) {
+      throw new Error('Razorpay is not configured. Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to environment variables.');
     }
     const { name, email, phone, occupation, eventId, eventName, price } = await req.json();
 
@@ -35,41 +35,26 @@ export async function POST(req: Request) {
 
     if (bookingError) throw bookingError;
 
-    // 2. Create Stripe Checkout Session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'inr',
-            product_data: {
-              name: eventName,
-              description: `Booking for ${name}`,
-            },
-            unit_amount: Math.round(price * 100), // Stripe expects amounts in cents/paise
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?booking_success=true&booking_id=${booking.id}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/events/${eventId}?booking_cancelled=true`,
-      metadata: {
-        bookingId: booking.id,
+    // 2. Create Razorpay Order
+    const order = await razorpay.orders.create({
+      amount: Math.round(price * 100), // in paise
+      currency: "INR",
+      receipt: booking.id,
+      notes: {
         eventId: eventId,
-      },
-      customer_email: email,
+        eventName: eventName
+      }
     });
 
-    // 3. Update booking with session ID
-    await supabase
-      .from('bookings')
-      .update({ stripe_session_id: session.id })
-      .eq('id', booking.id);
-
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({ 
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      bookingId: booking.id,
+      key: process.env.RAZORPAY_KEY_ID
+    });
   } catch (error: any) {
-    console.error('Stripe error:', error);
+    console.error('Razorpay error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

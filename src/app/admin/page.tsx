@@ -285,7 +285,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-center py-20">
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
           </div>
-        ) : filteredEvents.length === 0 ? (
+        ) : (activeTab !== 'bookings' && filteredEvents.length === 0) || (activeTab === 'bookings' && bookings.length === 0) ? (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -299,10 +299,12 @@ export default function AdminDashboard() {
             </h3>
             <p className="text-muted">
               {searchQuery 
-                ? `We couldn't find any events matching "${searchQuery}"`
+                ? `We couldn't find any results matching "${searchQuery}"`
                 : activeTab === 'pending' 
                   ? 'No pending events to review right now.'
-                  : 'No approved events yet.'}
+                  : activeTab === 'approved'
+                    ? 'No approved events yet.'
+                    : 'No bookings found yet.'}
             </p>
           </motion.div>
         ) : activeTab === 'bookings' ? (

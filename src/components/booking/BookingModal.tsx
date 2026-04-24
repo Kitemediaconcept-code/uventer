@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Phone, Mail, Briefcase, ArrowRight } from 'lucide-react';
 
+import { useRouter } from 'next/navigation';
+
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -14,8 +16,19 @@ interface BookingModalProps {
   };
 }
 
+const loadScript = (src: string) => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 export default function BookingModal({ isOpen, onClose, event }: BookingModalProps) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -26,6 +39,13 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    const resScript = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+    if (!resScript) {
+      alert('Razorpay SDK failed to load. Check your internet connection.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch('/api/checkout', {
@@ -39,15 +59,37 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
         })
       });
 
-      const { url } = await response.json();
-      if (url) {
-        window.location.href = url;
-      } else {
-        throw new Error('Failed to create checkout session');
-      }
-    } catch (error) {
+      const data = await response.json();
+      
+      if (!response.ok) throw new Error(data.error || 'Failed to create order');
+
+      const options = {
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        name: "Uventer",
+        description: `Ticket for ${event.event_name}`,
+        image: "/uventerlogo.png",
+        order_id: data.orderId,
+        handler: function (response: any) {
+          // Success! Redirect to dashboard with success params
+          router.push(`/dashboard?booking_success=true&booking_id=${data.bookingId}&payment_id=${response.razorpay_payment_id}`);
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: "#2563eb",
+        },
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+    } catch (error: any) {
       console.error('Booking error:', error);
-      alert('Something went wrong. Please try again.');
+      alert(error.message || 'Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
