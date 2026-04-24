@@ -19,6 +19,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import TicketUI from '@/components/booking/TicketUI';
+import { Suspense } from 'react';
 
 interface Event {
   id: string;
@@ -30,7 +31,7 @@ interface Event {
   created_at: string;
 }
 
-export default function UserDashboard() {
+function DashboardContent() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
@@ -252,5 +253,17 @@ export default function UserDashboard() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function UserDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   );
 }
