@@ -70,3 +70,45 @@ create policy "Allow public insert access"
 create policy "Users can view their own submissions"
   on events for select
   using ( auth.uid() = user_id );
+
+-- Admin policies — allow digital@kitemediaconcept.com to manage all events
+create policy "Admin can view all events"
+  on events for select
+  using ( auth.jwt() ->> 'email' = 'digital@kitemediaconcept.com' );
+
+create policy "Admin can update all events"
+  on events for update
+  using ( auth.jwt() ->> 'email' = 'digital@kitemediaconcept.com' );
+
+create policy "Admin can delete all events"
+  on events for delete
+  using ( auth.jwt() ->> 'email' = 'digital@kitemediaconcept.com' );
+
+-- 4. Bookings Setup
+create table if not exists bookings (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid references events(id) on delete cascade,
+  user_name text not null,
+  user_email text not null,
+  user_phone text not null,
+  occupation text not null,
+  amount_paid numeric not null,
+  payment_status text not null default 'pending',
+  stripe_session_id text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- RLS for Bookings
+alter table bookings enable row level security;
+
+create policy "Allow public booking insertion"
+  on bookings for insert
+  with check ( true );
+
+create policy "Admin can view all bookings"
+  on bookings for select
+  using ( auth.jwt() ->> 'email' = 'digital@kitemediaconcept.com' );
+
+create policy "Admin can update bookings"
+  on bookings for update
+  using ( auth.jwt() ->> 'email' = 'digital@kitemediaconcept.com' );

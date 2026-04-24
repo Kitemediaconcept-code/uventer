@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import BookingModal from '@/components/booking/BookingModal';
 
 interface Event {
   id: string;
@@ -36,6 +37,7 @@ export default function EventDetailPage() {
   const router = useRouter();
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -172,7 +174,10 @@ export default function EventDetailPage() {
               </div>
             </div>
 
-            <button className="w-full h-16 bg-primary text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 mb-6">
+            <button 
+              onClick={() => setIsBookingModalOpen(true)}
+              className="w-full h-16 bg-primary text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 mb-6"
+            >
               Book Tickets Now
               <ArrowRight size={20} />
             </button>
@@ -204,6 +209,16 @@ export default function EventDetailPage() {
           </div>
         </div>
       </div>
+
+      <BookingModal 
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        event={{
+          id: event.id,
+          event_name: event.event_name,
+          price: event.price
+        }}
+      />
     </div>
   );
 }

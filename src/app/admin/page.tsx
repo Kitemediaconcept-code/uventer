@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Trash2, Clock, ExternalLink, ShieldCheck, ChevronLeft, Search, RotateCcw, TrendingUp, CheckCircle } from 'lucide-react';
+import { Check, Trash2, Clock, ExternalLink, ShieldCheck, ChevronLeft, Search, RotateCcw, TrendingUp, CheckCircle, Download, FileText } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -24,13 +24,29 @@ interface Event {
   status: string;
 }
 
+interface Booking {
+  id: string;
+  event_id: string;
+  user_name: string;
+  user_email: string;
+  user_phone: string;
+  occupation: string;
+  amount_paid: number;
+  payment_status: string;
+  created_at: string;
+  events?: {
+    event_name: string;
+  };
+}
+
 export default function AdminDashboard() {
   const [events, setEvents] = useState<Event[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
-  const [activeTab, setActiveTab] = useState<'pending' | 'approved'>('pending');
+  const [activeTab, setActiveTab] = useState<'pending' | 'approved' | 'bookings'>('pending');
   const [searchQuery, setSearchQuery] = useState('');
-  const [stats, setStats] = useState({ pending: 0, approved: 0 });
+  const [stats, setStats] = useState({ pending: 0, approved: 0, bookings: 0 });
   const router = useRouter();
 
   useEffect(() => {
@@ -48,7 +64,11 @@ export default function AdminDashboard() {
       } else {
         // Authorized admin
         setAuthChecked(true);
-        fetchEvents(activeTab);
+        if (activeTab === 'bookings') {
+          fetchBookings();
+        } else {
+          fetchEvents(activeTab);
+        }
         fetchStats();
       }
     };
@@ -58,10 +78,12 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     const { data: pendingData } = await supabase.from('events').select('id', { count: 'exact' }).eq('status', 'pending');
     const { data: approvedData } = await supabase.from('events').select('id', { count: 'exact' }).eq('status', 'approved');
+    const { data: bookingsData } = await supabase.from('bookings').select('id', { count: 'exact' }).eq('payment_status', 'completed');
     
     setStats({
       pending: pendingData?.length || 0,
-      approved: approvedData?.length || 0
+      approved: approvedData?.length || 0,
+      bookings: bookingsData?.length || 0
     });
   };
 
@@ -77,6 +99,44 @@ export default function AdminDashboard() {
       setEvents(data);
     }
     setLoading(false);
+  };
+
+  const fetchBookings = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*, events(event_name)')
+      .eq('payment_status', 'completed')
+      .order('created_at', { ascending: false });
+
+    if (!error && data) {
+      setBookings(data);
+    }
+    setLoading(false);
+  };
+
+  const exportBookingsCSV = () => {
+    if (bookings.length === 0) return;
+    
+    const headers = ['Booking ID', 'Event Name', 'Attendee Name', 'Email', 'Phone', 'Occupation', 'Amount', 'Date'];
+    const rows = bookings.map(b => [
+      b.id,
+      b.events?.event_name || 'N/A',
+      b.user_name,
+      b.user_email,
+      b.user_phone,
+      b.occupation,
+      `₹${b.amount_paid}`,
+      new Date(b.created_at).toLocaleDateString()
+    ]);
+
+    const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `uventer-bookings-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
   };
 
   const approveEvent = async (id: string) => {
@@ -152,9 +212,13 @@ export default function AdminDashboard() {
                   <Clock size={16} className="text-yellow-500" />
                   <span className="font-bold text-sm">{stats.pending} Pending</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 border-r border-accent pr-4">
                   <CheckCircle size={16} className="text-green-500" />
                   <span className="font-bold text-sm">{stats.approved} Live</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FileText size={16} className="text-primary" />
+                  <span className="font-bold text-sm">{stats.bookings} Bookings</span>
                 </div>
               </div>
             </div>
@@ -182,18 +246,38 @@ export default function AdminDashboard() {
               >
                 Approved
               </button>
+              <button
+                onClick={() => setActiveTab('bookings')}
+                className={`flex-1 md:w-40 py-3 rounded-xl font-bold text-sm transition-all ${
+                  activeTab === 'bookings' 
+                    ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                    : 'text-muted hover:text-foreground'
+                }`}
+              >
+                Bookings
+              </button>
             </div>
 
             <div className="relative flex-1 w-full">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-muted" size={20} />
               <input
                 type="text"
-                placeholder="Search by event or submitter name..."
+                placeholder={activeTab === 'bookings' ? "Search by attendee or event..." : "Search by event or submitter name..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full h-14 pl-14 pr-6 rounded-2xl border border-accent bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
               />
             </div>
+
+            {activeTab === 'bookings' && (
+              <button
+                onClick={exportBookingsCSV}
+                className="h-14 px-8 bg-white border border-accent rounded-2xl font-bold text-sm flex items-center gap-2 hover:bg-secondary transition-all shadow-sm"
+              >
+                <Download size={18} />
+                Export CSV
+              </button>
+            )}
           </div>
         </div>
 
@@ -221,6 +305,46 @@ export default function AdminDashboard() {
                   : 'No approved events yet.'}
             </p>
           </motion.div>
+        ) : activeTab === 'bookings' ? (
+          <div className="bg-white rounded-[2rem] border border-accent overflow-hidden shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead className="bg-secondary/50 border-b border-accent">
+                  <tr>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Attendee</th>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Event</th>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Occupation</th>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Amount</th>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-accent">
+                  {bookings
+                    .filter(b => 
+                      b.user_name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                      b.events?.event_name.toLowerCase().includes(searchQuery.toLowerCase())
+                    )
+                    .map((booking) => (
+                    <tr key={booking.id} className="hover:bg-secondary/20 transition-colors">
+                      <td className="px-8 py-6">
+                        <p className="font-bold text-foreground">{booking.user_name}</p>
+                        <p className="text-xs text-muted">{booking.user_email}</p>
+                        <p className="text-[10px] text-muted font-mono">{booking.user_phone}</p>
+                      </td>
+                      <td className="px-8 py-6 font-bold text-sm">{booking.events?.event_name}</td>
+                      <td className="px-8 py-6 text-sm">
+                        <span className="px-3 py-1 bg-secondary rounded-full text-[10px] font-bold uppercase tracking-wider text-muted">
+                          {booking.occupation}
+                        </span>
+                      </td>
+                      <td className="px-8 py-6 font-black text-primary">₹{booking.amount_paid}</td>
+                      <td className="px-8 py-6 text-xs font-bold text-muted">{new Date(booking.created_at).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
             <AnimatePresence mode="popLayout">

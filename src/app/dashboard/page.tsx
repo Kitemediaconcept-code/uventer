@@ -11,12 +11,14 @@ import {
   LayoutDashboard,
   ExternalLink,
   Calendar,
-  DollarSign
+  DollarSign,
+  Ticket
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import TicketUI from '@/components/booking/TicketUI';
 
 interface Event {
   id: string;
@@ -33,7 +35,10 @@ export default function UserDashboard() {
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
   const [userName, setUserName] = useState('there');
+  const [successBooking, setSuccessBooking] = useState<any>(null);
+  const [successEvent, setSuccessEvent] = useState<any>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -50,7 +55,27 @@ export default function UserDashboard() {
       }
     };
     checkAuth();
-  }, [router]);
+
+    // Check for success booking in URL
+    const bookingId = searchParams.get('booking_id');
+    const isSuccess = searchParams.get('booking_success');
+    if (isSuccess === 'true' && bookingId) {
+      fetchBookingDetails(bookingId);
+    }
+  }, [router, searchParams]);
+
+  const fetchBookingDetails = async (id: string) => {
+    const { data: booking, error: bError } = await supabase
+      .from('bookings')
+      .select('*, events(*)')
+      .eq('id', id)
+      .single();
+    
+    if (!bError && booking) {
+      setSuccessBooking(booking);
+      setSuccessEvent(booking.events);
+    }
+  };
 
   const fetchMyEvents = async (userId: string) => {
     setLoading(true);
@@ -120,6 +145,28 @@ export default function UserDashboard() {
             </motion.button>
           </Link>
         </div>
+
+        {/* Success Ticket View */}
+        {successBooking && successEvent && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-20 bg-primary/5 rounded-[3rem] p-12 border-2 border-primary/10 relative overflow-hidden"
+          >
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+            
+            <div className="relative z-10 flex flex-col items-center">
+              <div className="h-20 w-20 bg-primary rounded-full flex items-center justify-center text-white mb-6 shadow-xl shadow-primary/30">
+                <CheckCircle size={40} />
+              </div>
+              <h2 className="text-3xl font-black mb-2 text-center">Payment Successful!</h2>
+              <p className="text-muted font-bold text-center mb-10">Your ticket for <span className="text-primary italic font-serif">{successEvent.event_name}</span> is confirmed.</p>
+              
+              <TicketUI booking={successBooking} event={successEvent} />
+            </div>
+          </motion.div>
+        )}
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
