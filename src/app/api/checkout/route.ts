@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+
+// Use Service Role Key to bypass RLS on server-side API
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
   ? new Razorpay({
@@ -18,8 +24,8 @@ export async function POST(req: Request) {
     }
     const { name, email, phone, occupation, eventId, eventName, price } = await req.json();
 
-    // 1. Create a pending booking in Supabase
-    const { data: booking, error: bookingError } = await supabase
+    // 1. Create a pending booking in Supabase (using admin client to bypass RLS)
+    const { data: booking, error: bookingError } = await supabaseAdmin
       .from('bookings')
       .insert({
         event_id: eventId,
