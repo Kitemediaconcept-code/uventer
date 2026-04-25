@@ -4,6 +4,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 function LoginContent() {
   const [tab, setTab] = useState<'signin' | 'signup'>('signin');
@@ -303,7 +304,16 @@ function LoginContent() {
 
           {/* Brand */}
           <div className="lp-brand">
-            <div className="lp-brand-logo">u<span>venter</span></div>
+            <div className="lp-brand-logo">
+              <Image 
+                src="/uventerlogo.png" 
+                alt="Uventer" 
+                width={120} 
+                height={40} 
+                className="object-contain mx-auto"
+                priority
+              />
+            </div>
           </div>
 
           {/* Tabs */}

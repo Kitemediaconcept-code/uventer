@@ -5,6 +5,9 @@ import Navbar from "@/components/layout/Navbar";
 export const metadata: Metadata = {
   title: "Uventer | Premium Event Booking",
   description: "Experience the best events with our minimalist booking platform.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({

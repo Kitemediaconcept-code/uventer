@@ -38,7 +38,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Link href="/" className="relative h-10 w-32 flex items-center">
           <Image
-            src="/uventer-logo.png"
+            src="/uventerlogo.png"
             alt="Uventer Logo"
             width={140}
             height={50}
