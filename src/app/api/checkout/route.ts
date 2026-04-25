@@ -2,26 +2,31 @@ import { NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
 import { createClient } from '@supabase/supabase-js';
 
-// Use Service Role Key to bypass RLS on server-side API
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
-  ? new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
-    })
-  : null;
-
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    if (!razorpay) {
+    // Initialize clients inside the handler so env vars are available at runtime
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const razorpayKeyId = process.env.RAZORPAY_KEY_ID;
+    const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET;
+
+    if (!supabaseUrl || !serviceRoleKey) {
+      throw new Error('Supabase environment variables are not configured.');
+    }
+    if (!razorpayKeyId || !razorpayKeySecret) {
       throw new Error('Razorpay is not configured. Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to environment variables.');
     }
+
+    // Use Service Role Key to bypass RLS on server-side API
+    const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
+
+    const razorpay = new Razorpay({
+      key_id: razorpayKeyId,
+      key_secret: razorpayKeySecret,
+    });
+
     const { name, email, phone, occupation, eventId, eventName, price } = await req.json();
 
     // 1. Create a pending booking in Supabase (using admin client to bypass RLS)
@@ -57,10 +62,11 @@ export async function POST(req: Request) {
       amount: order.amount,
       currency: order.currency,
       bookingId: booking.id,
-      key: process.env.RAZORPAY_KEY_ID
+      key: razorpayKeyId
     });
   } catch (error: any) {
     console.error('Razorpay error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
