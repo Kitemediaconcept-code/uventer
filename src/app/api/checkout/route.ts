@@ -9,8 +9,8 @@ export async function POST(req: Request) {
     // Hardcoded for reliability (server-side only, never exposed to browser)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://kgwehgvokxhlgvkhygsx.supabase.co';
     const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtnd2VoZ3Zva3hobGd2a2h5Z3N4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njg4OTc1OCwiZXhwIjoyMDkyNDY1NzU4fQ.21r-f-CMH7CSXt25HF7sm9msTn_6gUmv7fVvV8jHrYw';
-    const razorpayKeyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_ShiK0u3Rhqutkg';
-    const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET || 'KWOYlvZZ7SoNlol5dAP9iQKk';
+    const razorpayKeyId = process.env.RAZORPAY_KEY_ID || 'rzp_live_Shktj2goO6kSkt';
+    const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET || 'bp8571aFWYYW71tBqGITbmKn';
 
     // Use Service Role Key to bypass RLS on server-side API
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
