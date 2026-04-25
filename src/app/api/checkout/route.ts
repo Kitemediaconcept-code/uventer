@@ -22,6 +22,12 @@ export async function POST(req: Request) {
 
     const { name, email, phone, occupation, eventId, eventName, price } = await req.json();
 
+    // Validate price
+    const priceNum = Number(price);
+    if (!priceNum || priceNum <= 0) {
+      return NextResponse.json({ error: 'Event price is invalid or zero. Please check the event price.' }, { status: 400 });
+    }
+
     // 1. Create a pending booking in Supabase (using admin client to bypass RLS)
     const { data: booking, error: bookingError } = await supabaseAdmin
       .from('bookings')
@@ -31,7 +37,7 @@ export async function POST(req: Request) {
         user_email: email,
         user_phone: phone,
         occupation: occupation,
-        amount_paid: price,
+        amount_paid: priceNum,
         payment_status: 'pending'
       })
       .select()
@@ -40,15 +46,23 @@ export async function POST(req: Request) {
     if (bookingError) throw bookingError;
 
     // 2. Create Razorpay Order
-    const order = await razorpay.orders.create({
-      amount: Math.round(price * 100), // in paise
-      currency: "INR",
-      receipt: booking.id,
-      notes: {
-        eventId: eventId,
-        eventName: eventName
-      }
-    });
+    let order;
+    try {
+      order = await razorpay.orders.create({
+        amount: Math.round(priceNum * 100), // in paise
+        currency: "INR",
+        receipt: booking.id.slice(0, 40), // max 40 chars
+        notes: {
+          eventId: eventId,
+          eventName: eventName
+        }
+      });
+    } catch (rzpError: any) {
+      // Extract actual Razorpay error message
+      const rzpMsg = rzpError?.error?.description || rzpError?.message || JSON.stringify(rzpError);
+      console.error('Razorpay order creation failed:', rzpMsg);
+      return NextResponse.json({ error: `Razorpay error: ${rzpMsg}` }, { status: 500 });
+    }
 
     return NextResponse.json({ 
       orderId: order.id,
@@ -58,8 +72,8 @@ export async function POST(req: Request) {
       key: razorpayKeyId
     });
   } catch (error: any) {
-    console.error('Razorpay error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('Checkout error:', error);
+    const msg = error?.error?.description || error?.message || 'Unknown error';
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
-
