@@ -33,7 +33,7 @@ const lastRowStart = total - (total % COLS === 0 ? COLS : total % COLS);
 const Services = () => {
   return (
     <section className="w-full bg-white py-[90px] px-[6%]">
-      <div>
+      <div className="max-w-7xl mx-auto">
         <p className="text-[13px] tracking-[6px] uppercase text-gray-500 font-medium mb-[35px]">
           WHAT WE DO
         </p>
