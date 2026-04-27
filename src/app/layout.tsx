@@ -1,3 +1,4 @@
+// Triggering rebuild for footer and new pages
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
