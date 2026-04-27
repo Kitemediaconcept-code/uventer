@@ -42,6 +42,11 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
     setShowBetaNote(true);
   };
 
+  const handleBetaClose = () => {
+    router.push('/');
+    onClose();
+  };
+
   if (showBetaNote) {
     return (
       <AnimatePresence>
@@ -50,7 +55,7 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
-          onClick={onClose}
+          onClick={handleBetaClose}
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -71,7 +76,7 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
               <a href="tel:9562630135" className="text-2xl font-bold hover:text-primary transition-colors">9562630135</a>
             </div>
             <button
-              onClick={onClose}
+              onClick={handleBetaClose}
               className="w-full h-14 bg-foreground text-white rounded-2xl font-bold hover:bg-foreground/90 transition-all"
             >
               Close
