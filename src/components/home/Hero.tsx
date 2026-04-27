@@ -71,7 +71,7 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
             <div className="absolute top-8 right-8 text-right z-10">
               <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Uventer App</p>
-              <h3 className="text-white text-xl font-bold leading-tight">Featured <br /> Experiences</h3>
+              <h3 className="text-white text-xl font-bold leading-tight">Featured <br /> Events</h3>
             </div>
           </div>
 
@@ -80,35 +80,15 @@ const Hero = () => {
             {/* The Tab Cutout Shape */}
             <div className="absolute -top-12 left-0 h-12 w-[60%] bg-[#121212] rounded-tr-[35px] flex items-center px-8 lg:px-12">
                <div className="flex flex-col">
-                  <span className="text-white text-base lg:text-lg font-bold">Featured Events</span>
-                  <span className="text-white/40 text-[10px] font-bold uppercase tracking-wider">Curated for you</span>
+                  <span className="text-white text-base lg:text-xl font-bold">Featured Events</span>
                </div>
             </div>
             
-            <div className="mt-8">
-               <p className="text-white/30 text-sm md:text-base max-w-[280px] leading-relaxed">
-                 Explore our hand-picked selection of premium experiences, from tech summits to cultural galas.
-               </p>
+            <div className="mt-8 flex-1 flex items-center justify-center">
+               {/* Content removed as requested */}
             </div>
 
-            <div className="flex items-end justify-between">
-              <div className="flex gap-10">
-                <div>
-                  <div className="flex items-baseline gap-1">
-                    <p className="text-white text-4xl lg:text-5xl font-black tracking-tighter">12</p>
-                    <span className="text-white/40 text-sm font-bold">Live</span>
-                  </div>
-                  <p className="text-white/20 text-[9px] font-black uppercase tracking-widest mt-1">Experiences Now</p>
-                </div>
-                <div>
-                  <div className="flex items-baseline gap-1">
-                    <p className="text-white text-4xl lg:text-5xl font-black tracking-tighter">45+</p>
-                    <span className="text-white/40 text-sm font-bold">Doc</span>
-                  </div>
-                  <p className="text-white/20 text-[9px] font-black uppercase tracking-widest mt-1">Verified Events</p>
-                </div>
-              </div>
-
+            <div className="flex items-end justify-end">
               {/* Scroll Button */}
               <button 
                 onClick={scrollToEvents}
