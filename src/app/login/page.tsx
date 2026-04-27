@@ -286,17 +286,6 @@ function LoginContent() {
         }
         .lp-msg.err  { background: #fff0f0; color: #c00; }
         .lp-msg.ok   { background: #f0fff4; color: #007a3d; }
-
-        /* Bottom hero (mobile only) */
-        .lp-hero {
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-          z-index: 0;
-          pointer-events: none;
-        }
-        @media (min-width: 768px) { .lp-hero { display: none; } }
-        .lp-hero img { width: 100%; display: block; }
       `}} />
 
       <div className="lp-container">
@@ -477,11 +466,6 @@ function LoginContent() {
             )}
           </form>
 
-        </div>
-
-        {/* Mobile background image */}
-        <div className="lp-hero">
-          <img src="/hero-mobile.png" alt="" />
         </div>
       </div>
     </>
