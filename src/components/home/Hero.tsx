@@ -26,16 +26,16 @@ const Hero = () => {
         >
           {/* Decorative element */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
-            <Image 
-              src="/uventerelements.png" 
-              alt="" 
-              fill 
+            <Image
+              src="/uventerelements.png"
+              alt=""
+              fill
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
-              className="object-cover scale-110 group-hover:scale-100 transition-transform duration-[2s]" 
+              className="object-cover scale-110 group-hover:scale-100 transition-transform duration-[2s]"
             />
           </div>
-          
+
           <div className="relative z-10">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
               We execute events that matter.
@@ -60,13 +60,13 @@ const Hero = () => {
         >
           {/* Background Image - Now fills the entire card */}
           <div className="absolute inset-0 z-0">
-            <Image 
-              src="/cardeventbg.jpeg" 
-              alt="Events background" 
-              fill 
+            <Image
+              src="/featured-event-bg.jpg"
+              alt="Events background"
+              fill
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
-              className="object-cover transition-transform duration-[3s] group-hover:scale-110" 
+              className="object-cover transition-transform duration-[3s] group-hover:scale-110"
             />
             {/* Gradient Overlay to ensure text readability */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
@@ -76,9 +76,9 @@ const Hero = () => {
           <div className="relative mt-auto h-[55%] z-10 bg-black/40 backdrop-blur-2xl p-8 lg:p-12 flex flex-col justify-between border-t border-white/10">
             {/* The Tab Cutout Shape with Glassmorphism */}
             <div className="absolute -top-12 left-0 h-12 w-[60%] bg-black/40 backdrop-blur-2xl rounded-tr-[35px] flex items-center px-8 lg:px-12 border-t border-r border-white/10">
-               {/* Styling element */}
+              {/* Styling element */}
             </div>
-            
+
             <div className="flex-1" />
 
             <div className="flex items-end justify-between gap-4">
@@ -87,14 +87,14 @@ const Hero = () => {
               </h2>
 
               {/* Glassmorphism Scroll Button */}
-              <button 
+              <button
                 onClick={scrollToEvents}
                 className="relative group/btn flex items-center justify-center shrink-0 mb-2"
                 aria-label="Scroll to events"
               >
                 {/* Outer Ring */}
                 <div className="absolute inset-0 -m-1 border border-white/30 rounded-full scale-110 group-hover/btn:scale-125 transition-transform duration-500" />
-                
+
                 {/* Main Button Body */}
                 <div className="bg-white/10 backdrop-blur-lg border border-white/20 w-16 h-16 rounded-full flex items-center justify-center transition-all hover:bg-white/20 hover:scale-110 active:scale-95 shadow-2xl">
                   <ArrowDown size={28} className="text-white group-hover/btn:translate-y-1 transition-transform" />
