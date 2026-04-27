@@ -61,7 +61,7 @@ const Hero = () => {
           {/* Top Section - Image Background */}
           <div className="relative h-[45%] w-full overflow-hidden">
             <Image 
-              src="/heroimg.png" 
+              src="/elements.jpg" 
               alt="Events preview" 
               fill 
               sizes="(max-width: 768px) 100vw, 50vw"
