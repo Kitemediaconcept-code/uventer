@@ -27,7 +27,7 @@ const loadScript = (src: string) => {
 };
 
 export default function BookingModal({ isOpen, onClose, event }: BookingModalProps) {
-  const [loading, setLoading] = useState(false);
+  const [showBetaNote, setShowBetaNote] = useState(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
@@ -38,84 +38,48 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
-    const resScript = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
-    if (!resScript) {
-      alert('Razorpay SDK failed to load. Check your internet connection.');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          eventId: event.id,
-          eventName: event.event_name,
-          price: event.price
-        })
-      });
-
-      const data = await response.json();
-      
-      if (!response.ok) throw new Error(data.error || 'Failed to create order');
-
-      const options = {
-        key: data.key,
-        amount: data.amount,
-        currency: data.currency,
-        name: "Uventer",
-        description: `Ticket for ${event.event_name}`,
-        image: "/uventerlogo.png",
-        order_id: data.orderId,
-        handler: async function (response: any) {
-          try {
-            const verifyRes = await fetch('/api/verify-payment', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                bookingId: data.bookingId
-              })
-            });
-
-            const verifyData = await verifyRes.json();
-
-            if (verifyRes.ok) {
-              // Success! Redirect to dashboard with success params
-              router.push(`/dashboard?booking_success=true&booking_id=${data.bookingId}&payment_id=${response.razorpay_payment_id}`);
-            } else {
-              alert(verifyData.error || 'Payment verification failed. Please contact support.');
-            }
-          } catch (err) {
-            console.error('Verification call failed:', err);
-            alert('Something went wrong during payment verification.');
-          }
-        },
-        prefill: {
-          name: formData.name,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        theme: {
-          color: "#2563eb",
-        },
-      };
-
-      const paymentObject = new (window as any).Razorpay(options);
-      paymentObject.open();
-    } catch (error: any) {
-      console.error('Booking error:', error);
-      alert(error.message || 'Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    setShowBetaNote(true);
   };
+
+  if (showBetaNote) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            className="bg-white w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl p-10 text-center"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="h-20 w-20 bg-primary/10 text-primary rounded-3xl flex items-center justify-center mx-auto mb-8">
+              <Phone size={36} />
+            </div>
+            <h2 className="text-3xl font-bold mb-4 tracking-tight">Beta Mode</h2>
+            <p className="text-muted text-lg leading-relaxed mb-8">
+              This app is currently running in <span className="text-primary font-bold">beta</span>. For ticket bookings, please contact us directly.
+            </p>
+            <div className="bg-secondary/30 p-6 rounded-2xl mb-8 border border-accent">
+              <p className="text-xs font-black uppercase tracking-widest text-muted mb-2">Direct Contact</p>
+              <a href="tel:9562630135" className="text-2xl font-bold hover:text-primary transition-colors">9562630135</a>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-full h-14 bg-foreground text-white rounded-2xl font-bold hover:bg-foreground/90 transition-all"
+            >
+              Close
+            </button>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
 
   return (
     <AnimatePresence>
