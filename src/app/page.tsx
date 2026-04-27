@@ -1,3 +1,4 @@
+import Hero from "@/components/home/Hero";
 import Services from "@/components/home/Services";
 import Process from "@/components/home/Process";
 import EventGrid from "@/components/home/EventGrid";
