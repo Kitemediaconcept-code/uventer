@@ -2,10 +2,18 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 const Hero = () => {
+  const scrollToEvents = () => {
+    const eventsSection = document.getElementById('events');
+    if (eventsSection) {
+      eventsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="w-full bg-white pt-24 pb-12 px-6 lg:pt-32 lg:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -14,7 +22,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-[#141EC2] rounded-[35px] p-8 md:p-12 lg:p-16 overflow-hidden flex flex-col justify-center min-h-[400px] lg:min-h-[550px] group"
+          className="relative bg-[#141EC2] rounded-[35px] p-8 md:p-12 lg:p-16 overflow-hidden flex flex-col justify-center min-h-[450px] lg:min-h-[600px] group"
         >
           {/* Decorative element */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
@@ -43,29 +51,73 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Right Card */}
+        {/* Right Card - Featured Events (New Design) */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-[#FFFFFF] rounded-[35px] p-8 md:p-12 lg:p-16 overflow-hidden flex flex-col justify-start border-2 border-[#F5F5F7] min-h-[400px] lg:min-h-[550px] group"
+          className="relative bg-black rounded-[35px] overflow-hidden flex flex-col min-h-[450px] lg:min-h-[600px] group border border-black"
         >
-          {/* Decorative element */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
+          {/* Top Section - Image Background */}
+          <div className="relative h-[45%] w-full overflow-hidden">
             <Image 
-              src="/uventerelements.png" 
-              alt="" 
+              src="/heroimg.png" 
+              alt="Events preview" 
               fill 
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
-              className="object-cover scale-110 group-hover:scale-100 transition-transform duration-[2s]" 
+              className="object-cover transition-transform duration-[3s] group-hover:scale-110 blur-[2px] opacity-70" 
             />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
+            <div className="absolute top-8 right-8 text-right z-10">
+              <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Uventer App</p>
+              <h3 className="text-white text-xl font-bold leading-tight">Featured <br /> Experiences</h3>
+            </div>
           </div>
-          
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#1D1D1F] leading-[1.1] tracking-tight">
-              Featured Events
-            </h2>
+
+          {/* Bottom Section - Dark Background with Tab Cutout */}
+          <div className="relative flex-1 bg-[#121212] p-8 lg:p-12 flex flex-col justify-between">
+            {/* The Tab Cutout Shape */}
+            <div className="absolute -top-12 left-0 h-12 w-[60%] bg-[#121212] rounded-tr-[35px] flex items-center px-8 lg:px-12">
+               <div className="flex flex-col">
+                  <span className="text-white text-base lg:text-lg font-bold">Featured Events</span>
+                  <span className="text-white/40 text-[10px] font-bold uppercase tracking-wider">Curated for you</span>
+               </div>
+            </div>
+            
+            <div className="mt-8">
+               <p className="text-white/30 text-sm md:text-base max-w-[280px] leading-relaxed">
+                 Explore our hand-picked selection of premium experiences, from tech summits to cultural galas.
+               </p>
+            </div>
+
+            <div className="flex items-end justify-between">
+              <div className="flex gap-10">
+                <div>
+                  <div className="flex items-baseline gap-1">
+                    <p className="text-white text-4xl lg:text-5xl font-black tracking-tighter">12</p>
+                    <span className="text-white/40 text-sm font-bold">Live</span>
+                  </div>
+                  <p className="text-white/20 text-[9px] font-black uppercase tracking-widest mt-1">Experiences Now</p>
+                </div>
+                <div>
+                  <div className="flex items-baseline gap-1">
+                    <p className="text-white text-4xl lg:text-5xl font-black tracking-tighter">45+</p>
+                    <span className="text-white/40 text-sm font-bold">Doc</span>
+                  </div>
+                  <p className="text-white/20 text-[9px] font-black uppercase tracking-widest mt-1">Verified Events</p>
+                </div>
+              </div>
+
+              {/* Scroll Button */}
+              <button 
+                onClick={scrollToEvents}
+                className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-xl group/btn"
+                aria-label="Scroll to events"
+              >
+                <ArrowDown size={28} className="group-hover/btn:translate-y-1 transition-transform" />
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>
