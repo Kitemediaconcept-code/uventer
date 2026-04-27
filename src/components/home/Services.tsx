@@ -33,15 +33,15 @@ const lastRowStart = total - (total % COLS === 0 ? COLS : total % COLS);
 const Services = () => {
   return (
     <section className="w-full bg-white py-[90px] px-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto text-center">
         <p className="text-[13px] tracking-[6px] uppercase text-gray-500 font-medium mb-[35px]">
           WHAT WE DO
         </p>
-        <h2 className="text-[42px] md:text-[58px] font-bold text-black leading-[1.15] max-w-[650px] mb-[60px]">
-          A complete suite of event<br />services.
+        <h2 className="text-[42px] md:text-[58px] font-bold text-black leading-[1.15] max-w-[750px] mb-[60px] mx-auto">
+          A complete suite of event services.
         </h2>
 
-        <div className="max-w-[1100px] border border-[#d8d8d8] rounded-[18px] overflow-hidden grid grid-cols-1 md:grid-cols-3 bg-white">
+        <div className="max-w-[1100px] mx-auto border border-[#d8d8d8] rounded-[18px] overflow-hidden grid grid-cols-1 md:grid-cols-3 bg-white text-left">
           {services.map((service, index) => {
             const col = index % COLS;
             const isLastCol = col === COLS - 1;
