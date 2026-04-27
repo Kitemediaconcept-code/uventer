@@ -71,9 +71,31 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
         description: `Ticket for ${event.event_name}`,
         image: "/uventerlogo.png",
         order_id: data.orderId,
-        handler: function (response: any) {
-          // Success! Redirect to dashboard with success params
-          router.push(`/dashboard?booking_success=true&booking_id=${data.bookingId}&payment_id=${response.razorpay_payment_id}`);
+        handler: async function (response: any) {
+          try {
+            const verifyRes = await fetch('/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                bookingId: data.bookingId
+              })
+            });
+
+            const verifyData = await verifyRes.json();
+
+            if (verifyRes.ok) {
+              // Success! Redirect to dashboard with success params
+              router.push(`/dashboard?booking_success=true&booking_id=${data.bookingId}&payment_id=${response.razorpay_payment_id}`);
+            } else {
+              alert(verifyData.error || 'Payment verification failed. Please contact support.');
+            }
+          } catch (err) {
+            console.error('Verification call failed:', err);
+            alert('Something went wrong during payment verification.');
+          }
         },
         prefill: {
           name: formData.name,

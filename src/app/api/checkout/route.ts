@@ -7,14 +7,15 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
   try {
     // Hardcoded for reliability (server-side only, never exposed to browser)
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://kgwehgvokxhlgvkhygsx.supabase.co';
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtnd2VoZ3Zva3hobGd2a2h5Z3N4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njg4OTc1OCwiZXhwIjoyMDkyNDY1NzU4fQ.21r-f-CMH7CSXt25HF7sm9msTn_6gUmv7fVvV8jHrYw';
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
     const razorpayKeyId = process.env.RAZORPAY_KEY_ID;
     const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET;
 
-    if (!razorpayKeyId || !razorpayKeySecret) {
-      console.error('Razorpay env vars missing: RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET not set on server.');
-      return NextResponse.json({ error: 'Payment gateway not configured. Please contact support.' }, { status: 500 });
+    if (!razorpayKeyId || !razorpayKeySecret || !supabaseUrl || !serviceRoleKey) {
+      console.error('Environment variables missing: RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, NEXT_PUBLIC_SUPABASE_URL, or SUPABASE_SERVICE_ROLE_KEY not set.');
+      return NextResponse.json({ error: 'Payment gateway or database not configured. Please contact support.' }, { status: 500 });
     }
 
     // Use Service Role Key to bypass RLS on server-side API
