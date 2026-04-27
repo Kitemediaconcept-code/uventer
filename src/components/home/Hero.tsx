@@ -2,82 +2,73 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 const Hero = () => {
   return (
-    <section className="relative w-full bg-white pt-24 md:pt-32 min-h-[90vh] overflow-hidden flex flex-col items-center">
-      {/* Content Section */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 text-center">
+    <section className="w-full bg-white pt-24 pb-12 px-6 lg:pt-32 lg:px-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Left Card */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-center"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative bg-[#141EC2] rounded-[35px] p-8 md:p-12 lg:p-16 overflow-hidden flex flex-col justify-center min-h-[400px] lg:min-h-[550px] group"
         >
-          <span className="inline-block px-5 py-1.5 mb-8 text-[11px] font-black uppercase tracking-[0.2em] text-[#008080] bg-[#008080]/5 rounded-full">
-            Discover & Book
-          </span>
-          <h1 className="max-w-2xl text-2xl sm:text-3xl md:text-5xl lg:text-[4.5rem] font-bold tracking-tight text-[#1D1D1F] mb-4 md:mb-8 leading-[1.2] md:leading-[1.05] [text-wrap:balance]">
-            Experience Unforgettable <br className="hidden sm:block" /> 
-            <span className="text-[#008080] italic font-serif">Moments</span> Together.
-          </h1>
-          <p className="max-w-lg text-base md:text-xl text-[#6E6E73] font-medium leading-relaxed mb-8 md:mb-12 [text-wrap:balance]">
-            Uventer is your premium gateway to the most exclusive events. 
-            From intimate workshops to grand festivals, find your next story here.
-          </p>
+          {/* Decorative element */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
+            <Image 
+              src="/uventerelements.png" 
+              alt="" 
+              fill 
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              className="object-cover scale-110 group-hover:scale-100 transition-transform duration-[2s]" 
+            />
+          </div>
+          
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
+              We execute events that matter.
+            </h2>
+            <p className="text-white/80 text-lg md:text-xl mb-10 max-w-md font-medium leading-relaxed">
+              Corporate events, business experiences, and professional execution—delivered with precision.
+            </p>
+            <Link href="/add-event">
+              <button className="bg-white text-[#141EC2] px-10 py-4 rounded-full font-bold text-lg hover:bg-white/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
+                Plan Your Event
+              </button>
+            </Link>
+          </div>
         </motion.div>
 
+        {/* Right Card */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative bg-[#FFFFFF] rounded-[35px] p-8 md:p-12 lg:p-16 overflow-hidden flex flex-col justify-start border-2 border-[#F5F5F7] min-h-[400px] lg:min-h-[550px] group"
         >
-          <Link href="/add-event">
-            <button className="bg-[#121212] text-white h-16 px-12 rounded-full font-bold text-lg flex items-center gap-2 hover:bg-black transition-all shadow-xl shadow-black/10 group">
-              Submit Your Event
-              <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </Link>
-          <button className="bg-white text-[#121212] border-2 border-[#F5F5F7] h-16 px-12 rounded-full font-bold text-lg hover:bg-[#F5F5F7] transition-all">
-            Explore Communities
-          </button>
+          {/* Decorative element */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
+            <Image 
+              src="/uventerelements.png" 
+              alt="" 
+              fill 
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              className="object-cover scale-110 group-hover:scale-100 transition-transform duration-[2s]" 
+            />
+          </div>
+          
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#1D1D1F] leading-[1.1] tracking-tight">
+              Featured Events
+            </h2>
+          </div>
         </motion.div>
       </div>
-
-      {/* Hero Image Section - Full Width without side margins */}
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full mt-auto"
-      >
-        <div className="md:hidden w-full">
-          <Image
-            src="/hero-mobile.png"
-            alt="Uventer Community Mobile"
-            width={800}
-            height={800}
-            className="w-full h-auto object-cover select-none pointer-events-none"
-            priority
-          />
-        </div>
-        <div className="hidden md:block w-full">
-          <Image
-            src="/heroimg.png"
-            alt="Uventer Community"
-            width={1920}
-            height={800}
-            className="w-full h-auto object-cover md:object-contain select-none pointer-events-none"
-            priority
-          />
-        </div>
-        {/* Subtle Bottom Fade to White for smooth transition */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
-      </motion.div>
     </section>
   );
 };
