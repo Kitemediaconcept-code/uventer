@@ -89,13 +89,19 @@ const Hero = () => {
             </div>
 
             <div className="flex items-end justify-end">
-              {/* Scroll Button */}
+              {/* Glassmorphism Scroll Button */}
               <button 
                 onClick={scrollToEvents}
-                className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-xl group/btn"
+                className="relative group/btn flex items-center justify-center"
                 aria-label="Scroll to events"
               >
-                <ArrowDown size={28} className="group-hover/btn:translate-y-1 transition-transform" />
+                {/* Outer Ring */}
+                <div className="absolute inset-0 -m-1 border border-white/20 rounded-full scale-110 group-hover/btn:scale-125 transition-transform duration-500" />
+                
+                {/* Main Button Body */}
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 w-16 h-16 rounded-full flex items-center justify-center transition-all hover:bg-white/20 hover:scale-110 active:scale-95 shadow-2xl">
+                  <ArrowDown size={28} className="text-white group-hover/btn:translate-y-1 transition-transform" />
+                </div>
               </button>
             </div>
           </div>
