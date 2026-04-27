@@ -61,17 +61,17 @@ const Hero = () => {
           {/* Top Section - Image Background */}
           <div className="relative h-[45%] w-full overflow-hidden">
             <Image 
-              src="/elements.jpg" 
+              src="/cardeventbg.jpeg" 
               alt="Events preview" 
               fill 
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
-              className="object-cover transition-transform duration-[3s] group-hover:scale-110 blur-[2px] opacity-70" 
+              className="object-cover transition-transform duration-[3s] group-hover:scale-110" 
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
             <div className="absolute top-8 right-8 text-right z-10">
-              <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Uventer App</p>
-              <h3 className="text-white text-xl font-bold leading-tight">Featured <br /> Events</h3>
+              <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em] mb-1"></p>
+              <h3 className="text-white text-xl font-bold leading-tight"> <br /> </h3>
             </div>
           </div>
 
