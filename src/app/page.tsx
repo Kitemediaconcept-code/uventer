@@ -33,19 +33,6 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Minimalist Footer */}
-      <footer className="py-12 border-t border-accent bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-sm text-muted">
-            © 2026 Uventer. All rights reserved.
-          </div>
-          <div className="flex gap-8 text-sm font-medium text-muted">
-            <a href="#" className="hover:text-primary">Privacy Policy</a>
-            <a href="#" className="hover:text-primary">Terms of Service</a>
-            <a href="#" className="hover:text-primary">Contact</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
