@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Instagram, Twitter, Linkedin, Mail } from 'lucide-react';
+import { Instagram, X, Linkedin, Mail } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -32,7 +32,7 @@ const Footer = () => {
             <div className="flex items-center gap-4 mt-8">
               {[
                 { href: '#', icon: <Instagram size={18} />, label: 'Instagram' },
-                { href: '#', icon: <Twitter size={18} />, label: 'Twitter' },
+                { href: '#', icon: <X size={18} />, label: 'Twitter' },
                 { href: '#', icon: <Linkedin size={18} />, label: 'LinkedIn' },
                 { href: 'mailto:hello@uventer.com', icon: <Mail size={18} />, label: 'Email' },
               ].map(({ href, icon, label }) => (
