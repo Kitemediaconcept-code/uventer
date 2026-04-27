@@ -15,7 +15,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="w-full bg-white pt-24 pb-12 px-6 lg:pt-32 lg:px-12">
+    <section className="w-full bg-white pt-8 pb-12 px-6 lg:pt-32 lg:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Card */}
         <motion.div
