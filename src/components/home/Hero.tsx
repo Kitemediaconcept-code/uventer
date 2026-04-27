@@ -51,41 +51,38 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Right Card - Featured Events (New Design) */}
+        {/* Right Card - Featured Events (Glassmorphism Design) */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-black rounded-[35px] overflow-hidden flex flex-col min-h-[450px] lg:min-h-[600px] group"
+          className="relative rounded-[35px] overflow-hidden flex flex-col min-h-[450px] lg:min-h-[600px] group shadow-2xl"
         >
-          {/* Top Section - Image Background */}
-          <div className="relative h-[45%] w-full overflow-hidden">
+          {/* Background Image - Now fills the entire card */}
+          <div className="absolute inset-0 z-0">
             <Image 
               src="/cardeventbg.jpeg" 
-              alt="Events preview" 
+              alt="Events background" 
               fill 
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
               className="object-cover transition-transform duration-[3s] group-hover:scale-110" 
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
-            <div className="absolute top-8 right-8 text-right z-10">
-              <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em] mb-1"></p>
-              <h3 className="text-white text-xl font-bold leading-tight"> <br /> </h3>
-            </div>
+            {/* Gradient Overlay to ensure text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
           </div>
 
-          {/* Bottom Section - Dark Background with Tab Cutout */}
-          <div className="relative flex-1 bg-[#121212] p-8 lg:p-12 flex flex-col justify-between">
-            {/* The Tab Cutout Shape */}
-            <div className="absolute -top-12 left-0 h-12 w-[60%] bg-[#121212] rounded-tr-[35px] flex items-center px-8 lg:px-12">
-               {/* Styling element as seen in reference */}
+          {/* Bottom Section - Glassmorphism Overlay */}
+          <div className="relative mt-auto h-[55%] z-10 bg-black/40 backdrop-blur-2xl p-8 lg:p-12 flex flex-col justify-between border-t border-white/10">
+            {/* The Tab Cutout Shape with Glassmorphism */}
+            <div className="absolute -top-12 left-0 h-12 w-[60%] bg-black/40 backdrop-blur-2xl rounded-tr-[35px] flex items-center px-8 lg:px-12 border-t border-r border-white/10">
+               {/* Styling element */}
             </div>
             
-            <div className="flex-1" /> {/* Spacer */}
+            <div className="flex-1" />
 
             <div className="flex items-end justify-between gap-4">
-              <h2 className="text-white text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight">
+              <h2 className="text-white text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight drop-shadow-lg">
                 Featured <br /> Events
               </h2>
 
@@ -96,7 +93,7 @@ const Hero = () => {
                 aria-label="Scroll to events"
               >
                 {/* Outer Ring */}
-                <div className="absolute inset-0 -m-1 border border-white/20 rounded-full scale-110 group-hover/btn:scale-125 transition-transform duration-500" />
+                <div className="absolute inset-0 -m-1 border border-white/30 rounded-full scale-110 group-hover/btn:scale-125 transition-transform duration-500" />
                 
                 {/* Main Button Body */}
                 <div className="bg-white/10 backdrop-blur-lg border border-white/20 w-16 h-16 rounded-full flex items-center justify-center transition-all hover:bg-white/20 hover:scale-110 active:scale-95 shadow-2xl">
