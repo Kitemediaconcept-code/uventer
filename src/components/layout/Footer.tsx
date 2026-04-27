@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Instagram, Linkedin, Mail } from 'lucide-react';
+import { Globe, MessageCircle, Mail } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -31,8 +31,8 @@ const Footer = () => {
             {/* Social links */}
             <div className="flex items-center gap-4 mt-8">
               {[
-                { href: '#', icon: <Instagram size={18} />, label: 'Instagram' },
-                { href: '#', icon: <Linkedin size={18} />, label: 'LinkedIn' },
+                { href: '#', icon: <MessageCircle size={18} />, label: 'Instagram' },
+                { href: '#', icon: <Globe size={18} />, label: 'LinkedIn' },
                 { href: 'mailto:hello@uventer.com', icon: <Mail size={18} />, label: 'Email' },
               ].map(({ href, icon, label }) => (
                 <a

@@ -28,6 +28,7 @@ const loadScript = (src: string) => {
 
 export default function BookingModal({ isOpen, onClose, event }: BookingModalProps) {
   const [showBetaNote, setShowBetaNote] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',

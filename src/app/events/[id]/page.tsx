@@ -159,7 +159,7 @@ export default function EventDetailPage() {
               <h3 className="text-2xl font-bold">Verified Submission</h3>
             </div>
             <p className="text-muted font-medium leading-relaxed">
-              This event has been thoroughly reviewed and approved by the Uventer admin team. We ensure that all event details are accurate and that the organizers are responsive to the community's needs.
+              This event has been thoroughly reviewed and approved by the Uventer admin team. We ensure that all event details are accurate and that the organizers are responsive to the community&apos;s needs.
             </p>
           </section>
         </div>
