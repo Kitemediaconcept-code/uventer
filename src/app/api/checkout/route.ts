@@ -18,6 +18,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Payment gateway or database not configured. Please contact support.' }, { status: 500 });
     }
 
+    console.log('Razorpay Init with Key ID:', razorpayKeyId.substring(0, 8) + '...');
+
+
     // Use Service Role Key to bypass RLS on server-side API
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
 
