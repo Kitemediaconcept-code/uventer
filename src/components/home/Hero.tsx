@@ -79,20 +79,20 @@ const Hero = () => {
           <div className="relative flex-1 bg-[#121212] p-8 lg:p-12 flex flex-col justify-between">
             {/* The Tab Cutout Shape */}
             <div className="absolute -top-12 left-0 h-12 w-[60%] bg-[#121212] rounded-tr-[35px] flex items-center px-8 lg:px-12">
-               <div className="flex flex-col">
-                  <span className="text-white text-base lg:text-xl font-bold">Featured Events</span>
-               </div>
+               {/* Styling element as seen in reference */}
             </div>
             
-            <div className="mt-8 flex-1 flex items-center justify-center">
-               {/* Content removed as requested */}
-            </div>
+            <div className="flex-1" /> {/* Spacer */}
 
-            <div className="flex items-end justify-end">
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="text-white text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight">
+                Featured <br /> Events
+              </h2>
+
               {/* Glassmorphism Scroll Button */}
               <button 
                 onClick={scrollToEvents}
-                className="relative group/btn flex items-center justify-center"
+                className="relative group/btn flex items-center justify-center shrink-0 mb-2"
                 aria-label="Scroll to events"
               >
                 {/* Outer Ring */}
