@@ -75,23 +75,22 @@ const Footer = () => {
             <h4 className="text-xs font-bold uppercase tracking-[4px] text-gray-400 mb-6">Company</h4>
             <ul className="space-y-4">
               {[
-                { label: 'Privacy Policy', href: '#' },
-                { label: 'Terms of Service', href: '#' },
-                { label: 'Contact Us', href: 'mailto:hello@uventer.com' },
-                { label: 'Support', href: '#' },
+                { label: 'Privacy Policy', href: '/privacy' },
+                { label: 'Terms of Service', href: '/terms' },
+                { label: 'Contact Us', href: '/contact' },
+                { label: 'Support', href: 'mailto:hello@uventer.com' },
               ].map(({ label, href }) => (
                 <li key={label}>
-                  <a
+                  <Link
                     href={href}
                     className="text-sm text-gray-600 font-medium hover:text-primary transition-colors"
                   >
                     {label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
-
         </div>
       </div>
 
