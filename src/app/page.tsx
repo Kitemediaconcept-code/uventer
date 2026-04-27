@@ -1,10 +1,12 @@
 import Hero from "@/components/home/Hero";
+import Services from "@/components/home/Services";
 import EventGrid from "@/components/home/EventGrid";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Hero />
+      <Services />
       <div className="bg-white">
         <EventGrid />
       </div>
