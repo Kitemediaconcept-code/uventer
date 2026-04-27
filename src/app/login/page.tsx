@@ -1,5 +1,5 @@
 'use client';
-// UI Version: 4.0 (Sign In / Sign Up tabs + personalized redirect)
+// UI Version: 4.1 (Removed mobile hero image)
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
