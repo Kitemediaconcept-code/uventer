@@ -28,7 +28,7 @@ export default function Home() {
               placeholder="Enter your email" 
               className="w-full sm:w-96 h-14 px-8 rounded-full border border-accent bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
             />
-            <button className="bg-foreground text-white h-14 px-10 rounded-full font-bold hover:bg-foreground/90 transition-all whitespace-nowrap">
+            <button className="bg-primary text-black h-14 px-10 rounded-full font-bold hover:bg-primary/90 transition-all whitespace-nowrap">
               Subscribe Now
             </button>
           </div>

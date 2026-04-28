@@ -48,13 +48,13 @@ class EventDetailScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryTeal.withOpacity(0.1),
+                      color: AppTheme.primaryYellow.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Text(
                       'Conference',
                       style: TextStyle(
-                        color: AppTheme.primaryTeal,
+                        color: AppTheme.primaryYellow,
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
                       ),
@@ -119,11 +119,11 @@ class EventDetailScreen extends StatelessWidget {
               children: [
                 const Text('Price', style: TextStyle(color: AppTheme.textGrey)),
                 Text(
-                  '$250.00',
+                  '\$250.00',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.primaryTeal,
+                    color: AppTheme.primaryYellow,
                   ),
                 ),
               ],
@@ -150,7 +150,7 @@ class EventDetailScreen extends StatelessWidget {
             color: AppTheme.surfaceGrey,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 20, color: AppTheme.primaryTeal),
+          child: Icon(icon, size: 20, color: AppTheme.primaryYellow),
         ),
         const SizedBox(width: 12),
         Column(

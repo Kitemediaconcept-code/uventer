@@ -230,7 +230,7 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab('pending')}
                 className={`flex-1 md:w-40 py-3 rounded-xl font-bold text-sm transition-all ${
                   activeTab === 'pending' 
-                    ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                    ? 'bg-primary text-black shadow-lg shadow-primary/20' 
                     : 'text-muted hover:text-foreground'
                 }`}
               >
@@ -240,7 +240,7 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab('approved')}
                 className={`flex-1 md:w-40 py-3 rounded-xl font-bold text-sm transition-all ${
                   activeTab === 'approved' 
-                    ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                    ? 'bg-primary text-black shadow-lg shadow-primary/20' 
                     : 'text-muted hover:text-foreground'
                 }`}
               >
@@ -250,7 +250,7 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab('bookings')}
                 className={`flex-1 md:w-40 py-3 rounded-xl font-bold text-sm transition-all ${
                   activeTab === 'bookings' 
-                    ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                    ? 'bg-primary text-black shadow-lg shadow-primary/20' 
                     : 'text-muted hover:text-foreground'
                 }`}
               >
@@ -401,7 +401,7 @@ export default function AdminDashboard() {
                       {event.status === 'pending' ? (
                         <button
                           onClick={() => approveEvent(event.id)}
-                          className="flex-1 h-14 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                          className="flex-1 h-14 bg-primary text-black rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
                         >
                           <Check size={18} />
                           Approve Event

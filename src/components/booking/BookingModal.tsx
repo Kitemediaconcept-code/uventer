@@ -184,10 +184,10 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
                   <button
                     disabled={loading}
                     type="submit"
-                    className="w-full h-16 bg-primary text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20"
+                    className="w-full h-16 bg-primary text-black rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20"
                   >
                     {loading ? (
-                      <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+                      <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-black"></div>
                     ) : (
                       <>
                         Pay ₹{event.price} & Book Ticket

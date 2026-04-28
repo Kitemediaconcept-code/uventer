@@ -44,7 +44,7 @@ export default function TicketUI({ booking, event }: TicketProps) {
         className="w-full max-w-[400px] bg-white rounded-[2.5rem] border-2 border-accent overflow-hidden shadow-2xl relative"
       >
         {/* Ticket Header */}
-        <div className="bg-primary p-8 text-white text-center">
+        <div className="bg-primary p-8 text-black text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <ShieldCheck size={20} />
             <span className="text-[10px] font-black uppercase tracking-[0.3em]">Verified Ticket</span>

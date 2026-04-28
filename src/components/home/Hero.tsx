@@ -44,7 +44,7 @@ const Hero = () => {
               Corporate events, business experiences, and professional execution—delivered with precision.
             </p>
             <Link href="/add-event">
-              <button className="bg-white text-[#141EC2] px-10 py-4 rounded-full font-bold text-lg hover:bg-white/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
+              <button className="bg-primary text-black px-10 py-4 rounded-full font-bold text-lg hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
                 Plan Your Event
               </button>
             </Link>

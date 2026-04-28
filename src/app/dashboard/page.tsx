@@ -139,7 +139,7 @@ function DashboardContent() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-primary text-white h-14 px-8 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20"
+              className="bg-primary text-black h-14 px-8 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20"
             >
               <Plus size={20} />
               Submit New Event
@@ -158,7 +158,7 @@ function DashboardContent() {
             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
             
             <div className="relative z-10 flex flex-col items-center">
-              <div className="h-20 w-20 bg-primary rounded-full flex items-center justify-center text-white mb-6 shadow-xl shadow-primary/30">
+              <div className="h-20 w-20 bg-primary rounded-full flex items-center justify-center text-black mb-6 shadow-xl shadow-primary/30">
                 <CheckCircle size={40} />
               </div>
               <h2 className="text-3xl font-black mb-2 text-center">Payment Successful!</h2>

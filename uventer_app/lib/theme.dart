@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color primaryTeal = Color(0xFF008080);
+  static const Color primaryYellow = Color(0xFFFFDE59);
   static const Color backgroundWhite = Color(0xFFFFFFFF);
   static const Color surfaceGrey = Color(0xFFF3F4F6);
   static const Color borderGrey = Color(0xFFE5E7EB);
@@ -12,9 +12,9 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryTeal,
-        primary: primaryTeal,
-        onPrimary: Colors.white,
+        seedColor: primaryYellow,
+        primary: primaryYellow,
+        onPrimary: textDark,
         background: backgroundWhite,
         onBackground: textDark,
         surface: Colors.white,
@@ -33,7 +33,7 @@ class AppTheme {
           letterSpacing: -0.5,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -43,8 +43,8 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: textDark, // Black buttons like login
-          foregroundColor: Colors.white,
+          backgroundColor: primaryYellow, 
+          foregroundColor: textDark,
           minimumSize: const Size(double.infinity, 60),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),

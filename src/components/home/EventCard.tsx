@@ -46,7 +46,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price }: Eve
           </h3>
           <Link 
             href={`/events/${id}`}
-            className="h-10 w-10 bg-secondary rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors"
+            className="h-10 w-10 bg-secondary rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-colors"
           >
             <ArrowUpRight size={20} />
           </Link>

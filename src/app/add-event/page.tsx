@@ -83,7 +83,7 @@ function SuccessModal({ eventName, onClose }: { eventName: string; onClose: () =
           <div style={{ textAlign: 'left', marginBottom: '24px' }}>
             {/* Step 1 */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '16px' }}>
-              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#008080', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>1</div>
+              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#ffde59', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>1</div>
               <div>
                 <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', color: '#111' }}>Confirmation Email Sent</p>
                 <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#666', lineHeight: 1.5 }}>
@@ -95,7 +95,7 @@ function SuccessModal({ eventName, onClose }: { eventName: string; onClose: () =
             </div>
             {/* Step 2 */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '16px' }}>
-              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#008080', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>2</div>
+              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#ffde59', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>2</div>
               <div>
                 <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', color: '#111' }}>Admin Review</p>
                 <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#666', lineHeight: 1.5 }}>
@@ -454,10 +454,10 @@ export default function AddEventPage() {
                   <button
                     disabled={loading}
                     type="submit"
-                    className="w-full h-20 bg-primary text-white rounded-[1.25rem] font-bold text-xl flex items-center justify-center gap-4 hover:bg-primary/90 transition-all disabled:opacity-50 shadow-xl shadow-primary/20"
+                    className="w-full h-20 bg-primary text-black rounded-[1.25rem] font-bold text-xl flex items-center justify-center gap-4 hover:bg-primary/90 transition-all disabled:opacity-50 shadow-xl shadow-primary/20"
                   >
                     {loading ? (
-                      <div className="animate-spin rounded-full h-7 w-7 border-t-2 border-b-2 border-white"></div>
+                      <div className="animate-spin rounded-full h-7 w-7 border-t-2 border-b-2 border-black"></div>
                     ) : (
                       <>
                         <Send size={24} />

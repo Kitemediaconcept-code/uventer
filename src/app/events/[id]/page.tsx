@@ -104,7 +104,7 @@ export default function EventDetailPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="px-4 py-1.5 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-full mb-6 inline-block">
+            <span className="px-4 py-1.5 bg-primary text-black text-[10px] font-black uppercase tracking-widest rounded-full mb-6 inline-block">
               Confirmed Event
             </span>
             <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
@@ -176,7 +176,7 @@ export default function EventDetailPage() {
 
             <button 
               onClick={() => setIsBookingModalOpen(true)}
-              className="w-full h-16 bg-primary text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 mb-6"
+              className="w-full h-16 bg-primary text-black rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 mb-6"
             >
               Book Tickets Now
               <ArrowRight size={20} />

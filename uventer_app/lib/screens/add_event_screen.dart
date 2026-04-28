@@ -51,8 +51,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: AppTheme.primaryTeal,
-              onPrimary: Colors.white,
+              primary: AppTheme.primaryYellow,
+              onPrimary: AppTheme.textDark,
               onSurface: AppTheme.textDark,
             ),
           ),
@@ -150,7 +150,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       : const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add_a_photo_outlined, size: 40, color: AppTheme.primaryTeal),
+                            Icon(Icons.add_a_photo_outlined, size: 40, color: AppTheme.primaryYellow),
                             SizedBox(height: 12),
                             Text('Upload Event Image', style: TextStyle(color: AppTheme.textGrey)),
                           ],
@@ -196,7 +196,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               const SizedBox(height: 40),
               
               _isLoading
-                ? const Center(child: CircularProgressIndicator(color: AppTheme.primaryTeal))
+                ? const Center(child: CircularProgressIndicator(color: AppTheme.primaryYellow))
                 : ElevatedButton(
                     onPressed: _submitForm,
                     child: const Text('Submit for Review'),

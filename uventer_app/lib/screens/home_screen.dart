@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () async => _refreshEvents(),
-        color: AppTheme.primaryTeal,
+        color: AppTheme.primaryYellow,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 future: _eventsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(color: AppTheme.primaryTeal));
+                    return const Center(child: CircularProgressIndicator(color: AppTheme.primaryYellow));
                   }
                   
                   if (snapshot.hasError) {
@@ -150,9 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
           );
           _refreshEvents(); // Refresh list after returning from submission
         },
-        backgroundColor: AppTheme.primaryTeal,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text('Add Event', style: TextStyle(color: Colors.white)),
+        backgroundColor: AppTheme.primaryYellow,
+        icon: const Icon(Icons.add, color: Colors.black),
+        label: const Text('Add Event', style: TextStyle(color: Colors.black)),
       ),
     );
   }
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         TextButton(
           onPressed: () => _refreshEvents(),
-          child: const Text('Refresh', style: TextStyle(color: AppTheme.primaryTeal)),
+          child: const Text('Refresh', style: TextStyle(color: AppTheme.primaryYellow)),
         ),
       ],
     );
@@ -214,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: 16,
                 left: 16,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, py: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.9),
                     borderRadius: BorderRadius.circular(20),
@@ -224,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
-                      color: AppTheme.primaryTeal,
+                      color: AppTheme.primaryYellow,
                       letterSpacing: 1,
                     ),
                   ),
@@ -263,11 +263,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(Icons.calendar_today_outlined, size: 16, color: AppTheme.primaryTeal),
+                    const Icon(Icons.calendar_today_outlined, size: 16, color: AppTheme.primaryYellow),
                     const SizedBox(width: 8),
                     Text(date, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
                     const SizedBox(width: 16),
-                    const Icon(Icons.location_on_outlined, size: 16, color: AppTheme.primaryTeal),
+                    const Icon(Icons.location_on_outlined, size: 16, color: AppTheme.primaryYellow),
                     const SizedBox(width: 8),
                     const Text('Virtual Event', style: TextStyle(color: AppTheme.textGrey, fontWeight: FontWeight.bold, fontSize: 12)),
                   ],
@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
-                            color: AppTheme.primaryTeal,
+                            color: AppTheme.primaryYellow,
                           ),
                         ),
                       ],
