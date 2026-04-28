@@ -83,7 +83,7 @@ function SuccessModal({ eventName, onClose }: { eventName: string; onClose: () =
           <div style={{ textAlign: 'left', marginBottom: '24px' }}>
             {/* Step 1 */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '16px' }}>
-              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#ffde59', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>1</div>
+              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#e0e02a', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>1</div>
               <div>
                 <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', color: '#111' }}>Confirmation Email Sent</p>
                 <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#666', lineHeight: 1.5 }}>
@@ -95,7 +95,7 @@ function SuccessModal({ eventName, onClose }: { eventName: string; onClose: () =
             </div>
             {/* Step 2 */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '16px' }}>
-              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#ffde59', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>2</div>
+              <div style={{ minWidth: '28px', height: '28px', borderRadius: '50%', background: '#e0e02a', color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '13px' }}>2</div>
               <div>
                 <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', color: '#111' }}>Admin Review</p>
                 <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#666', lineHeight: 1.5 }}>

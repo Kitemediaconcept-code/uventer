@@ -94,7 +94,7 @@ const Navbar = () => {
           ) : (
             <Link href="/login">
               <button 
-                style={{ backgroundColor: '#ffde59', borderRadius: '30px' }}
+                style={{ backgroundColor: '#e0e02a', borderRadius: '30px' }}
                 className="text-black px-6 py-2 text-sm font-bold hover:opacity-90 transition-all shadow-sm"
               >
                 Login
