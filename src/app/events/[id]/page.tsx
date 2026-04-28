@@ -169,7 +169,7 @@ export default function EventDetailPage() {
             <div className="mb-8">
               <span className="text-[10px] font-black uppercase tracking-widest text-muted block mb-2">Entry Fee</span>
               <div className="flex items-end gap-1">
-                <span className="text-5xl font-bold text-foreground">₹{event.price}</span>
+                <span className="text-5xl font-bold text-black">₹{event.price}</span>
                 <span className="text-muted mb-2 font-bold">/ person</span>
               </div>
             </div>

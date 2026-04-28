@@ -228,7 +228,7 @@ function DashboardContent() {
                       </div>
                       <div className="flex items-center gap-2 text-muted">
                         <IndianRupee size={14} className="text-primary" />
-                        <span className="text-xs font-bold">₹{event.price}</span>
+                        <span className="text-xs font-bold text-black">₹{event.price}</span>
                       </div>
                     </div>
 

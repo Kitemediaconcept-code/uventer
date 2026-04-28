@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
-                            color: AppTheme.primaryYellow,
+                            color: AppTheme.textDark,
                           ),
                         ),
                       ],

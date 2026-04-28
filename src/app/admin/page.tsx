@@ -339,7 +339,7 @@ export default function AdminDashboard() {
                           {booking.occupation}
                         </span>
                       </td>
-                      <td className="px-8 py-6 font-black text-primary">₹{booking.amount_paid}</td>
+                      <td className="px-8 py-6 font-black text-black">₹{booking.amount_paid}</td>
                       <td className="px-8 py-6 text-xs font-bold text-muted">{new Date(booking.created_at).toLocaleDateString()}</td>
                     </tr>
                   ))}
@@ -378,7 +378,7 @@ export default function AdminDashboard() {
                             ⏰ {event.time_slot}
                           </span>
                         </div>
-                        <span className="text-2xl font-black text-foreground">₹{event.budget || event.price}</span>
+                        <span className="text-2xl font-black text-black">₹{event.budget || event.price}</span>
                       </div>
                       
                       <h2 className="text-2xl font-extrabold mb-3 tracking-tight">{event.event_name}</h2>
