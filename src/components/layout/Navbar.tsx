@@ -77,7 +77,7 @@ const Navbar = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-primary text-black px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 shadow-sm hover:shadow-md transition-all"
+                  className="bg-primary text-black px-5 py-2.5 rounded-[30px] text-sm font-semibold flex items-center gap-2 shadow-sm hover:shadow-md transition-all"
                 >
                   <Plus size={18} />
                   <span>Add Event</span>
@@ -93,7 +93,10 @@ const Navbar = () => {
             </div>
           ) : (
             <Link href="/login">
-              <button className="bg-primary text-black px-6 py-2 rounded-[30px] text-sm font-bold hover:bg-primary/90 transition-all shadow-sm">
+              <button 
+                style={{ backgroundColor: '#ffde59', borderRadius: '30px' }}
+                className="text-black px-6 py-2 text-sm font-bold hover:opacity-90 transition-all shadow-sm"
+              >
                 Login
               </button>
             </Link>
