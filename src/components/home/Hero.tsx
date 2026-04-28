@@ -61,14 +61,26 @@ const Hero = () => {
         >
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
-            <Image
-              src="/featuredeventcard.jpeg"
-              alt="Featured Events"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
-              className="object-cover transition-transform duration-[3s] group-hover:scale-110"
-            />
+            {/* Desktop Image */}
+            <div className="hidden md:block absolute inset-0">
+              <Image
+                src="/featuredeventcarddesktop.png"
+                alt="Featured Events"
+                fill
+                priority
+                className="object-cover transition-transform duration-[3s] group-hover:scale-110"
+              />
+            </div>
+            {/* Mobile Image */}
+            <div className="block md:hidden absolute inset-0">
+              <Image
+                src="/featuredeventcard.jpeg"
+                alt="Featured Events"
+                fill
+                priority
+                className="object-cover transition-transform duration-[3s] group-hover:scale-110"
+              />
+            </div>
           </div>
 
           {/* Invisible overlay to maintain consistent hover effects if desired, or just the button */}
