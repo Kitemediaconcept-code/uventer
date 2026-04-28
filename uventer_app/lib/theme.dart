@@ -11,6 +11,7 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'SF Pro',
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryYellow,
         primary: primaryYellow,

@@ -93,7 +93,7 @@ const Navbar = () => {
             </div>
           ) : (
             <Link href="/login">
-              <button className="text-sm font-bold hover:text-primary transition-colors">
+              <button className="bg-primary text-black px-6 py-2 rounded-[30px] text-sm font-bold hover:bg-primary/90 transition-all shadow-sm">
                 Login
               </button>
             </Link>
