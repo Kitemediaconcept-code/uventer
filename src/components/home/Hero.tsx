@@ -68,7 +68,7 @@ const Hero = () => {
                 alt="Featured Events"
                 fill
                 priority
-                className="object-cover transition-transform duration-[3s] group-hover:scale-110"
+                className="object-cover object-top transition-transform duration-[3s] group-hover:scale-110"
               />
             </div>
             {/* Mobile Image */}
@@ -78,15 +78,8 @@ const Hero = () => {
                 alt="Featured Events"
                 fill
                 priority
-                className="object-cover transition-transform duration-[3s] group-hover:scale-110"
+                className="object-cover object-top transition-transform duration-[3s] group-hover:scale-110"
               />
-            </div>
-          </div>
-
-          {/* Invisible overlay to maintain consistent hover effects if desired, or just the button */}
-          <div className="absolute top-10 right-10 z-10">
-            <div className="bg-[#28347b] w-14 h-14 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-              <ArrowDown size={24} className="text-white" />
             </div>
           </div>
         </motion.div>
