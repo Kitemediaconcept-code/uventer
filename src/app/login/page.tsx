@@ -118,7 +118,7 @@ function LoginContent() {
           min-height: 100vh;
           background: #f5f5f7;
           overflow: hidden;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          font-family: var(--font-sans);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -158,7 +158,7 @@ function LoginContent() {
           color: #111;
           letter-spacing: -0.5px;
         }
-        .lp-brand-logo span { color: #2563eb; }
+        .lp-brand-logo span { color: #e0e02a; }
 
         /* Tab switcher */
         .lp-tabs {
@@ -231,9 +231,9 @@ function LoginContent() {
         }
         .lp-input::placeholder { color: #bbb; }
         .lp-input:focus {
-          border-color: #2563eb;
+          border-color: #e0e02a;
           background: #fff;
-          box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+          box-shadow: 0 0 0 3px rgba(224, 224, 42, 0.1);
         }
         .lp-eye {
           position: absolute;
@@ -253,7 +253,7 @@ function LoginContent() {
         .lp-submit {
           width: 100%;
           padding: 16px;
-          border-radius: 14px;
+          border-radius: 30px;
           border: none;
           background: #111;
           color: #fff;
@@ -427,13 +427,13 @@ function LoginContent() {
                     width: '100%',
                     padding: '16px',
                     borderRadius: '16px',
-                    border: '2px solid #2563eb',
-                    background: '#2563eb',
-                    color: '#fff',
+                    border: '2px solid #e0e02a',
+                    background: '#e0e02a',
+                    color: '#000',
                     fontSize: '15px',
                     fontWeight: 800,
                     cursor: 'pointer',
-                    boxShadow: '0 10px 20px rgba(37, 99, 235, 0.2)',
+                    boxShadow: '0 10px 20px rgba(224, 224, 42, 0.2)',
                     marginBottom: '12px'
                   }}
                 >
