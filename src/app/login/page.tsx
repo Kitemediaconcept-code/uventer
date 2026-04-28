@@ -126,12 +126,7 @@ function LoginContent() {
           box-sizing: border-box;
         }
 
-        @media (min-width: 768px) {
-          .lp-container {
-            background: url("/login-hero-laptop.png") no-repeat center center;
-            background-size: cover;
-          }
-        }
+
 
         /* Card */
         .lp-card {
