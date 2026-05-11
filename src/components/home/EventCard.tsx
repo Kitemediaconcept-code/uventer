@@ -14,9 +14,10 @@ interface EventCardProps {
   location: string;
   imageUrl: string;
   price: number;
+  paymentLink?: string;
 }
 
-const EventCard = ({ id, title, category, date, location, imageUrl, price }: EventCardProps) => {
+const EventCard = ({ id, title, category, date, location, imageUrl, price, paymentLink }: EventCardProps) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -74,6 +75,18 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price }: Eve
           >
             View Details
           </Link>
+          
+          {paymentLink && (
+            <a 
+              href={paymentLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-primary text-black rounded-xl text-xs font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Book Now
+            </a>
+          )}
         </div>
       </div>
     </motion.div>

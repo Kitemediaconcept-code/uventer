@@ -19,18 +19,30 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final _nameController = TextEditingController();
   final _eventNameController = TextEditingController();
   final _contactController = TextEditingController();
-  final _priceController = TextEditingController();
-  DateTime? _selectedDate;
+  final _locationController = TextEditingController();
+  final _budgetController = TextEditingController();
+  final _visionController = TextEditingController();
+  final _paymentLinkController = TextEditingController();
+  
+  DateTime? _startDate;
+  DateTime? _endDate;
+  String? _selectedSlot;
   
   File? _imageFile;
   Uint8List? _imageBytes;
   String? _imageExtension;
   bool _isLoading = false;
 
+  final List<String> _timeSlots = [
+    'Morning (9 AM – 12 PM)',
+    'Afternoon (12 PM – 4 PM)',
+    'Evening (4 PM – 8 PM)',
+    'Full Day'
+  ];
+
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
-    
     if (image != null) {
       final bytes = await image.readAsBytes();
       setState(() {
@@ -41,7 +53,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     }
   }
 
-  Future<void> _selectDate() async {
+  Future<void> _selectDate(bool isStart) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now().add(const Duration(days: 1)),
@@ -52,72 +64,95 @@ class _AddEventScreenState extends State<AddEventScreen> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppTheme.primaryYellow,
-              onPrimary: AppTheme.textDark,
-              onSurface: AppTheme.textDark,
+              onPrimary: Colors.black,
             ),
           ),
           child: child!,
         );
       },
     );
-    if (picked != null && picked != _selectedDate) {
+    if (picked != null) {
       setState(() {
-        _selectedDate = picked;
+        if (isStart) _startDate = picked; else _endDate = picked;
       });
     }
   }
 
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_selectedDate == null) {
+    if (_startDate == null || _endDate == null || _selectedSlot == null || _imageBytes == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select an event date')),
-      );
-      return;
-    }
-    if (_imageBytes == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please upload an event image')),
+        const SnackBar(content: Text('Please fill all fields and upload an image')),
       );
       return;
     }
 
     setState(() => _isLoading = true);
-
     try {
       await _supabaseService.submitEvent(
         name: _nameController.text,
         eventName: _eventNameController.text,
         contactDetails: _contactController.text,
-        eventDate: _selectedDate!,
-        price: double.parse(_priceController.text),
+        location: _locationController.text,
+        startDate: _startDate!,
+        endDate: _endDate!,
+        timeSlot: _selectedSlot!,
+        visionRequirements: _visionController.text,
+        budget: double.parse(_budgetController.text),
         imageBytes: _imageBytes!,
         imageExtension: _imageExtension!,
+        paymentLink: _paymentLinkController.text,
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Event submitted successfully! Waiting for approval.')),
-        );
-        Navigator.pop(context);
+        _showSuccessDialog();
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
-      }
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 20),
+            Container(
+              height: 80, width: 80,
+              decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+              child: const Icon(Icons.check_circle_outline, color: Colors.white, size: 40),
+            ),
+            const SizedBox(height: 24),
+            const Text('Event Submitted! 🎉', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
+            const SizedBox(height: 12),
+            const Text('Your event has been submitted successfully for admin review.', textAlign: TextAlign.center),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black, foregroundColor: Colors.white),
+              child: const Text('Back to Home →'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Your Event'),
-      ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: const Text('Submit Your Event')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -125,82 +160,83 @@ class _AddEventScreenState extends State<AddEventScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Tell us about your event',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.textDark),
-              ),
-              const SizedBox(height: 24),
+              const Text('Share your experience with the community.', style: TextStyle(color: Colors.grey)),
+              const SizedBox(height: 32),
               
-              // Image Picker Box
+              // Image Picker
+              _buildLabel('Thumbnail Image'),
               GestureDetector(
                 onTap: _pickImage,
                 child: Container(
-                  height: 200,
-                  width: double.infinity,
+                  height: 220, width: double.infinity,
                   decoration: BoxDecoration(
-                    color: AppTheme.surfaceGrey,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.shade300, width: 1),
+                    color: const Color(0xFFF3F4F6),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: _imageFile != null ? AppTheme.primaryYellow : const Color(0xFFE5E7EB), width: 2),
                   ),
                   child: _imageFile != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.file(_imageFile!, fit: BoxFit.cover),
-                        )
-                      : const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.add_a_photo_outlined, size: 40, color: AppTheme.primaryYellow),
-                            SizedBox(height: 12),
-                            Text('Upload Event Image', style: TextStyle(color: AppTheme.textGrey)),
-                          ],
-                        ),
+                    ? ClipRRect(borderRadius: BorderRadius.circular(22), child: Image.file(_imageFile!, fit: BoxFit.cover))
+                    : const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                        Icon(Icons.cloud_upload_outlined, size: 40, color: AppTheme.primaryYellow),
+                        SizedBox(height: 12),
+                        Text('Click to upload thumbnail', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ]),
                 ),
               ),
               const SizedBox(height: 24),
 
-              _buildTextField('Your Name', _nameController, Icons.person_outline),
-              _buildTextField('Event Name', _eventNameController, Icons.event),
-              _buildTextField('Contact Details', _contactController, Icons.contact_mail_outlined, hint: 'Phone or Email'),
-              _buildTextField('Price', _priceController, Icons.attach_money, keyboardType: TextInputType.number),
+              _buildField('YOUR NAME', _nameController, 'Enter your full name', Icons.person_outline),
+              _buildField('EVENT NAME', _eventNameController, 'e.g. Annual Tech Symposium', Icons.tag),
+              _buildField('CONTACT DETAILS', _contactController, 'Email or Phone Number', Icons.phone_outlined),
+              _buildField('CITY / LOCATION', _locationController, 'Enter city or venue', Icons.location_on_outlined),
               
-              const SizedBox(height: 16),
-              
-              // Date Picker
-              InkWell(
-                onTap: _selectDate,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surfaceGrey,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.calendar_today_outlined, color: AppTheme.textGrey),
-                      const SizedBox(width: 12),
-                      Text(
-                        _selectedDate == null 
-                          ? 'Select Event Date' 
-                          : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
-                        style: TextStyle(
-                          color: _selectedDate == null ? AppTheme.textGrey : AppTheme.textDark,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
+              Row(children: [
+                Expanded(child: _buildDatePicker('START DATE', _startDate, () => _selectDate(true))),
+                const SizedBox(width: 16),
+                Expanded(child: _buildDatePicker('END DATE', _endDate, () => _selectDate(false))),
+              ]),
+
+              _buildLabel('PREFERRED TIME SLOT'),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(16)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _selectedSlot,
+                    isExpanded: true,
+                    hint: const Text('Select a slot'),
+                    items: _timeSlots.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+                    onChanged: (v) => setState(() => _selectedSlot = v),
                   ),
                 ),
               ),
+              const SizedBox(height: 24),
+
+              _buildField('ENTRY PRICE (₹)', _budgetController, '0.00', Icons.currency_rupee, keyboard: TextInputType.number),
               
+              _buildField('PAYMENT / BOOKING LINK (OPTIONAL)', _paymentLinkController, 'https://...', Icons.link),
+
+              _buildLabel('VISION & REQUIREMENTS'),
+              TextFormField(
+                controller: _visionController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  hintText: 'Describe your event goals...',
+                  filled: true, fillColor: const Color(0xFFF3F4F6),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                ),
+              ),
               const SizedBox(height: 40),
               
-              _isLoading
-                ? const Center(child: CircularProgressIndicator(color: AppTheme.primaryYellow))
-                : ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text('Submit for Review'),
-                  ),
+              SizedBox(
+                width: double.infinity, height: 60,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _submitForm,
+                  style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryYellow, foregroundColor: Colors.black),
+                  child: _isLoading ? const CircularProgressIndicator() : const Text('Submit Event for Review'),
+                ),
+              ),
+              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -208,36 +244,39 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  Widget _buildTextField(
-    String label, 
-    TextEditingController controller, 
-    IconData icon, {
-    String? hint,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: keyboardType,
+  Widget _buildLabel(String text) => Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(text, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.grey, letterSpacing: 1.5)));
+
+  Widget _buildField(String label, TextEditingController ctrl, String hint, IconData icon, {TextInputType keyboard = TextInputType.text}) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      _buildLabel(label),
+      TextFormField(
+        controller: ctrl, keyboardType: keyboard,
         decoration: InputDecoration(
-          labelText: label,
-          hintText: hint,
-          prefixIcon: Icon(icon, color: AppTheme.textGrey),
-          filled: true,
-          fillColor: AppTheme.surfaceGrey,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
+          hintText: hint, prefixIcon: Icon(icon, color: AppTheme.primaryYellow, size: 20),
+          filled: true, fillColor: const Color(0xFFF3F4F6),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter $label';
-          }
-          return null;
-        },
       ),
-    );
+      const SizedBox(height: 16),
+    ]);
+  }
+
+  Widget _buildDatePicker(String label, DateTime? date, VoidCallback onTap) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      _buildLabel(label),
+      InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(16)),
+          child: Row(children: [
+            const Icon(Icons.calendar_today_outlined, size: 18, color: AppTheme.primaryYellow),
+            const SizedBox(width: 10),
+            Text(date == null ? 'Select' : '${date.day}/${date.month}', style: const TextStyle(fontWeight: FontWeight.bold)),
+          ]),
+        ),
+      ),
+      const SizedBox(height: 16),
+    ]);
   }
 }

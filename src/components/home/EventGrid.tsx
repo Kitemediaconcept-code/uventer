@@ -76,6 +76,7 @@ const EventGrid = () => {
             location={event.location || 'Online / TBA'}
             imageUrl={event.image_url}
             price={event.price || 0}
+            paymentLink={event.payment_link}
           />
         ))}
       </div>

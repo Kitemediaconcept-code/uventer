@@ -1,4 +1,4 @@
-package com.example.uventer_app
+package com.uventerevents.app
 
 import io.flutter.embedding.android.FlutterActivity
 

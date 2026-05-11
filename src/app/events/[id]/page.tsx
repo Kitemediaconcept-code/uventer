@@ -29,6 +29,7 @@ interface Event {
   price: number;
   image_url: string;
   status: string;
+  payment_link?: string;
   created_at: string;
 }
 
@@ -175,10 +176,16 @@ export default function EventDetailPage() {
             </div>
 
             <button 
-              onClick={() => setIsBookingModalOpen(true)}
+              onClick={() => {
+                if (event.payment_link) {
+                  window.open(event.payment_link, '_blank');
+                } else {
+                  setIsBookingModalOpen(true);
+                }
+              }}
               className="w-full h-16 bg-primary text-black rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 mb-6"
             >
-              Book Tickets Now
+              {event.payment_link ? 'Book Tickets Now' : 'Book Tickets Now'}
               <ArrowRight size={20} />
             </button>
 

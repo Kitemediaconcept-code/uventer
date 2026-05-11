@@ -147,6 +147,7 @@ export default function AddEventPage() {
     budget: '',
     location: '',
     vision_requirements: '',
+    payment_link: '',
   });
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -223,6 +224,7 @@ export default function AddEventPage() {
         price: parseFloat(formData.budget) || 0, // Keeping legacy field
         location: formData.location,
         vision_requirements: formData.vision_requirements,
+        payment_link: formData.payment_link,
         image_url: imageUrl,
         status: 'pending',
       };
@@ -448,6 +450,21 @@ export default function AddEventPage() {
                     value={formData.vision_requirements}
                     onChange={(e) => setFormData({ ...formData, vision_requirements: e.target.value })}
                   />
+                </div>
+
+                {/* Payment Link */}
+                <div className="space-y-2">
+                  <label className="text-xs font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                    PAYMENT / BOOKING LINK (OPTIONAL)
+                  </label>
+                  <input
+                    type="url"
+                    className="w-full h-16 px-6 rounded-2xl border border-accent bg-secondary/10 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+                    placeholder="https://example.com/pay"
+                    value={formData.payment_link}
+                    onChange={(e) => setFormData({ ...formData, payment_link: e.target.value })}
+                  />
+                  <p className="text-[10px] text-muted font-bold px-2 italic">If you have an external payment page, paste the link here.</p>
                 </div>
 
                 <div className="pt-6">

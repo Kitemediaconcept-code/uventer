@@ -22,6 +22,7 @@ interface Event {
   vision_requirements: string;
   image_url: string;
   status: string;
+  payment_link?: string;
 }
 
 interface Booking {
@@ -140,15 +141,34 @@ export default function AdminDashboard() {
   };
 
   const approveEvent = async (id: string) => {
+    const event = events.find(e => e.id === id);
+    if (!event) return;
+
+    if (!event.payment_link) {
+      const confirmApproval = confirm('Warning: No Payment Link added yet. Users will not be able to book tickets for this event. Approve anyway?');
+      if (!confirmApproval) return;
+    }
+
     const { error } = await supabase
       .from('events')
       .update({ status: 'approved' })
       .eq('id', id);
 
     if (!error) {
-      setEvents(events.filter(e => e.id !== id));
+      setEvents(events.map(e => e.id === id ? { ...e, status: 'approved' } : e));
       fetchStats();
       alert('Event approved and live!');
+    }
+  };
+
+  const updatePaymentLink = async (id: string, link: string) => {
+    const { error } = await supabase
+      .from('events')
+      .update({ payment_link: link })
+      .eq('id', id);
+
+    if (!error) {
+      setEvents(events.map(e => e.id === id ? { ...e, payment_link: link } : e));
     }
   };
 
@@ -395,6 +415,41 @@ export default function AdminDashboard() {
                           <p className="text-sm text-foreground/80 leading-relaxed italic">"{event.vision_requirements}"</p>
                         </div>
                       )}
+
+                      <div className="space-y-2 mb-6 p-4 bg-primary/5 rounded-2xl border border-primary/10">
+                        <div className="flex items-center justify-between mb-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-primary block">External Payment Gateway Link</label>
+                          {event.status === 'approved' && (
+                            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${event.payment_link ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                              {event.payment_link ? '● LIVE ON SITE' : '○ NO LINK'}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex gap-2">
+                          <input 
+                            type="text" 
+                            id={`link-${event.id}`}
+                            placeholder="https://..."
+                            defaultValue={event.payment_link || ''}
+                            className="flex-1 h-10 px-4 rounded-xl border border-accent bg-secondary/10 text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                          />
+                          <button 
+                            onClick={() => {
+                              const input = document.getElementById(`link-${event.id}`) as HTMLInputElement;
+                              updatePaymentLink(event.id, input.value);
+                            }}
+                            className="h-10 px-4 bg-primary text-black rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-primary/90 transition-all flex items-center gap-2"
+                          >
+                            <Check size={14} />
+                            Save
+                          </button>
+                          {event.payment_link && (
+                            <a href={event.payment_link} target="_blank" rel="noopener noreferrer" className="h-10 w-10 bg-secondary rounded-xl flex items-center justify-center text-muted hover:text-primary transition-colors border border-accent">
+                              <ExternalLink size={16} />
+                            </a>
+                          )}
+                        </div>
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-4 mt-8">

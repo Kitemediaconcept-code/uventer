@@ -44,8 +44,36 @@ begin
 end $$;
 
 -- 2. Storage Setup
--- NOTE: Manual action required in Supabase UI:
--- Go to Storage -> New Bucket -> Name it 'events' -> Set it to 'Public'.
+-- NOTE: Run these in your Supabase SQL Editor to allow image uploads.
+-- This allows anyone to upload to the 'events' bucket and view the images.
+
+-- Create policies for the storage.objects table
+DO $$ 
+BEGIN
+  -- Allow public upload
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'objects' 
+    AND schemaname = 'storage' 
+    AND policyname = 'Allow public upload to events'
+  ) THEN
+    CREATE POLICY "Allow public upload to events" ON storage.objects
+    FOR INSERT TO public
+    WITH CHECK (bucket_id = 'events');
+  END IF;
+
+  -- Allow public select
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'objects' 
+    AND schemaname = 'storage' 
+    AND policyname = 'Allow public select from events'
+  ) THEN
+    CREATE POLICY "Allow public select from events" ON storage.objects
+    FOR SELECT TO public
+    USING (bucket_id = 'events');
+  END IF;
+END $$;
 
 -- 3. (Optional) Row Level Security (RLS)
 -- By default, you may need to allow anonymous inserts if you don't have auth setup yet.

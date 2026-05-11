@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static const Color primaryYellow = Color(0xFFE0E02A);
+  static const Color primaryBlue = Color(0xFF28347B);
   static const Color backgroundWhite = Color(0xFFFFFFFF);
   static const Color surfaceGrey = Color(0xFFF3F4F6);
   static const Color borderGrey = Color(0xFFE5E7EB);
@@ -11,14 +12,12 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: 'SF Pro',
+      fontFamily: 'SF Pro Display',
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryYellow,
         primary: primaryYellow,
         onPrimary: textDark,
-        background: backgroundWhite,
-        onBackground: textDark,
-        surface: Colors.white,
+        surface: backgroundWhite,
         onSurface: textDark,
       ),
       scaffoldBackgroundColor: backgroundWhite,
