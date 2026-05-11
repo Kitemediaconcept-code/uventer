@@ -67,10 +67,11 @@ export default function AdminDashboard() {
         setAuthChecked(true);
         if (activeTab === 'bookings') {
           fetchBookings();
+          fetchStats();
         } else {
           fetchEvents(activeTab);
+          fetchStats();
         }
-        fetchStats();
       }
     };
     checkAuth();

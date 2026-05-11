@@ -56,8 +56,11 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
 
       if (error) throw error;
 
+      // Small delay to ensure DB consistency before redirect
       if (event.payment_link) {
-        window.location.href = event.payment_link;
+        setTimeout(() => {
+          window.location.href = event.payment_link!;
+        }, 800);
       } else {
         setShowBetaNote(true);
       }
