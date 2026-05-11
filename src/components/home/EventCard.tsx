@@ -33,11 +33,6 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider rounded-full shadow-sm text-primary">
-            {category}
-          </span>
-        </div>
       </div>
 
       <div className="p-6">
