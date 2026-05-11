@@ -116,6 +116,35 @@ export default function AdminDashboard() {
     setLoading(false);
   };
 
+  const deleteBooking = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this booking?')) return;
+    
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('id', id);
+
+    if (!error) {
+      setBookings(bookings.filter(b => b.id !== id));
+      fetchStats();
+    }
+  };
+
+  const deleteAllBookings = async () => {
+    if (!confirm('WARNING: This will permanently delete ALL bookings and leads. This action cannot be undone. Are you sure?')) return;
+    
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+
+    if (!error) {
+      setBookings([]);
+      fetchStats();
+      alert('All bookings cleared.');
+    }
+  };
+
   const exportBookingsCSV = () => {
     if (bookings.length === 0) return;
     
@@ -291,13 +320,22 @@ export default function AdminDashboard() {
             </div>
 
             {activeTab === 'bookings' && (
-              <button
-                onClick={exportBookingsCSV}
-                className="h-14 px-8 bg-white border border-accent rounded-2xl font-bold text-sm flex items-center gap-2 hover:bg-secondary transition-all shadow-sm"
-              >
-                <Download size={18} />
-                Export CSV
-              </button>
+                <div className="flex gap-4">
+                  <button 
+                    onClick={exportBookingsCSV}
+                    className="h-14 px-8 bg-white text-black border border-accent rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-secondary/10 transition-all flex items-center gap-3"
+                  >
+                    <Download size={18} />
+                    Export CSV
+                  </button>
+                  <button 
+                    onClick={deleteAllBookings}
+                    className="h-14 px-8 bg-red-50 text-red-600 border border-red-100 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-red-100 transition-all flex items-center gap-3"
+                  >
+                    <Trash2 size={18} />
+                    Clear All
+                  </button>
+                </div>
             )}
           </div>
         </div>
@@ -340,6 +378,7 @@ export default function AdminDashboard() {
                     <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Amount</th>
                     <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Status</th>
                     <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Date</th>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-accent">
@@ -370,6 +409,14 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td className="px-8 py-6 text-xs font-bold text-muted">{new Date(booking.created_at).toLocaleDateString()}</td>
+                      <td className="px-8 py-6">
+                        <button 
+                          onClick={() => deleteBooking(booking.id)}
+                          className="h-10 w-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center hover:bg-red-100 transition-colors border border-red-100"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
