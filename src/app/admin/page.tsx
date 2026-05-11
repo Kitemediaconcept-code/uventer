@@ -222,14 +222,15 @@ export default function AdminDashboard() {
     }
   };
 
-  const updatePaymentLink = async (id: string, link: string) => {
+  const updateEventDetails = async (id: string, updates: any) => {
     const { error } = await supabase
       .from('events')
-      .update({ payment_link: link })
+      .update(updates)
       .eq('id', id);
 
     if (!error) {
-      setEvents(events.map(e => e.id === id ? { ...e, payment_link: link } : e));
+      setEvents(events.map(e => e.id === id ? { ...e, ...updates } : e));
+      alert('Event details updated successfully!');
     }
   };
 
@@ -526,39 +527,62 @@ export default function AdminDashboard() {
                         </div>
                       )}
 
-                      <div className="space-y-2 mb-6 p-4 bg-primary/5 rounded-2xl border border-primary/10">
-                        <div className="flex items-center justify-between mb-2">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-primary block">External Payment Gateway Link</label>
-                          {event.status === 'approved' && (
-                            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${event.payment_link ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-                              {event.payment_link ? '● LIVE ON SITE' : '○ NO LINK'}
-                            </span>
-                          )}
+                      <div className="space-y-6 p-6 bg-primary/5 rounded-[2rem] border border-primary/10">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Payment / Booking Link</label>
+                          <div className="flex gap-2">
+                            <input 
+                              type="text" 
+                              id={`link-${event.id}`}
+                              placeholder="https://razorpay.me/..."
+                              defaultValue={event.payment_link || ''}
+                              className="flex-1 h-12 px-4 rounded-xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                            />
+                            {event.payment_link && (
+                              <a href={event.payment_link} target="_blank" rel="noopener noreferrer" className="h-12 w-12 bg-white rounded-xl flex items-center justify-center text-muted hover:text-primary transition-colors border border-accent">
+                                <ExternalLink size={16} />
+                              </a>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex gap-2">
+
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Google Maps Embed URL</label>
                           <input 
                             type="text" 
-                            id={`link-${event.id}`}
-                            placeholder="https://..."
-                            defaultValue={event.payment_link || ''}
-                            className="flex-1 h-10 px-4 rounded-xl border border-accent bg-secondary/10 text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                            id={`map-${event.id}`}
+                            placeholder="https://www.google.com/maps/embed?..."
+                            defaultValue={event.map_url || ''}
+                            className="w-full h-12 px-4 rounded-xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
                           />
-                          <button 
-                            onClick={() => {
-                              const input = document.getElementById(`link-${event.id}`) as HTMLInputElement;
-                              updatePaymentLink(event.id, input.value);
-                            }}
-                            className="h-10 px-4 bg-primary text-black rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-primary/90 transition-all flex items-center gap-2"
-                          >
-                            <Check size={14} />
-                            Save
-                          </button>
-                          {event.payment_link && (
-                            <a href={event.payment_link} target="_blank" rel="noopener noreferrer" className="h-10 w-10 bg-secondary rounded-xl flex items-center justify-center text-muted hover:text-primary transition-colors border border-accent">
-                              <ExternalLink size={16} />
-                            </a>
-                          )}
                         </div>
+
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Additional Description / Info</label>
+                          <textarea 
+                            id={`content-${event.id}`}
+                            placeholder="Add more details about the event, schedule, etc."
+                            defaultValue={event.additional_content || ''}
+                            className="w-full h-32 p-4 rounded-xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none resize-none"
+                          />
+                        </div>
+
+                        <button 
+                          onClick={() => {
+                            const link = (document.getElementById(`link-${event.id}`) as HTMLInputElement).value;
+                            const map = (document.getElementById(`map-${event.id}`) as HTMLInputElement).value;
+                            const content = (document.getElementById(`content-${event.id}`) as HTMLTextAreaElement).value;
+                            updateEventDetails(event.id, { 
+                              payment_link: link,
+                              map_url: map,
+                              additional_content: content
+                            });
+                          }}
+                          className="w-full h-12 bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-black/90 transition-all flex items-center justify-center gap-2"
+                        >
+                          <Check size={14} />
+                          Save All Content
+                        </button>
                       </div>
                     </div>
 

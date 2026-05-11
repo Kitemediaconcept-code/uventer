@@ -166,10 +166,32 @@ export default function EventDetailPage() {
               </div>
               <h3 className="text-2xl font-bold">Verified Submission</h3>
             </div>
-            <p className="text-muted font-medium leading-relaxed">
+            <p className="text-muted font-medium leading-relaxed mb-6">
               This event has been thoroughly reviewed and approved by the Uventer admin team. We ensure that all event details are accurate and that the organizers are responsive to the community&apos;s needs.
             </p>
+            {event.additional_content && (
+              <div className="pt-6 border-t border-primary/10">
+                <h4 className="text-sm font-black uppercase tracking-widest text-primary mb-4">Important Information</h4>
+                <div className="text-foreground/80 font-medium leading-relaxed whitespace-pre-wrap">
+                  {event.additional_content}
+                </div>
+              </div>
+            )}
           </section>
+
+          {event.map_url && (
+            <div className="rounded-[3rem] overflow-hidden border border-accent h-[400px] shadow-sm">
+              <iframe 
+                src={event.map_url}
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen={true} 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          )}
         </div>
 
         <div className="lg:col-span-1">
@@ -210,7 +232,7 @@ export default function EventDetailPage() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-muted uppercase tracking-widest">Venue</p>
-                  <p className="text-sm font-bold">Virtual Event Link</p>
+                  <p className="text-sm font-bold">{event.location}</p>
                 </div>
               </div>
             </div>
