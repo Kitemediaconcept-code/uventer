@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Phone, Mail, Briefcase, ArrowRight } from 'lucide-react';
 
+import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
 interface BookingModalProps {
@@ -13,6 +14,7 @@ interface BookingModalProps {
     id: string;
     event_name: string;
     price: number;
+    payment_link?: string;
   };
 }
 
@@ -39,7 +41,32 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setShowBetaNote(true);
+    setLoading(true);
+    
+    try {
+      const { error } = await supabase.from('bookings').insert({
+        event_id: event.id,
+        user_name: formData.name,
+        user_email: formData.email,
+        user_phone: formData.phone,
+        occupation: formData.occupation,
+        amount_paid: event.price,
+        payment_status: event.payment_link ? 'lead' : 'pending'
+      });
+
+      if (error) throw error;
+
+      if (event.payment_link) {
+        window.location.href = event.payment_link;
+      } else {
+        setShowBetaNote(true);
+      }
+    } catch (err) {
+      console.error('Booking error:', err);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBetaClose = () => {

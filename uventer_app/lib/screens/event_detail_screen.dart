@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../widgets/lead_capture_dialog.dart';
 
 class EventDetailScreen extends StatefulWidget {
+  final String id;
   final String title;
   final String location;
   final String date;
@@ -12,7 +14,7 @@ class EventDetailScreen extends StatefulWidget {
   final String? paymentLink;
 
   const EventDetailScreen({
-    super.key,
+    required this.id,
     required this.title,
     required this.location,
     required this.date,
@@ -36,12 +38,15 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
 
   Future<void> _startPayment() async {
     if (widget.paymentLink != null && widget.paymentLink!.isNotEmpty) {
-      final uri = Uri.parse(widget.paymentLink!);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        _showFeedback('Could not launch payment link', Colors.red);
-      }
+      showDialog(
+        context: context,
+        builder: (context) => LeadCaptureDialog(
+          eventId: widget.id,
+          eventName: widget.title,
+          price: widget.price,
+          paymentLink: widget.paymentLink!,
+        ),
+      );
     } else {
       _showFeedback('No payment link available for this event. Please contact support.', Colors.blue);
     }

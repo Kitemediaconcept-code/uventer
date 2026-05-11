@@ -110,4 +110,24 @@ class SupabaseService {
       'weekend': weekendCount,
     };
   }
+
+  /// Records a lead/booking attempt.
+  Future<void> recordLead({
+    required String eventId,
+    required String name,
+    required String email,
+    required String phone,
+    required String occupation,
+    required double amount,
+  }) async {
+    await _client.from('bookings').insert({
+      'event_id': eventId,
+      'user_name': name,
+      'user_email': email,
+      'user_phone': phone,
+      'occupation': occupation,
+      'amount_paid': amount,
+      'payment_status': 'lead',
+    });
+  }
 }

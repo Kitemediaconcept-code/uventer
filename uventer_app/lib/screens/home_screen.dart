@@ -1,11 +1,13 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../theme.dart';
 import '../services/supabase_service.dart';
 import 'add_event_screen.dart';
 import 'event_detail_screen.dart';
 import 'login_screen.dart';
+import '../widgets/lead_capture_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -1159,6 +1161,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => EventDetailScreen(
+              id: id,
               title: title,
               location: location,
               date: date,
@@ -1314,6 +1317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => EventDetailScreen(
+                                  id: id,
                                   title: title,
                                   location: location,
                                   date: date,
@@ -1340,11 +1344,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () async {
-                              final uri = Uri.parse(paymentLink);
-                              if (await canLaunchUrl(uri)) {
-                                await launchUrl(uri, mode: LaunchMode.externalApplication);
-                              }
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => LeadCaptureDialog(
+                                  eventId: id,
+                                  eventName: title,
+                                  price: price,
+                                  paymentLink: paymentLink,
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryYellow,

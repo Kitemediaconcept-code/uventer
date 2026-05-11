@@ -176,13 +176,7 @@ export default function EventDetailPage() {
             </div>
 
             <button 
-              onClick={() => {
-                if (event.payment_link) {
-                  window.open(event.payment_link, '_blank');
-                } else {
-                  setIsBookingModalOpen(true);
-                }
-              }}
+              onClick={() => setIsBookingModalOpen(true)}
               className="w-full h-16 bg-primary text-black rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 mb-6"
             >
               {event.payment_link ? 'Book Tickets Now' : 'Book Tickets Now'}
@@ -223,7 +217,8 @@ export default function EventDetailPage() {
         event={{
           id: event.id,
           event_name: event.event_name,
-          price: event.price
+          price: event.price,
+          payment_link: event.payment_link
         }}
       />
     </div>

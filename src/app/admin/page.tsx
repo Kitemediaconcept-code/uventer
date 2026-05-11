@@ -79,7 +79,7 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     const { data: pendingData } = await supabase.from('events').select('id', { count: 'exact' }).eq('status', 'pending');
     const { data: approvedData } = await supabase.from('events').select('id', { count: 'exact' }).eq('status', 'approved');
-    const { data: bookingsData } = await supabase.from('bookings').select('id', { count: 'exact' }).eq('payment_status', 'completed');
+    const { data: bookingsData } = await supabase.from('bookings').select('id', { count: 'exact' });
     
     setStats({
       pending: pendingData?.length || 0,
@@ -107,7 +107,6 @@ export default function AdminDashboard() {
     const { data, error } = await supabase
       .from('bookings')
       .select('*, events(event_name)')
-      .eq('payment_status', 'completed')
       .order('created_at', { ascending: false });
 
     if (!error && data) {
@@ -119,7 +118,7 @@ export default function AdminDashboard() {
   const exportBookingsCSV = () => {
     if (bookings.length === 0) return;
     
-    const headers = ['Booking ID', 'Event Name', 'Attendee Name', 'Email', 'Phone', 'Occupation', 'Amount', 'Date'];
+    const headers = ['Booking ID', 'Event Name', 'Attendee Name', 'Email', 'Phone', 'Occupation', 'Amount', 'Status', 'Date'];
     const rows = bookings.map(b => [
       b.id,
       b.events?.event_name || 'N/A',
@@ -128,6 +127,7 @@ export default function AdminDashboard() {
       b.user_phone,
       b.occupation,
       `₹${b.amount_paid}`,
+      b.payment_status.toUpperCase(),
       new Date(b.created_at).toLocaleDateString()
     ]);
 
@@ -337,6 +337,7 @@ export default function AdminDashboard() {
                     <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Event</th>
                     <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Occupation</th>
                     <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Amount</th>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Status</th>
                     <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-muted">Date</th>
                   </tr>
                 </thead>
@@ -360,6 +361,13 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td className="px-8 py-6 font-black text-black">₹{booking.amount_paid}</td>
+                      <td className="px-8 py-6">
+                        <span className={`px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                          booking.payment_status === 'lead' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
+                        }`}>
+                          {booking.payment_status}
+                        </span>
+                      </td>
                       <td className="px-8 py-6 text-xs font-bold text-muted">{new Date(booking.created_at).toLocaleDateString()}</td>
                     </tr>
                   ))}
