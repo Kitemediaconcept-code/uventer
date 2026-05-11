@@ -410,12 +410,25 @@ export default function AdminDashboard() {
                       </td>
                       <td className="px-8 py-6 text-xs font-bold text-muted">{new Date(booking.created_at).toLocaleDateString()}</td>
                       <td className="px-8 py-6">
-                        <button 
-                          onClick={() => deleteBooking(booking.id)}
-                          className="h-10 w-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center hover:bg-red-100 transition-colors border border-red-100"
-                        >
-                          <Trash2 size={16} />
-                        </button>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => {
+                              const message = `Hello ${booking.user_name}!\n\nYour Ticket for *${booking.events?.event_name}* is confirmed! 🎟️\n\nTicket ID: *${booking.stripe_session_id || 'UV-' + booking.id.substring(0, 5).toUpperCase()}*\n\nSee you at the event!`;
+                              window.open(`https://wa.me/91${booking.user_phone}?text=${encodeURIComponent(message)}`, '_blank');
+                            }}
+                            className="h-10 w-10 bg-green-50 text-green-600 rounded-xl flex items-center justify-center hover:bg-green-100 transition-colors border border-green-100"
+                            title="Send Ticket to WhatsApp"
+                          >
+                            <Phone size={16} />
+                          </button>
+                          <button 
+                            onClick={() => deleteBooking(booking.id)}
+                            className="h-10 w-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center hover:bg-red-100 transition-colors border border-red-100"
+                            title="Delete Booking"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
