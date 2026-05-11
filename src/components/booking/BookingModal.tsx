@@ -108,12 +108,13 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
             <div className="space-y-4">
               <button
                 onClick={() => {
-                  const message = `Hello! My Booking for ${event.event_name} is recorded. Ticket ID: ${bookingId}`;
-                  window.open(`https://wa.me/91${formData.phone}?text=${encodeURIComponent(message)}`, '_blank');
+                  const message = `Hello! I just booked a ticket for ${event.event_name}.\n\n🎟️ Ticket ID: ${bookingId}\n👤 Name: ${formData.name}\n📞 Phone: ${formData.phone}\n\nPlease confirm my booking.`;
+                  window.open(`https://wa.me/919562630135?text=${encodeURIComponent(message)}`, '_blank');
                 }}
-                className="w-full h-14 bg-[#25D366] text-white rounded-2xl font-bold hover:bg-[#25D366]/90 transition-all flex items-center justify-center gap-3"
+                className="w-full h-14 bg-[#25D366] text-white rounded-2xl font-bold hover:bg-[#25D366]/90 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-500/20"
               >
-                Get Ticket on WhatsApp
+                <Phone size={18} />
+                Send Ticket to WhatsApp
               </button>
 
               {event.payment_link && (
