@@ -63,9 +63,6 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
       if (error) throw error;
       setShowSuccess(true);
     } catch (err) {
-        setShowBetaNote(true);
-      }
-    } catch (err) {
       console.error('Booking error:', err);
       alert('Something went wrong. Please try again.');
     } finally {
