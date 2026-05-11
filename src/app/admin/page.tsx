@@ -282,7 +282,7 @@ export default function AdminDashboard() {
                 Back to Site
               </Link>
               <h1 className="text-4xl font-bold tracking-tight text-foreground flex items-center gap-3">
-                Admin <span className="text-primary italic font-serif">Panel</span>
+                Admin <span className="text-primary italic font-serif">Panel V2</span>
                 <ShieldCheck className="text-primary" size={28} />
               </h1>
               <p className="text-muted mt-2">Manage and oversee all event submissions</p>
