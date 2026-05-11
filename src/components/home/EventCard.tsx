@@ -77,15 +77,13 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
           </Link>
           
           {paymentLink && (
-            <a 
-              href={paymentLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link 
+              href={`/events/${id}?book=true`}
               className="px-4 py-2 bg-primary text-black rounded-xl text-xs font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/10"
               onClick={(e) => e.stopPropagation()}
             >
               Book Now
-            </a>
+            </Link>
           )}
         </div>
       </div>

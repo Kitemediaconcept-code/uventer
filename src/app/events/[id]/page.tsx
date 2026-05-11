@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { motion } from 'framer-motion';
 import { 
@@ -36,9 +36,16 @@ interface Event {
 export default function EventDetailPage() {
   const { id } = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('book') === 'true') {
+      setIsBookingModalOpen(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchEvent = async () => {

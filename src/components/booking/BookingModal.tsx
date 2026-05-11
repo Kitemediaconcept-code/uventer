@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Phone, Mail, Briefcase, ArrowRight } from 'lucide-react';
+import { X, User, Phone, Mail, Briefcase, ArrowRight, ShieldCheck } from 'lucide-react';
 
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
@@ -38,12 +38,17 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
     email: '',
     occupation: ''
   });
+  const [bookingId, setBookingId] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
     try {
+      const ticketId = Math.random().toString(36).substring(2, 8).toUpperCase();
+      setBookingId(ticketId);
+
       const { error } = await supabase.from('bookings').insert({
         event_id: event.id,
         user_name: formData.name,
@@ -51,13 +56,13 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
         user_phone: formData.phone,
         occupation: formData.occupation,
         amount_paid: event.price,
-        payment_status: event.payment_link ? 'lead' : 'pending'
+        payment_status: event.payment_link ? 'lead' : 'pending',
+        stripe_session_id: ticketId
       });
 
       if (error) throw error;
-
-      // Small delay to ensure DB consistency before redirect
-      if (event.payment_link) {
+      setShowSuccess(true);
+    } catch (err) {
         setTimeout(() => {
           window.location.href = event.payment_link!;
         }, 800);
@@ -77,7 +82,7 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
     onClose();
   };
 
-  if (showBetaNote) {
+  if (showSuccess) {
     return (
       <AnimatePresence>
         <motion.div
@@ -85,32 +90,49 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
-          onClick={handleBetaClose}
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             className="bg-white w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl p-10 text-center"
-            onClick={e => e.stopPropagation()}
           >
-            <div className="h-20 w-20 bg-primary/10 text-primary rounded-3xl flex items-center justify-center mx-auto mb-8">
-              <Phone size={36} />
+            <div className="h-20 w-20 bg-green-100 text-green-600 rounded-3xl flex items-center justify-center mx-auto mb-8">
+              <ShieldCheck size={36} />
             </div>
-            <h2 className="text-3xl font-bold mb-4 tracking-tight">Beta Mode</h2>
-            <p className="text-muted text-lg leading-relaxed mb-8">
-              This app is currently running in <span className="text-primary font-bold">beta</span>. For ticket bookings, please contact us directly.
+            <h2 className="text-3xl font-bold mb-4 tracking-tight">Booking Recorded!</h2>
+            <p className="text-muted text-lg mb-8">
+              Your Ticket ID is: <span className="text-primary font-black text-2xl">{bookingId}</span>
             </p>
-            <div className="bg-secondary/30 p-6 rounded-2xl mb-8 border border-accent">
-              <p className="text-xs font-black uppercase tracking-widest text-muted mb-2">Direct Contact</p>
-              <a href="tel:9562630135" className="text-2xl font-bold hover:text-primary transition-colors">9562630135</a>
+
+            <div className="space-y-4">
+              <button
+                onClick={() => {
+                  const message = `Hello! My Booking for ${event.event_name} is recorded. Ticket ID: ${bookingId}`;
+                  window.open(`https://wa.me/91${formData.phone}?text=${encodeURIComponent(message)}`, '_blank');
+                }}
+                className="w-full h-14 bg-[#25D366] text-white rounded-2xl font-bold hover:bg-[#25D366]/90 transition-all flex items-center justify-center gap-3"
+              >
+                Get Ticket on WhatsApp
+              </button>
+
+              {event.payment_link && (
+                <button
+                  onClick={() => window.location.href = event.payment_link!}
+                  className="w-full h-14 bg-primary text-black rounded-2xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-3 shadow-lg shadow-primary/20"
+                >
+                  Proceed to Payment
+                  <ArrowRight size={18} />
+                </button>
+              )}
+              
+              <button
+                onClick={onClose}
+                className="w-full h-14 bg-secondary text-muted rounded-2xl font-bold hover:bg-secondary/80 transition-all"
+              >
+                Close
+              </button>
             </div>
-            <button
-              onClick={handleBetaClose}
-              className="w-full h-14 bg-foreground text-white rounded-2xl font-bold hover:bg-foreground/90 transition-all"
-            >
-              Close
-            </button>
           </motion.div>
         </motion.div>
       </AnimatePresence>
