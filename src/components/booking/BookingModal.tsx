@@ -61,6 +61,23 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
       });
 
       if (error) throw error;
+
+      // Trigger Automated Email
+      try {
+        await fetch('/api/send-ticket', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            name: formData.name,
+            eventName: event.event_name,
+            ticketId: ticketId
+          }),
+        });
+      } catch (emailErr) {
+        console.error('Email trigger failed:', emailErr);
+      }
+
       setShowSuccess(true);
     } catch (err) {
         setTimeout(() => {
