@@ -116,6 +116,37 @@ export default function AdminDashboard() {
     setLoading(false);
   };
 
+  const confirmAndSendTicket = async (booking: any) => {
+    if (!confirm(`Confirm payment and send Ticket ID ${booking.stripe_session_id} to ${booking.user_name}?`)) return;
+    
+    setLoading(true);
+    const { error } = await supabase
+      .from('bookings')
+      .update({ payment_status: 'completed' })
+      .eq('id', booking.id);
+
+    if (!error) {
+      // Send the email via our API
+      try {
+        await fetch('/api/send-ticket', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: booking.user_email,
+            name: booking.user_name,
+            eventName: booking.events?.event_name,
+            ticketId: booking.stripe_session_id || 'UV-' + booking.id.substring(0, 5).toUpperCase()
+          }),
+        });
+        alert('Payment confirmed and Ticket Email sent!');
+      } catch (err) {
+        alert('Payment updated, but email failed to send.');
+      }
+      fetchBookings();
+    }
+    setLoading(false);
+  };
+
   const deleteBooking = async (id: string) => {
     if (!confirm('Are you sure you want to delete this booking?')) return;
     
@@ -411,6 +442,16 @@ export default function AdminDashboard() {
                       <td className="px-8 py-6 text-xs font-bold text-muted">{new Date(booking.created_at).toLocaleDateString()}</td>
                       <td className="px-8 py-6">
                         <div className="flex gap-2">
+                          {booking.payment_status === 'lead' && (
+                            <button 
+                              onClick={() => confirmAndSendTicket(booking)}
+                              className="h-10 px-4 bg-primary text-black rounded-xl flex items-center justify-center hover:bg-primary/90 transition-colors border border-primary/20 text-[10px] font-bold uppercase tracking-wider gap-2"
+                              title="Confirm Payment & Send Email"
+                            >
+                              <ShieldCheck size={14} />
+                              Confirm & Send
+                            </button>
+                          )}
                           <button 
                             onClick={() => {
                               const message = `Hello ${booking.user_name}!\n\nYour Ticket for *${booking.events?.event_name}* is confirmed! 🎟️\n\nTicket ID: *${booking.stripe_session_id || 'UV-' + booking.id.substring(0, 5).toUpperCase()}*\n\nSee you at the event!`;
