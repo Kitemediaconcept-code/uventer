@@ -29,8 +29,12 @@ interface Event {
   price: number;
   image_url: string;
   status: string;
-  payment_link?: string;
   created_at: string;
+  payment_link?: string;
+  map_url?: string;
+  additional_content?: string;
+  faq?: { question: string; answer: string }[];
+  additional_images?: string[];
 }
 
 export default function EventDetailPage() {
@@ -137,10 +141,60 @@ export default function EventDetailPage() {
         <div className="lg:col-span-2 space-y-12">
           <section>
             <h2 className="text-sm font-black uppercase tracking-[0.2em] text-primary mb-6">About the Event</h2>
-            <p className="text-xl text-muted leading-relaxed font-medium">
-              Join us for an unforgettable experience at {event.event_name}. This event is specially curated to provide premium value and networking opportunities for the community. Submitted by {event.name}, it represents our commitment to high-quality local and global gatherings.
-            </p>
+            <div className="space-y-6">
+              <p className="text-xl text-muted leading-relaxed font-medium">
+                Join us for an unforgettable experience at {event.event_name}. This event is specially curated to provide premium value and networking opportunities for the community. Submitted by {event.name}, it represents our commitment to high-quality local and global gatherings.
+              </p>
+              {event.additional_content && (
+                <div className="text-lg text-foreground/80 leading-relaxed font-medium whitespace-pre-wrap pt-4">
+                  {event.additional_content}
+                </div>
+              )}
+            </div>
           </section>
+
+          {/* Additional Images Gallery */}
+          {event.additional_images && event.additional_images.length > 0 && (
+            <section>
+              <h2 className="text-sm font-black uppercase tracking-[0.2em] text-primary mb-6">Event Gallery</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {event.additional_images.map((img, i) => (
+                  <motion.div 
+                    key={i}
+                    whileHover={{ scale: 1.02 }}
+                    className="relative h-64 rounded-[2rem] overflow-hidden border border-accent shadow-sm"
+                  >
+                    <Image 
+                      src={img} 
+                      alt={`Gallery ${i}`} 
+                      fill 
+                      className="object-cover" 
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* FAQ Section */}
+          {event.faq && event.faq.length > 0 && (
+            <section>
+              <h2 className="text-sm font-black uppercase tracking-[0.2em] text-primary mb-6">Frequently Asked Questions</h2>
+              <div className="space-y-4">
+                {event.faq.map((item, i) => (
+                  <div key={i} className="p-8 bg-secondary/30 rounded-[2rem] border border-accent/50">
+                    <h4 className="font-bold text-lg mb-3 flex items-center gap-3">
+                      <span className="h-6 w-6 bg-primary text-black rounded-full flex items-center justify-center text-[10px] shrink-0 font-black">Q</span>
+                      {item.question}
+                    </h4>
+                    <p className="text-muted font-medium leading-relaxed pl-9">
+                      {item.answer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="p-8 bg-secondary/30 rounded-[2.5rem] border border-accent/50 group hover:border-primary/20 transition-all">

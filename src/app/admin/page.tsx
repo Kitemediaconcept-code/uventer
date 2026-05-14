@@ -23,6 +23,10 @@ interface Event {
   image_url: string;
   status: string;
   payment_link?: string;
+  map_url?: string;
+  additional_content?: string;
+  faq?: { question: string; answer: string }[];
+  additional_images?: string[];
 }
 
 interface Booking {
@@ -527,7 +531,7 @@ export default function AdminDashboard() {
                         </div>
                       )}
 
-                      <div className="space-y-6 p-6 bg-primary/5 rounded-[2rem] border border-primary/10">
+                      <div className="space-y-6 p-6 bg-primary/5 rounded-[3rem] border border-primary/10">
                         <div className="space-y-2">
                           <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Payment / Booking Link</label>
                           <div className="flex gap-2">
@@ -536,53 +540,164 @@ export default function AdminDashboard() {
                               id={`link-${event.id}`}
                               placeholder="https://razorpay.me/..."
                               defaultValue={event.payment_link || ''}
-                              className="flex-1 h-12 px-4 rounded-xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                              className="flex-1 h-12 px-4 rounded-2xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
                             />
-                            {event.payment_link && (
-                              <a href={event.payment_link} target="_blank" rel="noopener noreferrer" className="h-12 w-12 bg-white rounded-xl flex items-center justify-center text-muted hover:text-primary transition-colors border border-accent">
-                                <ExternalLink size={16} />
-                              </a>
-                            )}
+                            <button 
+                              onClick={() => {
+                                const val = (document.getElementById(`link-${event.id}`) as HTMLInputElement).value;
+                                updateEventDetails(event.id, { payment_link: val });
+                              }}
+                              className="h-12 px-6 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center gap-2"
+                            >
+                              <Check size={14} /> Save
+                            </button>
                           </div>
                         </div>
 
                         <div className="space-y-2">
                           <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Google Maps Embed URL</label>
-                          <input 
-                            type="text" 
-                            id={`map-${event.id}`}
-                            placeholder="https://www.google.com/maps/embed?..."
-                            defaultValue={event.map_url || ''}
-                            className="w-full h-12 px-4 rounded-xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
-                          />
+                          <div className="flex gap-2">
+                            <input 
+                              type="text" 
+                              id={`map-${event.id}`}
+                              placeholder="https://www.google.com/maps/embed?..."
+                              defaultValue={event.map_url || ''}
+                              className="flex-1 h-12 px-4 rounded-2xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                            />
+                            <button 
+                              onClick={() => {
+                                const val = (document.getElementById(`map-${event.id}`) as HTMLInputElement).value;
+                                updateEventDetails(event.id, { map_url: val });
+                              }}
+                              className="h-12 px-6 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center gap-2"
+                            >
+                              <Check size={14} /> Save
+                            </button>
+                          </div>
                         </div>
 
                         <div className="space-y-2">
                           <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Additional Description / Info</label>
-                          <textarea 
-                            id={`content-${event.id}`}
-                            placeholder="Add more details about the event, schedule, etc."
-                            defaultValue={event.additional_content || ''}
-                            className="w-full h-32 p-4 rounded-xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none resize-none"
-                          />
+                          <div className="flex flex-col gap-2">
+                            <textarea 
+                              id={`content-${event.id}`}
+                              placeholder="Add more details about the event, schedule, etc."
+                              defaultValue={event.additional_content || ''}
+                              className="w-full h-32 p-4 rounded-[1.5rem] border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none resize-none"
+                            />
+                            <button 
+                              onClick={() => {
+                                const val = (document.getElementById(`content-${event.id}`) as HTMLTextAreaElement).value;
+                                updateEventDetails(event.id, { additional_content: val });
+                              }}
+                              className="self-end h-12 px-8 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center gap-2"
+                            >
+                              <Check size={14} /> Save Content
+                            </button>
+                          </div>
                         </div>
 
-                        <button 
-                          onClick={() => {
-                            const link = (document.getElementById(`link-${event.id}`) as HTMLInputElement).value;
-                            const map = (document.getElementById(`map-${event.id}`) as HTMLInputElement).value;
-                            const content = (document.getElementById(`content-${event.id}`) as HTMLTextAreaElement).value;
-                            updateEventDetails(event.id, { 
-                              payment_link: link,
-                              map_url: map,
-                              additional_content: content
-                            });
-                          }}
-                          className="w-full h-12 bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-black/90 transition-all flex items-center justify-center gap-2"
-                        >
-                          <Check size={14} />
-                          Save All Content
-                        </button>
+                        {/* FAQ Management */}
+                        <div className="space-y-4 pt-4 border-t border-primary/10">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Event FAQ</label>
+                          <div className="space-y-3">
+                            {(event.faq || []).map((f, i) => (
+                              <div key={i} className="flex flex-col gap-2 p-4 bg-white rounded-2xl border border-accent relative">
+                                <input 
+                                  type="text" 
+                                  placeholder="Question"
+                                  defaultValue={f.question}
+                                  onChange={(e) => {
+                                    const newFaq = [...(event.faq || [])];
+                                    newFaq[i].question = e.target.value;
+                                    setEvents(events.map(ev => ev.id === event.id ? { ...ev, faq: newFaq } : ev));
+                                  }}
+                                  className="w-full h-10 px-3 bg-secondary/30 rounded-xl border-none text-xs font-bold focus:ring-1 focus:ring-primary/30 outline-none"
+                                />
+                                <textarea 
+                                  placeholder="Answer"
+                                  defaultValue={f.answer}
+                                  onChange={(e) => {
+                                    const newFaq = [...(event.faq || [])];
+                                    newFaq[i].answer = e.target.value;
+                                    setEvents(events.map(ev => ev.id === event.id ? { ...ev, faq: newFaq } : ev));
+                                  }}
+                                  className="w-full h-20 p-3 bg-secondary/30 rounded-xl border-none text-xs font-medium focus:ring-1 focus:ring-primary/30 outline-none resize-none"
+                                />
+                                <button 
+                                  onClick={() => {
+                                    const newFaq = (event.faq || []).filter((_, idx) => idx !== i);
+                                    setEvents(events.map(ev => ev.id === event.id ? { ...ev, faq: newFaq } : ev));
+                                  }}
+                                  className="absolute top-4 right-4 text-red-400 hover:text-red-600 transition-colors"
+                                >
+                                  <Trash2 size={14} />
+                                </button>
+                              </div>
+                            ))}
+                            <button 
+                              onClick={() => {
+                                const newFaq = [...(event.faq || []), { question: '', answer: '' }];
+                                setEvents(events.map(ev => ev.id === event.id ? { ...ev, faq: newFaq } : ev));
+                              }}
+                              className="w-full py-3 border-2 border-dashed border-accent rounded-2xl text-[10px] font-black uppercase tracking-widest text-muted hover:border-primary/30 hover:text-primary transition-all flex items-center justify-center gap-2"
+                            >
+                              + Add FAQ Item
+                            </button>
+                            <button 
+                              onClick={() => updateEventDetails(event.id, { faq: event.faq || [] })}
+                              className="w-full h-12 bg-black text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black/90 transition-all flex items-center justify-center gap-2"
+                            >
+                              <Check size={14} /> Save FAQ
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Additional Images */}
+                        <div className="space-y-4 pt-4 border-t border-primary/10">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Additional Gallery Images</label>
+                          <div className="space-y-3">
+                            {(event.additional_images || []).map((img, i) => (
+                              <div key={i} className="flex gap-2">
+                                <input 
+                                  type="text" 
+                                  placeholder="Image URL"
+                                  defaultValue={img}
+                                  onChange={(e) => {
+                                    const newImgs = [...(event.additional_images || [])];
+                                    newImgs[i] = e.target.value;
+                                    setEvents(events.map(ev => ev.id === event.id ? { ...ev, additional_images: newImgs } : ev));
+                                  }}
+                                  className="flex-1 h-12 px-4 rounded-xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                                />
+                                <button 
+                                  onClick={() => {
+                                    const newImgs = (event.additional_images || []).filter((_, idx) => idx !== i);
+                                    setEvents(events.map(ev => ev.id === event.id ? { ...ev, additional_images: newImgs } : ev));
+                                  }}
+                                  className="h-12 w-12 bg-red-50 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-100 transition-colors border border-red-100"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                            ))}
+                            <button 
+                              onClick={() => {
+                                const newImgs = [...(event.additional_images || []), ''];
+                                setEvents(events.map(ev => ev.id === event.id ? { ...ev, additional_images: newImgs } : ev));
+                              }}
+                              className="w-full py-3 border-2 border-dashed border-accent rounded-2xl text-[10px] font-black uppercase tracking-widest text-muted hover:border-primary/30 hover:text-primary transition-all flex items-center justify-center gap-2"
+                            >
+                              + Add Image URL
+                            </button>
+                            <button 
+                              onClick={() => updateEventDetails(event.id, { additional_images: event.additional_images || [] })}
+                              className="w-full h-12 bg-black text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black/90 transition-all flex items-center justify-center gap-2"
+                            >
+                              <Check size={14} /> Save Gallery
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
