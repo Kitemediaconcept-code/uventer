@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import {
   Briefcase,
   Mic,
@@ -80,6 +81,34 @@ const services = [
   },
 ];
 
+const steps = [
+  {
+    number: '01',
+    title: 'Understand',
+    description: 'We learn your goals, audience, and vision.'
+  },
+  {
+    number: '02',
+    title: 'Plan',
+    description: 'We build a structured, end-to-end roadmap.'
+  },
+  {
+    number: '03',
+    title: 'Design',
+    description: 'We craft the experience down to every detail.'
+  },
+  {
+    number: '04',
+    title: 'Execute',
+    description: 'We coordinate every moving part on the ground.'
+  },
+  {
+    number: '05',
+    title: 'Deliver',
+    description: 'We deliver a seamless, memorable event.'
+  }
+];
+
 const Services = () => {
   return (
     <section className="w-full bg-white py-[90px] px-6" id="services">
@@ -139,6 +168,44 @@ const Services = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* How We Work Section - Integrated from Process.tsx */}
+        <div className="max-w-[1100px] mx-auto mt-24 mb-20">
+          <div className="flex items-center gap-3 mb-5">
+            <span className="block w-6 h-px bg-[#e0e02a]" />
+            <p className="text-[12px] tracking-[5px] uppercase text-gray-500 font-semibold">
+              HOW WE WORK
+            </p>
+          </div>
+          
+          <h2 className="text-[36px] md:text-[54px] font-black text-black leading-[1.1] mb-12 tracking-tight">
+            A clear process. Five steady steps.
+          </h2>
+
+          <div className="border border-black rounded-[30px] overflow-hidden bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+            {steps.map((step, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ backgroundColor: '#f7f7f7', y: -5 }}
+                className={`p-10 transition-all cursor-pointer ${
+                  index !== steps.length - 1 ? 'lg:border-r border-black' : ''
+                } ${
+                  index % 2 !== 0 && index !== steps.length - 1 ? 'md:border-r-0 lg:border-r' : ''
+                } border-b border-black lg:border-b-0 last:border-b-0`}
+              >
+                <div className="text-[14px] font-bold tracking-[2px] mb-8 text-gray-500">
+                  {step.number}
+                </div>
+                <h3 className="text-[30px] font-bold mb-5 tracking-tight text-black">
+                  {step.title}
+                </h3>
+                <p className="text-[16px] leading-[1.7] text-gray-600 font-medium">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* CTA Footer */}
