@@ -7,8 +7,10 @@ import EventCard from './EventCard';
 const PastEvents = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const fetchPastEvents = async () => {
       setLoading(true);
       const today = new Date().toISOString().split('T')[0];
@@ -28,8 +30,8 @@ const PastEvents = () => {
     fetchPastEvents();
   }, []);
 
-  if (loading || events.length === 0) {
-    return null; // Don't show the section if loading or no past events
+  if (!isClient || loading || events.length === 0) {
+    return null; // Don't show the section if loading or no past events or not client
   }
 
   return (

@@ -8,8 +8,10 @@ import { motion } from 'framer-motion';
 const EventGrid = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const fetchEvents = async () => {
       setLoading(true);
       const today = new Date().toISOString().split('T')[0];
@@ -29,7 +31,7 @@ const EventGrid = () => {
     fetchEvents();
   }, []);
 
-  if (loading) {
+  if (!isClient || loading) {
     return (
       <div className="w-full py-20 flex justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>

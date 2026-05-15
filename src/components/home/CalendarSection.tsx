@@ -7,13 +7,21 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin, Clock } fr
 import { clsx } from 'clsx';
 
 const CalendarSection = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState<Date | null>(null);
   const [events, setEvents] = useState<any[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchEvents();
+    const today = new Date();
+    setCurrentDate(today);
+    setSelectedDate(today);
+  }, []);
+
+  useEffect(() => {
+    if (currentDate) {
+      fetchEvents();
+    }
   }, [currentDate]);
 
   const fetchEvents = async () => {
@@ -34,11 +42,24 @@ const CalendarSection = () => {
     setLoading(false);
   };
 
+  if (loading || events.length === 0 || !currentDate) {
+    return null; // Don't show the section if loading, no events, or date not set
+  }
+
   const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
   const startDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
 
-  const prevMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
-  const nextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  const prevMonth = () => {
+    if (currentDate) {
+      setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+    }
+  };
+  
+  const nextMonth = () => {
+    if (currentDate) {
+      setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+    }
+  };
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -56,7 +77,7 @@ const CalendarSection = () => {
     }
 
     for (let d = 1; d <= totalDays; d++) {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), d);
+      const date = new Date(currentDate!.getFullYear(), currentDate!.getMonth(), d);
       const isToday = new Date().toDateString() === date.toDateString();
       const isSelected = selectedDate?.toDateString() === date.toDateString();
       const dayEvents = events.filter(e => new Date(e.event_date).toDateString() === date.toDateString());
@@ -129,7 +150,7 @@ const CalendarSection = () => {
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <span className="font-bold text-sm min-w-[120px] text-center">
-                {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                {currentDate && monthNames[currentDate.getMonth()]} {currentDate && currentDate.getFullYear()}
               </span>
               <button onClick={nextMonth} className="p-2 hover:bg-white rounded-full transition-colors">
                 <ChevronRight className="w-5 h-5" />
