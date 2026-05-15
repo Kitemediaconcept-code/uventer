@@ -27,6 +27,8 @@ interface Event {
   contact_details: string;
   event_date: string;
   price: number;
+  one_day_price?: number;
+  full_event_price?: number;
   location: string;
   image_url: string;
   status: string;
@@ -302,6 +304,8 @@ export default function EventDetailPage() {
           id: event.id,
           event_name: event.event_name,
           price: event.price,
+          one_day_price: event.one_day_price,
+          full_event_price: event.full_event_price,
           payment_link: event.payment_link
         }}
       />

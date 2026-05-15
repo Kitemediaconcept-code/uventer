@@ -14,6 +14,8 @@ interface BookingModalProps {
     id: string;
     event_name: string;
     price: number;
+    one_day_price?: number;
+    full_event_price?: number;
     payment_link?: string;
   };
 }
@@ -40,6 +42,13 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
   });
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<'standard' | 'one_day' | 'full_event'>('standard');
+
+  const getActivePrice = () => {
+    if (selectedTier === 'one_day' && event.one_day_price) return event.one_day_price;
+    if (selectedTier === 'full_event' && event.full_event_price) return event.full_event_price;
+    return event.price;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,9 +64,10 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
         user_email: formData.email,
         user_phone: formData.phone,
         occupation: formData.occupation,
-        amount_paid: event.price,
+        amount_paid: getActivePrice(),
         payment_status: event.payment_link ? 'lead' : 'pending',
-        stripe_session_id: ticketId
+        stripe_session_id: ticketId,
+        ticket_type: selectedTier // Optional: if you have this column
       });
 
       if (error) throw error;
@@ -226,6 +236,41 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
                   </select>
                 </div>
 
+                {(event.one_day_price || event.full_event_price) && (
+                  <div className="space-y-3 pt-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                      <ShieldCheck size={12} className="text-primary" /> SELECT TICKET TYPE
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {event.one_day_price && (
+                        <div 
+                          onClick={() => setSelectedTier('one_day')}
+                          className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${selectedTier === 'one_day' ? 'border-primary bg-primary/5 shadow-md shadow-primary/10' : 'border-accent bg-transparent hover:border-primary/20'}`}
+                        >
+                          <p className="text-[10px] font-black uppercase tracking-wider text-muted mb-1">One Day Pass</p>
+                          <p className="text-xl font-bold text-black">₹{event.one_day_price}</p>
+                        </div>
+                      )}
+                      {event.full_event_price && (
+                        <div 
+                          onClick={() => setSelectedTier('full_event')}
+                          className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${selectedTier === 'full_event' ? 'border-primary bg-primary/5 shadow-md shadow-primary/10' : 'border-accent bg-transparent hover:border-primary/20'}`}
+                        >
+                          <p className="text-[10px] font-black uppercase tracking-wider text-muted mb-1">Full Event Pass</p>
+                          <p className="text-xl font-bold text-black">₹{event.full_event_price}</p>
+                        </div>
+                      )}
+                      <div 
+                        onClick={() => setSelectedTier('standard')}
+                        className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${selectedTier === 'standard' ? 'border-primary bg-primary/5 shadow-md shadow-primary/10' : 'border-accent bg-transparent hover:border-primary/20'}`}
+                      >
+                        <p className="text-[10px] font-black uppercase tracking-wider text-muted mb-1">Standard Entry</p>
+                        <p className="text-xl font-bold text-black">₹{event.price}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="pt-6">
                   <button
                     disabled={loading}
@@ -236,7 +281,7 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
                       <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-black"></div>
                     ) : (
                       <>
-                        Pay ₹{event.price} & Book Ticket
+                        Pay ₹{getActivePrice()} & Book Ticket
                         <ArrowRight size={18} />
                       </>
                     )}
