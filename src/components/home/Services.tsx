@@ -210,7 +210,7 @@ const Services = () => {
             </h2>
           </div>
 
-          <div className="relative space-y-12 md:space-y-0 md:h-[1200px]">
+          <div className="relative space-y-8 md:space-y-0 md:h-[1200px]">
             {/* Dotted Connection Lines (Visible on Desktop) */}
             <div className="hidden md:block absolute top-0 left-1/2 w-full h-full -translate-x-1/2 pointer-events-none opacity-20">
               <svg width="100%" height="100%" viewBox="0 0 1000 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -220,21 +220,25 @@ const Services = () => {
               </svg>
             </div>
 
-            {steps.map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: step.delay }}
-                className={`relative md:absolute w-full md:w-[450px] group ${
-                  index % 2 === 0 ? 'md:left-0' : 'md:right-0'
-                }`}
-                style={{
-                  top: `${index * 220}px`
-                }}
-              >
-                <div className="bg-white border border-gray-100 rounded-[32px] p-10 shadow-sm hover:shadow-xl transition-all duration-500 group-hover:-translate-y-2 flex gap-8">
+            {/* Vertical Dotted Line (Visible on Mobile) */}
+            <div className="md:hidden absolute left-[44px] top-10 bottom-10 w-px border-l-2 border-dashed border-gray-200 pointer-events-none" />
+
+            {steps.map((step, index) => {
+              // Only apply absolute positioning and top offset on desktop
+              const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
+              
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: step.delay }}
+                  className={`relative md:absolute w-full md:w-[450px] group step-top-${index} ${
+                    index % 2 === 0 ? 'md:left-0' : 'md:right-0'
+                  }`}
+                >
+                  <div className="bg-white border border-gray-100 rounded-[32px] p-6 md:p-10 shadow-sm hover:shadow-xl transition-all duration-500 group-hover:-translate-y-2 flex gap-4 md:gap-8">
                   {/* Vertical Pill Duration */}
                   <div className="flex flex-col items-center">
                     <div 
@@ -266,9 +270,18 @@ const Services = () => {
                   <span className="text-black font-black text-xl italic">{step.number}</span>
                 </div>
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
         </div>
+        <style dangerouslySetInnerHTML={{ __html: `
+          @media (min-width: 768px) {
+            ${steps.map((_, i) => `.step-top-${i} { top: ${i * 220}px; }`).join('\n')}
+          }
+          @media (max-width: 767px) {
+            ${steps.map((_, i) => `.step-top-${i} { top: 0px !important; }`).join('\n')}
+          }
+        ` }} />
+      </div>
 
         {/* CTA Footer */}
         <div className="max-w-[1100px] mx-auto bg-white border border-gray-100 rounded-[24px] px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
