@@ -12,10 +12,12 @@ const EventGrid = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
+      const today = new Date().toISOString().split('T')[0];
       const { data, error } = await supabase
         .from('events')
         .select('*')
         .eq('status', 'approved')
+        .gte('event_date', today)
         .order('event_date', { ascending: true });
 
       if (!error && data) {

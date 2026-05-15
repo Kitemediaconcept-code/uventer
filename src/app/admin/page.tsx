@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Trash2, Clock, ExternalLink, ShieldCheck, ChevronLeft, Search, RotateCcw, TrendingUp, CheckCircle, Download, FileText } from 'lucide-react';
+import { Check, Trash2, Clock, ExternalLink, ShieldCheck, ChevronLeft, Search, RotateCcw, TrendingUp, CheckCircle, Download, FileText, Phone } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -42,6 +42,7 @@ interface Booking {
   events?: {
     event_name: string;
   };
+  stripe_session_id?: string;
 }
 
 export default function AdminDashboard() {

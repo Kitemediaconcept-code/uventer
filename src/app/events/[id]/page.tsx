@@ -27,6 +27,7 @@ interface Event {
   contact_details: string;
   event_date: string;
   price: number;
+  location: string;
   image_url: string;
   status: string;
   created_at: string;

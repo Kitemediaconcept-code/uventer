@@ -8,6 +8,7 @@ import 'add_event_screen.dart';
 import 'event_detail_screen.dart';
 import 'login_screen.dart';
 import '../widgets/lead_capture_dialog.dart';
+import '../widgets/side_nav_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -146,6 +147,12 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.w800,
               fontSize: 20,
             ),
+          ),
+        ),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu_rounded, color: AppTheme.textDark),
+            onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
         actions: [
@@ -779,6 +786,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       extendBody: true,
       bottomNavigationBar: _buildCustomBottomNav(),
+      drawer: const SideNavDrawer(),
     );
   }
 
