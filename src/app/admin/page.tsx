@@ -18,6 +18,8 @@ interface Event {
   time_slot: string;
   budget: number;
   price: number;
+  one_day_price?: number;
+  full_event_price?: number;
   location: string;
   vision_requirements: string;
   image_url: string;
@@ -533,6 +535,52 @@ export default function AdminDashboard() {
                       )}
 
                       <div className="space-y-6 p-6 bg-primary/5 rounded-[3rem] border border-primary/10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-primary block">One Day Price (₹)</label>
+                            <div className="flex gap-2">
+                              <input 
+                                type="number" 
+                                id={`one-day-${event.id}`}
+                                placeholder="e.g. 500"
+                                defaultValue={event.one_day_price || ''}
+                                className="flex-1 h-12 px-4 rounded-2xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                              />
+                              <button 
+                                onClick={() => {
+                                  const val = (document.getElementById(`one-day-${event.id}`) as HTMLInputElement).value;
+                                  updateEventDetails(event.id, { one_day_price: parseFloat(val) });
+                                }}
+                                className="h-12 px-6 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center gap-2"
+                              >
+                                <Check size={14} /> Save
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Full Event Price (₹)</label>
+                            <div className="flex gap-2">
+                              <input 
+                                type="number" 
+                                id={`full-event-${event.id}`}
+                                placeholder="e.g. 1500"
+                                defaultValue={event.full_event_price || ''}
+                                className="flex-1 h-12 px-4 rounded-2xl border border-accent bg-white text-xs font-medium focus:ring-2 focus:ring-primary/20 outline-none"
+                              />
+                              <button 
+                                onClick={() => {
+                                  const val = (document.getElementById(`full-event-${event.id}`) as HTMLInputElement).value;
+                                  updateEventDetails(event.id, { full_event_price: parseFloat(val) });
+                                }}
+                                className="h-12 px-6 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center gap-2"
+                              >
+                                <Check size={14} /> Save
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
                         <div className="space-y-2">
                           <label className="text-[10px] font-black uppercase tracking-widest text-primary block">Payment / Booking Link</label>
                           <div className="flex gap-2">
