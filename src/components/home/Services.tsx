@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Briefcase,
@@ -27,6 +27,7 @@ const services = [
     desc: 'Professional events that inspire teams and drive business success.',
     color: '#6366F1',
     bg: '#EEF2FF',
+    category: 'Events'
   },
   {
     icon: <Mic size={22} />,
@@ -34,27 +35,7 @@ const services = [
     desc: 'High-impact conferences that bring ideas, leaders and industries together.',
     color: '#F59E0B',
     bg: '#FFFBEB',
-  },
-  {
-    icon: <Rocket size={22} />,
-    title: 'Product Launches',
-    desc: 'Launch experiences designed for maximum brand impact.',
-    color: '#10B981',
-    bg: '#ECFDF5',
-  },
-  {
-    icon: <Users size={22} />,
-    title: 'Networking Events',
-    desc: 'Meaningful connections through curated networking experiences.',
-    color: '#2DD4BF',
-    bg: '#F0FDFA',
-  },
-  {
-    icon: <Zap size={22} />,
-    title: 'Brand Activations',
-    desc: 'Creative activations that engage audiences and amplify brands.',
-    color: '#8B5CF6',
-    bg: '#F5F3FF',
+    category: 'Events'
   },
   {
     icon: <GraduationCap size={22} />,
@@ -62,6 +43,23 @@ const services = [
     desc: 'Knowledge-driven sessions that educate, engage and empower.',
     color: '#F97316',
     bg: '#FFF7ED',
+    category: 'Events'
+  },
+  {
+    icon: <Rocket size={22} />,
+    title: 'Product Launches',
+    desc: 'Launch experiences designed for maximum brand impact.',
+    color: '#10B981',
+    bg: '#ECFDF5',
+    category: 'Experience'
+  },
+  {
+    icon: <Zap size={22} />,
+    title: 'Brand Activations',
+    desc: 'Creative activations that engage audiences and amplify brands.',
+    color: '#8B5CF6',
+    bg: '#F5F3FF',
+    category: 'Experience'
   },
   {
     icon: <Layout size={22} />,
@@ -69,6 +67,15 @@ const services = [
     desc: 'Showcase your brand and products to the right audience.',
     color: '#EC4899',
     bg: '#FDF2F8',
+    category: 'Experience'
+  },
+  {
+    icon: <Users size={22} />,
+    title: 'Networking Events',
+    desc: 'Meaningful connections through curated networking experiences.',
+    color: '#2DD4BF',
+    bg: '#F0FDFA',
+    category: 'Execution'
   },
   {
     icon: <Settings size={22} />,
@@ -76,6 +83,7 @@ const services = [
     desc: 'End-to-end execution with precision, creativity and flawless delivery.',
     color: '#3B82F6',
     bg: '#EFF6FF',
+    category: 'Execution'
   },
   {
     icon: <MapPin size={22} />,
@@ -83,8 +91,11 @@ const services = [
     desc: 'Find the perfect venues and manage vendors seamlessly.',
     color: '#06B6D4',
     bg: '#ECFEFF',
+    category: 'Execution'
   },
 ];
+
+const categories = ['Events', 'Experience', 'Execution'];
 
 const steps = [
   {
@@ -135,63 +146,107 @@ const steps = [
 ];
 
 const Services = () => {
-  return (
-    <section className="w-full bg-white py-[90px] px-6" id="services">
-      <div className="max-w-7xl mx-auto px-6">
+  const [activeTab, setActiveTab] = useState('Events');
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-        {/* Header */}
-        <div className="flex items-center justify-center gap-3 mb-5">
-          <span className="block w-6 h-px bg-[#e0e02a]" />
-          <p className="text-[12px] tracking-[5px] uppercase text-gray-500 font-semibold">
-            WHAT WE DO
+  const filteredServices = services.filter(s => s.category === activeTab);
+
+  return (
+    <section className="w-full bg-white py-[120px] px-6" id="services">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col items-center text-center mb-16">
+          <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-6">
+            APPEARANCE MATTERS
           </p>
-          <span className="block w-6 h-px bg-[#e0e02a]" />
+          <h2 className="text-[40px] md:text-[64px] font-black text-black leading-[1] mb-12 tracking-tight max-w-4xl">
+            Our Services Impact <span className="text-gray-300">Your Event in Many Ways</span>
+          </h2>
+
+          {/* Categories Tabs */}
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-16">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveTab(cat)}
+                className={`px-8 py-3 rounded-xl text-sm font-black transition-all duration-300 ${
+                  activeTab === cat 
+                    ? 'bg-[#1a1a1a] text-white shadow-xl shadow-black/10' 
+                    : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100/50'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <h2 className="text-[40px] md:text-[54px] font-black text-black leading-[1.1] max-w-[760px] mb-4 mx-auto text-center tracking-tight">
-          A complete suite of{' '}
-          <span className="text-[#e0e02a]">premium</span>{' '}
-          <span className="italic">event services.</span>
-        </h2>
-
-        <p className="text-center text-gray-500 text-[15px] max-w-[540px] mx-auto mb-16 leading-relaxed">
-          From planning to execution, we deliver experiences that connect
-          people and elevate brands.
-        </p>
-
         {/* Services Grid */}
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {services.map((service, index) => (
-            <div
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+          {filteredServices.map((service, index) => (
+            <motion.div
               key={index}
-              className="group relative bg-white border border-gray-100 rounded-[24px] p-8 flex flex-col gap-4 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className={`group relative h-[400px] rounded-[32px] overflow-hidden transition-all duration-500 cursor-pointer ${
+                hoveredIndex === index 
+                  ? 'bg-[#1a1a1a] shadow-2xl scale-[1.02]' 
+                  : 'bg-white border border-gray-100 hover:border-gray-200 shadow-sm'
+              }`}
             >
-              {/* Icon */}
-              <div
-                className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: service.bg, color: service.color }}
-              >
-                {service.icon}
+              {/* Blur Background for Active State */}
+              <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-primary/20 via-transparent to-transparent blur-3xl`} />
+
+              <div className="relative h-full p-10 flex flex-col justify-between z-10">
+                <div>
+                  <div className={`text-[10px] font-black tracking-widest uppercase mb-8 ${
+                    hoveredIndex === index ? 'text-primary' : 'text-primary'
+                  }`}>
+                    More
+                  </div>
+                  
+                  <h3 className={`text-2xl font-black leading-tight tracking-tighter mb-4 ${
+                    hoveredIndex === index ? 'text-white' : 'text-black'
+                  }`}>
+                    {service.title}
+                  </h3>
+                  
+                  <p className={`text-sm font-medium leading-relaxed ${
+                    hoveredIndex === index ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
+                    {service.desc}
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-6">
+                  <div className={`h-px w-8 transition-all duration-500 ${
+                    hoveredIndex === index ? 'bg-primary w-full' : 'bg-gray-100'
+                  }`} />
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-1">
+                      <p className={`text-[10px] font-black uppercase tracking-widest ${
+                        hoveredIndex === index ? 'text-gray-500' : 'text-gray-300'
+                      }`}>
+                        Uventer Studio
+                      </p>
+                      <p className={`text-[11px] font-bold ${
+                        hoveredIndex === index ? 'text-gray-400' : 'text-gray-400'
+                      }`}>
+                        Expertise & Quality
+                      </p>
+                    </div>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
+                      hoveredIndex === index ? 'bg-primary text-black rotate-[-45deg]' : 'bg-gray-50 text-gray-400'
+                    }`}>
+                      <ArrowRight size={18} />
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              {/* Title */}
-              <h3 className="text-[17px] font-black text-black leading-tight tracking-tight">
-                {service.title}
-              </h3>
-
-              {/* Desc */}
-              <p className="text-[13px] text-gray-500 leading-relaxed flex-1">
-                {service.desc}
-              </p>
-
-              {/* Arrow */}
-              <div
-                className="w-7 h-7 rounded-full border flex items-center justify-center self-start transition-colors"
-                style={{ borderColor: service.color, color: service.color }}
-              >
-                <ArrowRight size={13} />
-              </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
