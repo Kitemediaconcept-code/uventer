@@ -25,6 +25,7 @@ const CalendarSection = () => {
   }, [currentDate]);
 
   const fetchEvents = async () => {
+    if (!currentDate) return;
     setLoading(true);
     const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
     const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString();
