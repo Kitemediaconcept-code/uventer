@@ -14,7 +14,9 @@ import {
   Share2, 
   ArrowRight,
   Clock,
-  ShieldCheck
+  ShieldCheck,
+  CheckCircle2,
+  Info
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -43,6 +45,72 @@ interface Event {
 export default function EventDetailPage() {
   const { id } = useParams();
   const router = useRouter();
+
+  const formatContent = (content: string) => {
+    if (!content) return null;
+
+    const sections = content.split('\n\n');
+    return sections.map((section, idx) => {
+      const lines = section.split('\n');
+      const isList = lines.length > 1 && lines.every(line => 
+        line.trim().startsWith('•') || 
+        line.trim().startsWith('-') || 
+        line.trim().startsWith('*') ||
+        /^[0-9]+\./.test(line.trim()) ||
+        (lines.length > 2 && line.trim().length > 0 && line.trim().length < 50)
+      );
+
+      // Check if first line looks like a heading
+      const firstLine = lines[0].trim();
+      const isHeading = firstLine.length < 40 && !firstLine.endsWith('.') && lines.length > 1;
+
+      if (isHeading) {
+        return (
+          <div key={idx} className="mb-8 last:mb-0">
+            <h3 className="text-xl font-bold text-black mb-4 flex items-center gap-3">
+              <span className="h-2 w-2 bg-primary rounded-full"></span>
+              {firstLine}
+            </h3>
+            <div className="space-y-3 pl-5">
+              {lines.slice(1).map((line, lIdx) => {
+                const cleanLine = line.trim().replace(/^[-•*]\s*/, '');
+                if (!cleanLine) return null;
+                return (
+                  <div key={lIdx} className="flex gap-3 text-foreground/80 font-medium">
+                    <CheckCircle2 size={18} className="text-primary shrink-0 mt-0.5" />
+                    <p>{cleanLine}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      }
+
+      if (isList) {
+        return (
+          <div key={idx} className="mb-8 last:mb-0 space-y-3">
+            {lines.map((line, lIdx) => {
+              const cleanLine = line.trim().replace(/^[-•*]\s*/, '');
+              if (!cleanLine) return null;
+              return (
+                <div key={lIdx} className="flex gap-3 text-foreground/80 font-medium">
+                  <CheckCircle2 size={18} className="text-primary shrink-0 mt-0.5" />
+                  <p>{cleanLine}</p>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      return (
+        <p key={idx} className="text-lg text-foreground/80 font-medium leading-relaxed mb-6 last:mb-0">
+          {section}
+        </p>
+      );
+    });
+  };
   const searchParams = useSearchParams();
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
@@ -149,8 +217,8 @@ export default function EventDetailPage() {
                 Join us for an unforgettable experience at {event.event_name}. This event is specially curated to provide premium value and networking opportunities for the community. Submitted by {event.name}, it represents our commitment to high-quality local and global gatherings.
               </p>
               {event.additional_content && (
-                <div className="text-lg text-foreground/80 leading-relaxed font-medium whitespace-pre-wrap pt-4">
-                  {event.additional_content}
+                <div className="pt-8 border-t border-accent/20">
+                  {formatContent(event.additional_content)}
                 </div>
               )}
             </div>
@@ -227,10 +295,22 @@ export default function EventDetailPage() {
               This event has been thoroughly reviewed and approved by the Uventer admin team. We ensure that all event details are accurate and that the organizers are responsive to the community&apos;s needs.
             </p>
             {event.additional_content && (
-              <div className="pt-6 border-t border-primary/10">
-                <h4 className="text-sm font-black uppercase tracking-widest text-primary mb-4">Important Information</h4>
-                <div className="text-foreground/80 font-medium leading-relaxed whitespace-pre-wrap">
-                  {event.additional_content}
+              <div className="pt-8 border-t border-primary/10">
+                <div className="flex items-center gap-2 mb-6">
+                  <Info size={16} className="text-primary" />
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Important Event Highlights</h4>
+                </div>
+                <div className="grid grid-cols-1 gap-4">
+                  {event.additional_content.split('\n').filter(l => l.trim().length > 10).slice(0, 4).map((line, i) => (
+                    <div key={i} className="flex items-start gap-3 p-4 bg-white/50 rounded-2xl border border-primary/5 hover:border-primary/20 transition-all group">
+                      <div className="h-6 w-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-black transition-all">
+                        <CheckCircle2 size={14} />
+                      </div>
+                      <p className="text-sm font-medium text-foreground/80 leading-relaxed">
+                        {line.trim().replace(/^[-•*]\s*/, '')}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
