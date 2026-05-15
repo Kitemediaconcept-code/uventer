@@ -13,6 +13,11 @@ import {
   Settings,
   MapPin,
   ArrowRight,
+  Search,
+  Palette,
+  Smartphone,
+  Send,
+  PenTool,
 } from 'lucide-react';
 
 const services = [
@@ -85,27 +90,47 @@ const steps = [
   {
     number: '01',
     title: 'Understand',
-    description: 'We learn your goals, audience, and vision.'
+    duration: '1-2 Days',
+    icon: <Search size={20} />,
+    description: 'We explore your goals and audience pain points to uncover what people truly need.',
+    color: '#e0e02a',
+    delay: 0
   },
   {
     number: '02',
     title: 'Plan',
-    description: 'We build a structured, end-to-end roadmap.'
+    duration: '1 Week',
+    icon: <PenTool size={20} />,
+    description: 'We build a clean, energetic strategy with easy navigation and motivating visuals.',
+    color: '#10B981',
+    delay: 0.2
   },
   {
     number: '03',
     title: 'Design',
-    description: 'We craft the experience down to every detail.'
+    duration: '1-2 Weeks',
+    icon: <Palette size={20} />,
+    description: 'We craft the experience down to every detail, making sure the app feels smooth.',
+    color: '#3B82F6',
+    delay: 0.4
   },
   {
     number: '04',
     title: 'Execute',
-    description: 'We coordinate every moving part on the ground.'
+    duration: '2-4 Weeks',
+    icon: <Smartphone size={20} />,
+    description: 'We run multiple test rounds to refine the experience and ensure it is enjoyable.',
+    color: '#8B5CF6',
+    delay: 0.6
   },
   {
     number: '05',
     title: 'Deliver',
-    description: 'We deliver a seamless, memorable event.'
+    duration: 'Final Day',
+    icon: <Send size={20} />,
+    description: 'We wrap it all up with a polished presentation that demonstrates the app value.',
+    color: '#F59E0B',
+    delay: 0.8
   }
 ];
 
@@ -170,39 +195,76 @@ const Services = () => {
           ))}
         </div>
 
-        {/* How We Work Section - Integrated from Process.tsx */}
-        <div className="max-w-[1100px] mx-auto mt-24 mb-20">
-          <div className="flex items-center gap-3 mb-5">
-            <span className="block w-6 h-px bg-[#e0e02a]" />
-            <p className="text-[12px] tracking-[5px] uppercase text-gray-500 font-semibold">
-              HOW WE WORK
-            </p>
+        {/* How We Work Section - Redesigned Staggered Layout */}
+        <div className="max-w-[1100px] mx-auto mt-32 mb-32 relative">
+          <div className="flex flex-col items-center text-center mb-20">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="block w-6 h-px bg-[#e0e02a]" />
+              <p className="text-[12px] tracking-[5px] uppercase text-gray-500 font-black">
+                HOW WE WORK
+              </p>
+              <span className="block w-6 h-px bg-[#e0e02a]" />
+            </div>
+            <h2 className="text-[40px] md:text-[54px] font-black text-black leading-[1.1] tracking-tight">
+              A clear process. <span className="text-[#e0e02a]">Five steady steps.</span>
+            </h2>
           </div>
-          
-          <h2 className="text-[36px] md:text-[54px] font-black text-black leading-[1.1] mb-12 tracking-tight">
-            A clear process. Five steady steps.
-          </h2>
 
-          <div className="border border-black rounded-[30px] overflow-hidden bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+          <div className="relative space-y-12 md:space-y-0 md:h-[1200px]">
+            {/* Dotted Connection Lines (Visible on Desktop) */}
+            <div className="hidden md:block absolute top-0 left-1/2 w-full h-full -translate-x-1/2 pointer-events-none opacity-20">
+              <svg width="100%" height="100%" viewBox="0 0 1000 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M250 150 Q 500 150 500 300 T 750 450" stroke="black" strokeWidth="2" strokeDasharray="8 8" />
+                <path d="M750 450 Q 500 450 500 600 T 250 750" stroke="black" strokeWidth="2" strokeDasharray="8 8" />
+                <path d="M250 750 Q 500 750 500 900 T 750 1050" stroke="black" strokeWidth="2" strokeDasharray="8 8" />
+              </svg>
+            </div>
+
             {steps.map((step, index) => (
               <motion.div
                 key={index}
-                whileHover={{ backgroundColor: '#f7f7f7', y: -5 }}
-                className={`p-10 transition-all cursor-pointer ${
-                  index !== steps.length - 1 ? 'lg:border-r border-black' : ''
-                } ${
-                  index % 2 !== 0 && index !== steps.length - 1 ? 'md:border-r-0 lg:border-r' : ''
-                } border-b border-black lg:border-b-0 last:border-b-0`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: step.delay }}
+                className={`relative md:absolute w-full md:w-[450px] group ${
+                  index % 2 === 0 ? 'md:left-0' : 'md:right-0'
+                }`}
+                style={{
+                  top: `${index * 220}px`
+                }}
               >
-                <div className="text-[14px] font-bold tracking-[2px] mb-8 text-gray-500">
-                  {step.number}
+                <div className="bg-white border border-gray-100 rounded-[32px] p-10 shadow-sm hover:shadow-xl transition-all duration-500 group-hover:-translate-y-2 flex gap-8">
+                  {/* Vertical Pill Duration */}
+                  <div className="flex flex-col items-center">
+                    <div 
+                      className="w-10 h-32 rounded-full flex items-center justify-center relative overflow-hidden"
+                      style={{ backgroundColor: '#1a1a1a' }}
+                    >
+                      <span className="text-[10px] text-white font-black uppercase tracking-widest -rotate-90 whitespace-nowrap">
+                        {step.duration}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="bg-[#e0e02a]/10 p-2 rounded-lg text-[#1a2e8f]">
+                        {step.icon}
+                      </div>
+                      <span className="text-gray-400 font-bold text-xs">{step.number} {step.title}</span>
+                    </div>
+                    
+                    <p className="text-[15px] leading-[1.6] text-gray-600 font-medium">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-[30px] font-bold mb-5 tracking-tight text-black">
-                  {step.title}
-                </h3>
-                <p className="text-[16px] leading-[1.7] text-gray-600 font-medium">
-                  {step.description}
-                </p>
+
+                {/* Number Float (Visible on hover) */}
+                <div className="absolute -top-6 -right-6 w-16 h-16 bg-[#e0e02a] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-xl shadow-[#e0e02a]/20 scale-50 group-hover:scale-100">
+                  <span className="text-black font-black text-xl italic">{step.number}</span>
+                </div>
               </motion.div>
             ))}
           </div>
