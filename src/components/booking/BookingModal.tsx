@@ -42,7 +42,9 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
   });
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<'standard' | 'one_day' | 'full_event'>('standard');
+  const [selectedTier, setSelectedTier] = useState<'standard' | 'one_day' | 'full_event'>(
+    event.one_day_price ? 'one_day' : (event.full_event_price ? 'full_event' : 'standard')
+  );
 
   const getActivePrice = () => {
     if (selectedTier === 'one_day' && event.one_day_price) return event.one_day_price;
@@ -260,13 +262,15 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
                           <p className="text-xl font-bold text-black">₹{event.full_event_price}</p>
                         </div>
                       )}
-                      <div 
-                        onClick={() => setSelectedTier('standard')}
-                        className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${selectedTier === 'standard' ? 'border-primary bg-primary/5 shadow-md shadow-primary/10' : 'border-accent bg-transparent hover:border-primary/20'}`}
-                      >
-                        <p className="text-[10px] font-black uppercase tracking-wider text-muted mb-1">Standard Entry</p>
-                        <p className="text-xl font-bold text-black">₹{event.price}</p>
-                      </div>
+                      {(!event.one_day_price && !event.full_event_price) && (
+                        <div 
+                          onClick={() => setSelectedTier('standard')}
+                          className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${selectedTier === 'standard' ? 'border-primary bg-primary/5 shadow-md shadow-primary/10' : 'border-accent bg-transparent hover:border-primary/20'}`}
+                        >
+                          <p className="text-[10px] font-black uppercase tracking-wider text-muted mb-1">Standard Entry</p>
+                          <p className="text-xl font-bold text-black">₹{event.price}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
