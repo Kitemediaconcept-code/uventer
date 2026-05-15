@@ -1,7 +1,6 @@
 import Hero from "@/components/home/Hero";
 import Services from "@/components/home/Services";
 import EventGrid from "@/components/home/EventGrid";
-import CalendarSection from "@/components/home/CalendarSection";
 import PastEvents from "@/components/home/PastEvents";
 
 export default function Home() {
@@ -13,10 +12,6 @@ export default function Home() {
         <EventGrid />
       </div>
       
-      <div className="bg-secondary/20">
-        <CalendarSection />
-      </div>
-
       <div className="bg-white">
         <PastEvents />
       </div>

@@ -54,6 +54,9 @@ const Navbar = () => {
           <Link href="/#events" className="text-sm font-medium hover:text-primary transition-colors">
             Events
           </Link>
+          <Link href="/calendar" className="text-sm font-medium hover:text-primary transition-colors">
+            Calendar
+          </Link>
           <AnimatePresence>
             {session && (
               <motion.div
