@@ -190,7 +190,7 @@ const Services = () => {
               animate={{ opacity: 1, y: 0 }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] h-[400px] rounded-[32px] overflow-hidden transition-all duration-500 cursor-pointer ${
+              className={`group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] h-[320px] rounded-[32px] overflow-hidden transition-all duration-500 cursor-pointer ${
                 hoveredIndex === index 
                   ? 'bg-[#1a1a1a] shadow-2xl scale-[1.02]' 
                   : 'bg-white border border-gray-100 hover:border-gray-200 shadow-sm'
@@ -199,9 +199,9 @@ const Services = () => {
               {/* Blur Background for Active State */}
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-primary/20 via-transparent to-transparent blur-3xl`} />
 
-              <div className="relative h-full p-10 flex flex-col items-center text-center justify-between z-10">
+              <div className="relative h-full p-8 flex flex-col items-center text-center justify-between z-10">
                 <div>
-                  <div className={`text-[10px] font-black tracking-widest uppercase mb-8 ${
+                  <div className={`text-[10px] font-black tracking-widest uppercase mb-6 ${
                     hoveredIndex === index ? 'text-primary' : 'text-primary'
                   }`}>
                     More
@@ -220,7 +220,7 @@ const Services = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center w-full gap-6">
+                <div className="flex flex-col items-center w-full gap-4">
                   <div className={`h-px w-8 transition-all duration-500 ${
                     hoveredIndex === index ? 'bg-primary w-full' : 'bg-gray-100'
                   }`} />
@@ -265,13 +265,14 @@ const Services = () => {
             </h2>
           </div>
 
-          <div className="relative space-y-8 md:space-y-0 md:h-[1200px]">
+          <div className="relative space-y-8 md:space-y-0 md:h-[1800px]">
             {/* Dotted Connection Lines (Visible on Desktop) */}
             <div className="hidden md:block absolute top-0 left-1/2 w-full h-full -translate-x-1/2 pointer-events-none opacity-20">
-              <svg width="100%" height="100%" viewBox="0 0 1000 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M250 150 Q 500 150 500 300 T 750 450" stroke="black" strokeWidth="2" strokeDasharray="8 8" />
-                <path d="M750 450 Q 500 450 500 600 T 250 750" stroke="black" strokeWidth="2" strokeDasharray="8 8" />
-                <path d="M250 750 Q 500 750 500 900 T 750 1050" stroke="black" strokeWidth="2" strokeDasharray="8 8" />
+              <svg width="100%" height="100%" viewBox="0 0 1100 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M450 160 Q 550 160 550 335 T 650 510" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
+                <path d="M650 510 Q 550 510 550 685 T 450 860" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
+                <path d="M450 860 Q 550 860 550 1035 T 650 1210" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
+                <path d="M650 1210 Q 550 1210 550 1385 T 450 1560" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
               </svg>
             </div>
 
@@ -279,9 +280,6 @@ const Services = () => {
             <div className="md:hidden absolute left-[44px] top-10 bottom-10 w-px border-l-2 border-dashed border-gray-200 pointer-events-none" />
 
             {steps.map((step, index) => {
-              // Only apply absolute positioning and top offset on desktop
-              const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
-              
               return (
                 <motion.div
                   key={index}
@@ -330,7 +328,7 @@ const Services = () => {
         </div>
         <style dangerouslySetInnerHTML={{ __html: `
           @media (min-width: 768px) {
-            ${steps.map((_, i) => `.step-top-${i} { top: ${i * 220}px; }`).join('\n')}
+            ${steps.map((_, i) => `.step-top-${i} { top: ${i * 350}px; }`).join('\n')}
           }
           @media (max-width: 767px) {
             ${steps.map((_, i) => `.step-top-${i} { top: 0px !important; }`).join('\n')}
