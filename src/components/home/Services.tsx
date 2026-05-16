@@ -155,7 +155,7 @@ const Services = () => {
   return (
     <section className="w-full bg-white py-16 px-6" id="services">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-10">
+        <div className="flex flex-col items-start text-left mb-10">
           <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
             APPEARANCE MATTERS
           </p>
@@ -164,7 +164,7 @@ const Services = () => {
           </h2>
 
           {/* Categories Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-10">
+          <div className="flex flex-wrap items-center justify-start gap-2 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-10">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -253,13 +253,12 @@ const Services = () => {
 
         {/* How We Work Section - Redesigned Staggered Layout */}
         <div className="max-w-[1100px] mx-auto mt-20 mb-12 relative">
-          <div className="flex flex-col items-center text-center mb-12">
+          <div className="flex flex-col items-start text-left mb-12">
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-6 h-px bg-[#e0e02a]" />
               <p className="text-[12px] tracking-[5px] uppercase text-gray-500 font-black">
                 HOW WE WORK
               </p>
-              <span className="block w-6 h-px bg-[#e0e02a]" />
             </div>
             <h2 className="text-[40px] md:text-[54px] font-black text-black leading-[1.1] tracking-tight">
               A clear process. <span className="text-[#e0e02a]">Five steady steps.</span>
@@ -338,12 +337,12 @@ const Services = () => {
       </div>
 
         {/* CTA Footer */}
-        <div className="max-w-[1100px] mx-auto bg-white border border-gray-100 rounded-[32px] p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="max-w-[1100px] mx-auto bg-white border border-gray-100 rounded-[32px] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center gap-6">
             <div className="w-14 h-14 bg-[#e0e02a] rounded-full flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#e0e02a]/20">
               <span className="text-[#1a2e8f] text-2xl font-black leading-none">u</span>
             </div>
-            <div>
+            <div className="text-left">
               <p className="font-black text-[20px] text-black leading-tight mb-1">Ready to host your next event?</p>
               <p className="text-gray-400 text-[14px] font-medium">Let&apos;s create something extraordinary together.</p>
             </div>

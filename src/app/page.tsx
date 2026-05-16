@@ -17,15 +17,15 @@ export default function Home() {
       </div>
       
       {/* Newsletter Section - Matching Eventry Minimalist Style */}
-      <section className="bg-secondary py-24">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="bg-secondary py-16">
+        <div className="max-w-7xl mx-auto px-6 text-left">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-foreground">
             Stay in the <span className="text-primary italic font-serif">Loop</span>
           </h2>
-          <p className="text-muted mb-10 text-lg">
+          <p className="text-muted mb-10 text-lg max-w-2xl">
             Subscribe to our newsletter to get the latest event updates and exclusive offers delivered to your inbox.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 items-start">
             <input 
               type="email" 
               placeholder="Enter your email" 

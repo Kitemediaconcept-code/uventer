@@ -139,8 +139,8 @@ const CalendarSection = () => {
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Left: Calendar Grid */}
         <div className="flex-1">
-          <div className="flex items-center justify-between mb-6">
-            <div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-6">
+            <div className="text-left">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
                 Event <span className="text-primary italic font-serif">Calendar</span>
               </h2>
