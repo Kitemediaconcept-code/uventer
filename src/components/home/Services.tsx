@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import {
   Briefcase,
   Mic,
@@ -103,7 +104,7 @@ const steps = [
     title: 'Understand',
     duration: '1-2 Days',
     icon: <Search size={20} />,
-    description: 'We explore your goals and audience pain points to uncover what people truly need.',
+    description: 'We explore your event goals and audience needs to uncover what attendees truly value.',
     color: '#e0e02a',
     delay: 0
   },
@@ -112,7 +113,7 @@ const steps = [
     title: 'Plan',
     duration: '1 Week',
     icon: <PenTool size={20} />,
-    description: 'We build a clean, energetic strategy with easy navigation and motivating visuals.',
+    description: 'We build a clean, energetic strategy with easy scheduling and motivating event flow.',
     color: '#10B981',
     delay: 0.2
   },
@@ -121,7 +122,7 @@ const steps = [
     title: 'Design',
     duration: '1-2 Weeks',
     icon: <Palette size={20} />,
-    description: 'We craft the experience down to every detail, making sure the app feels smooth.',
+    description: 'We craft the experience down to every detail, making sure the atmosphere feels smooth.',
     color: '#3B82F6',
     delay: 0.4
   },
@@ -130,7 +131,7 @@ const steps = [
     title: 'Execute',
     duration: '2-4 Weeks',
     icon: <Smartphone size={20} />,
-    description: 'We run multiple test rounds to refine the experience and ensure it is enjoyable.',
+    description: 'We run multiple test rounds to refine the guest experience and ensure it is enjoyable.',
     color: '#8B5CF6',
     delay: 0.6
   },
@@ -139,7 +140,7 @@ const steps = [
     title: 'Deliver',
     duration: 'Final Day',
     icon: <Send size={20} />,
-    description: 'We wrap it all up with a polished presentation that demonstrates the app value.',
+    description: 'We wrap it all up with a polished execution that delivers maximum event value.',
     color: '#F59E0B',
     delay: 0.8
   }
@@ -251,7 +252,7 @@ const Services = () => {
         </div>
 
         {/* How We Work Section - Redesigned Staggered Layout */}
-        <div className="max-w-[1100px] mx-auto mt-32 mb-32 relative">
+        <div className="max-w-[1100px] mx-auto mt-32 mb-20 relative">
           <div className="flex flex-col items-center text-center mb-20">
             <div className="flex items-center gap-3 mb-5">
               <span className="block w-6 h-px bg-[#e0e02a]" />
@@ -265,10 +266,10 @@ const Services = () => {
             </h2>
           </div>
 
-          <div className="relative space-y-8 md:space-y-0 md:h-[1800px]">
+          <div className="relative space-y-8 md:space-y-0 md:h-[1700px]">
             {/* Dotted Connection Lines (Visible on Desktop) */}
             <div className="hidden md:block absolute top-0 left-1/2 w-full h-full -translate-x-1/2 pointer-events-none opacity-20">
-              <svg width="100%" height="100%" viewBox="0 0 1100 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="100%" height="100%" viewBox="0 0 1100 1700" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M450 160 Q 550 160 550 335 T 650 510" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
                 <path d="M650 510 Q 550 510 550 685 T 450 860" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
                 <path d="M450 860 Q 550 860 550 1035 T 650 1210" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
@@ -337,23 +338,27 @@ const Services = () => {
       </div>
 
         {/* CTA Footer */}
-        <div className="max-w-[1100px] mx-auto bg-white border border-gray-100 rounded-[24px] px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#e0e02a] rounded-full flex items-center justify-center flex-shrink-0">
+        <div className="max-w-[1100px] mx-auto bg-white border border-gray-100 rounded-[32px] p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="flex items-center gap-6">
+            <div className="w-14 h-14 bg-[#e0e02a] rounded-full flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#e0e02a]/20">
               <span className="text-[#1a2e8f] text-2xl font-black leading-none">u</span>
             </div>
             <div>
-              <p className="font-black text-[16px] text-black">Ready to host your next event?</p>
-              <p className="text-gray-400 text-[13px]">Let&apos;s create something extraordinary together.</p>
+              <p className="font-black text-[20px] text-black leading-tight mb-1">Ready to host your next event?</p>
+              <p className="text-gray-400 text-[14px] font-medium">Let&apos;s create something extraordinary together.</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <button className="flex items-center gap-2 px-6 py-3 rounded-full border border-[#1a2e8f] text-[#1a2e8f] font-bold text-[13px] hover:bg-[#1a2e8f] hover:text-white transition-colors">
-              Explore Events <ArrowRight size={13} />
-            </button>
-            <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#e0e02a] text-black font-bold text-[13px] hover:bg-[#d4d420] transition-colors">
-              Book a Consultation <ArrowRight size={13} />
-            </button>
+          <div className="flex items-center gap-4 flex-shrink-0">
+            <Link href="/#events">
+              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-gray-100 text-gray-600 font-bold text-[14px] hover:border-[#1a2e8f] hover:text-[#1a2e8f] transition-all">
+                Explore Events <ArrowRight size={14} />
+              </button>
+            </Link>
+            <Link href="/contact">
+              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#e0e02a] text-black font-bold text-[14px] hover:bg-[#d4d420] transition-all shadow-md shadow-[#e0e02a]/10 hover:shadow-lg hover:shadow-[#e0e02a]/20">
+                Book a Consultation <ArrowRight size={14} />
+              </button>
+            </Link>
           </div>
         </div>
 
