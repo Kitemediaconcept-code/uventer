@@ -95,7 +95,7 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-[#e8e8e8]">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-6 py-6 sm:py-0 sm:h-14 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <span className="text-xs text-gray-400 font-medium">
             © {currentYear} Uventer. All rights reserved.
           </span>
