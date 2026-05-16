@@ -200,8 +200,8 @@ const Services = () => {
               {/* Blur Background for Active State */}
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-primary/20 via-transparent to-transparent blur-3xl`} />
 
-              <div className="relative h-full p-8 flex flex-col items-center text-center justify-between z-10">
-                <div>
+              <div className="relative h-full p-8 flex flex-col items-start text-left justify-between z-10">
+                <div className="w-full">
                   <div className={`text-[10px] font-black tracking-widest uppercase mb-6 ${
                     hoveredIndex === index ? 'text-primary' : 'text-primary'
                   }`}>
@@ -221,13 +221,13 @@ const Services = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center w-full gap-4">
+                <div className="flex flex-col items-start w-full gap-4">
                   <div className={`h-px w-8 transition-all duration-500 ${
                     hoveredIndex === index ? 'bg-primary w-full' : 'bg-gray-100'
                   }`} />
                   
-                  <div className="flex items-center justify-center w-full relative">
-                    <div className="flex flex-col items-center gap-1">
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex flex-col items-start gap-1">
                       <p className={`text-[10px] font-black uppercase tracking-widest ${
                         hoveredIndex === index ? 'text-gray-500' : 'text-gray-300'
                       }`}>
@@ -239,7 +239,7 @@ const Services = () => {
                         Expertise & Quality
                       </p>
                     </div>
-                    <div className={`absolute right-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
                       hoveredIndex === index ? 'bg-primary text-black rotate-[-45deg]' : 'bg-gray-50 text-gray-400'
                     }`}>
                       <ArrowRight size={18} />
