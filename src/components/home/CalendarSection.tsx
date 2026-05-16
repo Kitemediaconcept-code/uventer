@@ -135,11 +135,11 @@ const CalendarSection = () => {
   );
 
   return (
-    <section id="calendar" className="max-w-7xl mx-auto px-6 py-24">
+    <section id="calendar" className="max-w-7xl mx-auto px-6 py-12">
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Left: Calendar Grid */}
         <div className="flex-1">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
                 Event <span className="text-primary italic font-serif">Calendar</span>

@@ -153,18 +153,18 @@ const Services = () => {
   const filteredServices = services.filter(s => s.category === activeTab);
 
   return (
-    <section className="w-full bg-white py-[120px] px-6" id="services">
+    <section className="w-full bg-white py-16 px-6" id="services">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-16">
-          <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-6">
+        <div className="flex flex-col items-center text-center mb-10">
+          <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
             APPEARANCE MATTERS
           </p>
-          <h2 className="text-[40px] md:text-[64px] font-black text-black leading-[1] mb-12 tracking-tight max-w-4xl">
+          <h2 className="text-[40px] md:text-[64px] font-black text-black leading-[1] mb-8 tracking-tight max-w-4xl">
             Our Services Impact <span className="text-gray-300">Your Event in Many Ways</span>
           </h2>
 
           {/* Categories Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-16">
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-10">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -182,7 +182,7 @@ const Services = () => {
         </div>
 
         {/* Services Grid - Centered */}
-        <div className="max-w-[1200px] mx-auto flex flex-wrap justify-center gap-6 mb-24">
+        <div className="max-w-[1200px] mx-auto flex flex-wrap justify-center gap-6 mb-16">
           {filteredServices.map((service, index) => (
             <motion.div
               key={index}
@@ -252,9 +252,9 @@ const Services = () => {
         </div>
 
         {/* How We Work Section - Redesigned Staggered Layout */}
-        <div className="max-w-[1100px] mx-auto mt-32 mb-20 relative">
-          <div className="flex flex-col items-center text-center mb-20">
-            <div className="flex items-center gap-3 mb-5">
+        <div className="max-w-[1100px] mx-auto mt-20 mb-12 relative">
+          <div className="flex flex-col items-center text-center mb-12">
+            <div className="flex items-center gap-3 mb-4">
               <span className="block w-6 h-px bg-[#e0e02a]" />
               <p className="text-[12px] tracking-[5px] uppercase text-gray-500 font-black">
                 HOW WE WORK
