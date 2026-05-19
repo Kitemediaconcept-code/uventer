@@ -76,7 +76,7 @@ const EventGrid = () => {
             id={event.id}
             title={event.event_name}
             category="Technology" // Placeholder for category if not in DB
-            date={new Date(event.event_date).toLocaleDateString()}
+            date={event.event_date}
             location={event.location || 'Online / TBA'}
             imageUrl={event.image_url}
             price={event.price || 0}

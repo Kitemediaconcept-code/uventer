@@ -54,7 +54,7 @@ const PastEvents = () => {
               id={event.id}
               title={event.event_name}
               category={event.category || "Past Experience"}
-              date={new Date(event.event_date).toLocaleDateString()}
+              date={event.event_date}
               location={event.location || 'Concluded'}
               imageUrl={event.image_url}
               price={event.price || 0}
