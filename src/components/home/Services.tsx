@@ -221,29 +221,11 @@ const Services = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-col items-start w-full gap-4">
-                  <div className={`h-px w-8 transition-all duration-500 ${
-                    hoveredIndex === index ? 'bg-primary w-full' : 'bg-gray-100'
-                  }`} />
-                  
-                  <div className="flex items-center justify-between w-full">
-                    <div className="flex flex-col items-start gap-1">
-                      <p className={`text-[10px] font-black uppercase tracking-widest ${
-                        hoveredIndex === index ? 'text-gray-500' : 'text-gray-300'
-                      }`}>
-                        Uventer Studio
-                      </p>
-                      <p className={`text-[11px] font-bold ${
-                        hoveredIndex === index ? 'text-gray-400' : 'text-gray-400'
-                      }`}>
-                        Expertise & Quality
-                      </p>
-                    </div>
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
-                      hoveredIndex === index ? 'bg-primary text-black rotate-[-45deg]' : 'bg-gray-50 text-gray-400'
-                    }`}>
-                      <ArrowRight size={18} />
-                    </div>
+                <div className="flex items-end justify-end w-full">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
+                    hoveredIndex === index ? 'bg-primary text-black rotate-[-45deg]' : 'bg-gray-50 text-gray-400'
+                  }`}>
+                    <ArrowRight size={18} />
                   </div>
                 </div>
               </div>
