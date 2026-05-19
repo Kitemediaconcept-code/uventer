@@ -17,8 +17,8 @@ export default function Home() {
       </div>
       
       {/* Newsletter Section - Matching Eventry Minimalist Style */}
-      <section className="bg-secondary py-[100px]">
-        <div className="max-w-7xl mx-auto px-6 text-left">
+      <section className="bg-secondary py-[64px] md:py-[100px]">
+        <div className="max-w-7xl mx-auto px-5 md:px-6 text-left">
           <h2 className="text-[28px] md:text-[42px] font-bold tracking-tight mb-6 text-foreground">
             Stay in the <span className="text-primary">Loop</span>
           </h2>

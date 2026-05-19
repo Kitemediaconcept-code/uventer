@@ -49,7 +49,7 @@ const EventGrid = () => {
   }
 
   return (
-    <section id="events" className="max-w-7xl mx-auto px-6 py-[100px]">
+    <section id="events" className="max-w-7xl mx-auto px-5 md:px-6 py-[64px] md:py-[100px]">
       <div className="flex flex-col md:flex-row md:items-start md:items-end justify-between mb-10 gap-6">
         <div>
           <h2 className="text-[28px] md:text-[42px] font-bold tracking-tight mb-4">
