@@ -59,6 +59,7 @@ const PastEvents = () => {
               imageUrl={event.image_url}
               price={event.price || 0}
               paymentLink={undefined} // No booking for past events
+              isPastEvent={true}
             />
             <div className="absolute top-4 right-4 bg-muted/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
               Completed

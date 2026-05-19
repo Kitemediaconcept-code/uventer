@@ -15,9 +15,10 @@ interface EventCardProps {
   imageUrl: string;
   price: number;
   paymentLink?: string;
+  isPastEvent?: boolean;
 }
 
-const EventCard = ({ id, title, category, date, location, imageUrl, price, paymentLink }: EventCardProps) => {
+const EventCard = ({ id, title, category, date, location, imageUrl, price, paymentLink, isPastEvent }: EventCardProps) => {
   const parsedDate = new Date(date);
   const isInvalid = isNaN(parsedDate.getTime());
   const dayStr = isInvalid ? date : parsedDate.getDate().toString();
@@ -77,7 +78,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
 
       {/* Dark Action Footer */}
       <div className="w-full bg-[#171717] text-white flex border-t border-neutral-800 text-[12px] font-black tracking-widest uppercase shrink-0">
-        {paymentLink ? (
+        {!isPastEvent ? (
           <>
             <Link
               href={`/events/${id}?book=true`}
