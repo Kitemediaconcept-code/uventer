@@ -181,28 +181,28 @@ const Services = () => {
           </div>
         </div>
 
-        {/* Services Grid - Centered */}
-        <div className="max-w-[1200px] mx-auto flex flex-wrap justify-center gap-4 mb-16">
-          {filteredServices.map((service, index) => (
-            <motion.div
-              key={index}
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              className={`group relative w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] h-[200px] rounded-[24px] overflow-hidden transition-all duration-500 cursor-pointer ${
-                hoveredIndex === index 
-                  ? 'bg-[#1a1a1a] shadow-2xl scale-[1.02]' 
-                  : 'bg-white border border-gray-100 hover:border-gray-200 shadow-sm'
-              }`}
-            >
-              {/* Blur Background for Active State */}
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-primary/20 via-transparent to-transparent blur-3xl`} />
+        {/* Services Carousel - Auto Sliding */}
+        <div className="relative mb-16 overflow-hidden">
+          {/* Left blur fade */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          {/* Right blur fade */}
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-              <div className="relative h-full p-5 flex flex-col items-start text-left justify-between z-10">
-                <div className="w-full">
-                  <h3 className={`text-lg font-black leading-tight tracking-tighter mb-2 ${
+          <div className="flex animate-scroll-left hover:[animation-play-state:paused]">
+            {/* Duplicate cards for seamless loop */}
+            {[...filteredServices, ...filteredServices].map((service, index) => (
+              <div
+                key={index}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className={`group relative flex-shrink-0 w-[280px] mx-2 rounded-[20px] overflow-hidden transition-all duration-500 cursor-pointer ${
+                  hoveredIndex === index 
+                    ? 'bg-[#1a1a1a] shadow-2xl scale-[1.02]' 
+                    : 'bg-white border border-gray-100 hover:border-gray-200 shadow-sm'
+                }`}
+              >
+                <div className="p-5 flex flex-col gap-3">
+                  <h3 className={`text-base font-black leading-tight tracking-tighter ${
                     hoveredIndex === index ? 'text-white' : 'text-black'
                   }`}>
                     {service.title}
@@ -213,18 +213,28 @@ const Services = () => {
                   }`}>
                     {service.desc}
                   </p>
-                </div>
 
-                <div className="flex items-end justify-end w-full">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${
-                    hoveredIndex === index ? 'bg-primary text-black rotate-[-45deg]' : 'bg-gray-50 text-gray-400'
-                  }`}>
-                    <ArrowRight size={14} />
+                  <div className="flex items-center justify-end">
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-500 ${
+                      hoveredIndex === index ? 'bg-primary text-black rotate-[-45deg]' : 'bg-gray-50 text-gray-400'
+                    }`}>
+                      <ArrowRight size={12} />
+                    </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
+
+          <style dangerouslySetInnerHTML={{ __html: `
+            @keyframes scroll-left {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .animate-scroll-left {
+              animation: scroll-left 25s linear infinite;
+            }
+          `}} />
         </div>
 
         {/* How We Work Section - Redesigned Staggered Layout */}
