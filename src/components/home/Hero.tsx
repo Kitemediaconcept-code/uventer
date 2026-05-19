@@ -15,14 +15,14 @@ const Hero = () => {
   };
 
   return (
-    <section className="w-full bg-white pt-8 pb-12 px-6 lg:pt-16 lg:pb-12 lg:px-12">
+    <section className="w-full bg-white pt-8 pb-8 px-6 lg:pt-12 lg:pb-8 lg:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Card */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-[#28347b] rounded-[35px] p-8 md:p-12 lg:p-16 overflow-hidden flex flex-col justify-center min-h-[450px] lg:min-h-[600px] group"
+          className="relative bg-[#28347b] rounded-[28px] p-6 md:p-10 lg:p-12 overflow-hidden flex flex-col justify-center min-h-[350px] lg:min-h-[450px] group"
         >
           {/* Decorative element */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
@@ -37,14 +37,14 @@ const Hero = () => {
           </div>
 
           <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-[1.1] tracking-tight">
               We execute events that matter.
             </h2>
-            <p className="text-white/80 text-lg md:text-xl mb-10 max-w-md font-medium leading-relaxed">
+            <p className="text-white/80 text-base md:text-lg mb-8 max-w-md font-medium leading-relaxed">
               Corporate events, business experiences, and professional execution—delivered with precision.
             </p>
             <Link href="/add-event">
-              <button className="bg-primary text-black px-10 py-4 rounded-full font-bold text-lg hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
+              <button className="bg-primary text-black px-8 py-3 rounded-full font-bold text-base hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
                 Plan Your Event
               </button>
             </Link>
@@ -56,7 +56,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-[35px] overflow-hidden flex flex-col min-h-[450px] lg:min-h-[600px] group shadow-2xl cursor-pointer"
+          className="relative rounded-[28px] overflow-hidden flex flex-col min-h-[350px] lg:min-h-[450px] group shadow-2xl cursor-pointer"
           onClick={scrollToEvents}
         >
           {/* Background Image */}
