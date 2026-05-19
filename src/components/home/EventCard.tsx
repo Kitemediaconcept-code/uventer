@@ -82,14 +82,14 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
           <>
             <Link
               href={`/events/${id}?book=true`}
-              className="flex-grow py-4.5 text-center hover:bg-[#e0e02a] hover:text-black transition-all duration-300 border-r border-neutral-800 cursor-pointer"
+              className="flex-grow py-[16px] text-center hover:bg-[#e0e02a] hover:text-black transition-all duration-300 border-r border-neutral-800 cursor-pointer"
               onClick={(e) => e.stopPropagation()}
             >
               Register
             </Link>
             <Link
               href={`/events/${id}`}
-              className="flex-grow py-4.5 text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+              className="flex-grow py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
             >
               More info
             </Link>
@@ -97,7 +97,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
         ) : (
           <Link
             href={`/events/${id}`}
-            className="w-full py-4.5 text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+            className="w-full py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
           >
             More info
           </Link>
