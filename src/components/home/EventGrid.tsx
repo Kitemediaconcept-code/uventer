@@ -53,7 +53,7 @@ const EventGrid = () => {
       <div className="flex flex-col md:flex-row md:items-start md:items-end justify-between mb-10 gap-6">
         <div>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-            Upcoming <span className="text-primary italic font-serif">Experiences</span>
+            Upcoming <span className="text-primary">Experiences</span>
           </h2>
           <p className="text-muted max-w-md">
             Hand-picked events verified by our team to ensure the best experience for you.

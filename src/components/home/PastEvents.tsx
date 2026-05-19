@@ -39,7 +39,7 @@ const PastEvents = () => {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-            Past <span className="text-muted italic font-serif">Experiences</span>
+            Past <span className="text-muted">Experiences</span>
           </h2>
           <p className="text-muted max-w-md">
             Memories from our previous successful events and gatherings.
