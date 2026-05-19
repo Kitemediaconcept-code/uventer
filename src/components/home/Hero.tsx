@@ -16,13 +16,13 @@ const Hero = () => {
 
   return (
     <section className="w-full bg-white pt-8 pb-8 px-6 lg:pt-12 lg:pb-8 lg:px-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
         {/* Left Card */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-[#28347b] rounded-[24px] lg:rounded-[28px] p-6 md:p-10 lg:p-12 overflow-hidden flex flex-col justify-center min-h-[280px] lg:min-h-[450px] group"
+          className="relative bg-[#28347b] rounded-[24px] lg:rounded-[28px] p-6 md:p-10 lg:p-12 overflow-hidden flex flex-col justify-center min-h-[240px] lg:min-h-[450px] group"
         >
           {/* Decorative element */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
@@ -56,7 +56,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-[24px] lg:rounded-[28px] overflow-hidden flex flex-col min-h-[200px] lg:min-h-[450px] group shadow-2xl cursor-pointer"
+          className="relative rounded-[24px] lg:rounded-[28px] overflow-hidden flex flex-col min-h-[240px] lg:min-h-[450px] group shadow-2xl cursor-pointer"
           onClick={scrollToEvents}
         >
           {/* Background Image */}
