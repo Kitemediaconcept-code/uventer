@@ -55,7 +55,7 @@ const Navbar = () => {
           <Link href="/" className="text-[15px] font-medium text-gray-700 hover:text-black transition-colors">
             Home
           </Link>
-          <Link href="/#events" className="text-[15px] font-medium text-gray-700 hover:text-black transition-colors">
+          <Link href="/events" className="text-[15px] font-medium text-gray-700 hover:text-black transition-colors">
             Events
           </Link>
           <Link href="/calendar" className="text-[15px] font-medium text-gray-700 hover:text-black transition-colors">
