@@ -153,7 +153,7 @@ const Services = () => {
   const filteredServices = services.filter(s => s.category === activeTab);
 
   return (
-    <section className="w-full bg-white py-16 px-6" id="services">
+    <section className="w-full bg-white py-[100px] px-6" id="services">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-start text-left mb-10">
           <p className="text-[14px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">

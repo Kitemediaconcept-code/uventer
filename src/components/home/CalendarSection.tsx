@@ -135,7 +135,7 @@ const CalendarSection = () => {
   );
 
   return (
-    <section id="calendar" className="max-w-7xl mx-auto px-6 py-16">
+    <section id="calendar" className="max-w-7xl mx-auto px-6 py-[100px]">
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Left: Calendar Grid */}
         <div className="flex-1">
