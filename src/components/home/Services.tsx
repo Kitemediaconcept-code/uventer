@@ -156,10 +156,10 @@ const Services = () => {
     <section className="w-full bg-white py-16 px-6" id="services">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-start text-left mb-10">
-          <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
+          <p className="text-[14px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
             APPEARANCE MATTERS
           </p>
-          <h2 className="text-[24px] md:text-[36px] font-black text-black leading-[1.1] mb-6 tracking-tight max-w-4xl">
+          <h2 className="text-[28px] md:text-[42px] font-black text-black leading-[1.1] mb-6 tracking-tight max-w-4xl">
             Our Services Impact <span className="text-gray-300">Your Event in Many Ways</span>
           </h2>
 
@@ -169,7 +169,7 @@ const Services = () => {
               <button
                 key={cat}
                 onClick={() => setActiveTab(cat)}
-                className={`px-5 md:px-8 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-black transition-all duration-300 ${
+                className={`px-5 md:px-8 py-2.5 md:py-3 rounded-xl text-[14px] md:text-[16px] font-black transition-all duration-300 ${
                   activeTab === cat 
                     ? 'bg-[#1a1a1a] text-white shadow-xl shadow-black/10' 
                     : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100/50'
@@ -202,13 +202,13 @@ const Services = () => {
                 }`}
               >
                 <div className="p-4 md:p-5 flex flex-col gap-2 md:gap-3">
-                  <h3 className={`text-sm md:text-base font-black leading-tight tracking-tighter ${
+                  <h3 className={`text-[16px] md:text-[18px] font-black leading-tight tracking-tighter ${
                     hoveredIndex === index ? 'text-white' : 'text-black'
                   }`}>
                     {service.title}
                   </h3>
                   
-                  <p className={`text-[11px] md:text-xs font-medium leading-relaxed ${
+                  <p className={`text-[14px] font-medium leading-[1.7] ${
                     hoveredIndex === index ? 'text-gray-400' : 'text-gray-500'
                   }`}>
                     {service.desc}
@@ -242,11 +242,11 @@ const Services = () => {
           <div className="flex flex-col items-start text-left mb-12">
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-6 h-px bg-[#e0e02a]" />
-              <p className="text-[12px] tracking-[5px] uppercase text-gray-500 font-black">
+              <p className="text-[14px] tracking-[5px] uppercase text-gray-500 font-black">
                 HOW WE WORK
               </p>
             </div>
-            <h2 className="text-[40px] md:text-[54px] font-black text-black leading-[1.1] tracking-tight">
+            <h2 className="text-[28px] md:text-[42px] font-black text-black leading-[1.1] tracking-tight">
               A clear process. <span className="text-[#e0e02a]">Five steady steps.</span>
             </h2>
           </div>
@@ -295,10 +295,10 @@ const Services = () => {
                       <div className="bg-[#e0e02a]/10 p-2 rounded-lg text-[#1a2e8f]">
                         {step.icon}
                       </div>
-                      <span className="text-gray-400 font-bold text-xs">{step.number} {step.title}</span>
+                      <span className="text-gray-400 font-bold text-[14px]">{step.number} {step.title}</span>
                     </div>
                     
-                    <p className="text-[15px] leading-[1.6] text-gray-600 font-medium">
+                    <p className="text-[16px] leading-[1.7] text-gray-600 font-medium">
                       {step.description}
                     </p>
                   </div>
@@ -329,18 +329,18 @@ const Services = () => {
               <span className="text-[#1a2e8f] text-2xl font-black leading-none">u</span>
             </div>
             <div className="text-left">
-              <p className="font-black text-[20px] text-black leading-tight mb-1">Ready to host your next event?</p>
-              <p className="text-gray-400 text-[14px] font-medium">Let&apos;s create something extraordinary together.</p>
+              <p className="font-black text-[18px] text-black leading-tight mb-1">Ready to host your next event?</p>
+              <p className="text-gray-400 text-[16px] font-medium">Let&apos;s create something extraordinary together.</p>
             </div>
           </div>
           <div className="flex items-center gap-4 flex-shrink-0">
             <Link href="/#events">
-              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-gray-100 text-gray-600 font-bold text-[14px] hover:border-[#1a2e8f] hover:text-[#1a2e8f] transition-all">
+              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-gray-100 text-gray-600 font-bold text-[16px] hover:border-[#1a2e8f] hover:text-[#1a2e8f] transition-all">
                 Explore Events <ArrowRight size={14} />
               </button>
             </Link>
             <Link href="/contact">
-              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#e0e02a] text-black font-bold text-[14px] hover:bg-[#d4d420] transition-all shadow-md shadow-[#e0e02a]/10 hover:shadow-lg hover:shadow-[#e0e02a]/20">
+              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#e0e02a] text-black font-bold text-[16px] hover:bg-[#d4d420] transition-all shadow-md shadow-[#e0e02a]/10 hover:shadow-lg hover:shadow-[#e0e02a]/20">
                 Book a Consultation <ArrowRight size={14} />
               </button>
             </Link>

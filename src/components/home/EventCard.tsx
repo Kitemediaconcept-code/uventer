@@ -37,7 +37,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
 
       <div className="p-6 flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-4 gap-4">
-          <h3 className="text-xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
+          <h3 className="text-[18px] font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
             {title}
           </h3>
           <Link 
@@ -51,24 +51,24 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="flex items-center gap-2 text-muted">
             <Calendar size={16} className="text-primary" />
-            <span className="text-xs font-medium">{date}</span>
+            <span className="text-[14px] font-medium">{date}</span>
           </div>
           <div className="flex items-center gap-2 text-muted">
             <MapPin size={16} className="text-primary" />
-            <span className="text-xs font-medium truncate">{location}</span>
+            <span className="text-[14px] font-medium truncate">{location}</span>
           </div>
         </div>
 
         <div className="pt-4 border-t border-accent flex items-center justify-between mt-auto gap-3">
           <div className="flex flex-col shrink-0">
             <span className="text-[10px] uppercase font-bold text-muted tracking-widest">Entry From</span>
-            <span className="text-lg font-bold text-black">₹{price}</span>
+            <span className="text-[18px] font-bold text-black">₹{price}</span>
           </div>
           
           <div className="flex items-center gap-3">
             <Link 
               href={`/events/${id}`}
-              className="text-xs sm:text-sm font-bold text-foreground hover:text-primary transition-colors whitespace-nowrap"
+              className="text-[14px] sm:text-[16px] font-bold text-foreground hover:text-primary transition-colors whitespace-nowrap"
             >
               Details
             </Link>

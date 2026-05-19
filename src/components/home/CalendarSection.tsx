@@ -141,7 +141,7 @@ const CalendarSection = () => {
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-6">
             <div className="text-left">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              <h2 className="text-[28px] md:text-[42px] font-bold tracking-tight">
                 Event <span className="text-primary italic font-serif">Calendar</span>
               </h2>
               <p className="text-muted text-sm mt-1">Plan your schedule with Uventer</p>

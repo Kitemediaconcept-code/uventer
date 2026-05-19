@@ -52,18 +52,18 @@ const EventGrid = () => {
     <section id="events" className="max-w-7xl mx-auto px-6 py-12">
       <div className="flex flex-col md:flex-row md:items-start md:items-end justify-between mb-10 gap-6">
         <div>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-[28px] md:text-[42px] font-bold tracking-tight mb-4">
             Upcoming <span className="text-primary">Experiences</span>
           </h2>
-          <p className="text-muted max-w-md">
+          <p className="text-muted max-w-md text-[16px] md:text-[18px] leading-[1.7]">
             Hand-picked events verified by our team to ensure the best experience for you.
           </p>
         </div>
         <div className="flex gap-4">
-          <button className="px-6 py-2 rounded-full border border-accent font-bold text-sm bg-white hover:bg-secondary transition-colors">
+          <button className="px-6 py-2 rounded-full border border-accent font-bold text-[16px] bg-white hover:bg-secondary transition-colors">
             All Categories
           </button>
-          <button className="px-6 py-2 rounded-full border border-accent font-bold text-sm bg-white hover:bg-secondary transition-colors">
+          <button className="px-6 py-2 rounded-full border border-accent font-bold text-[16px] bg-white hover:bg-secondary transition-colors">
             Trending
           </button>
         </div>

@@ -37,14 +37,14 @@ const Hero = () => {
           </div>
 
           <div className="relative z-10">
-            <h2 className="text-[22px] md:text-4xl lg:text-5xl font-bold text-white mb-3 leading-[1.1] tracking-tight">
+            <h2 className="text-[32px] md:text-[48px] lg:text-[64px] font-bold text-white mb-4 leading-[1.1] tracking-tight">
               We execute events that matter.
             </h2>
-            <p className="text-white/80 text-sm md:text-lg mb-6 max-w-md font-medium leading-relaxed">
+            <p className="text-white/80 text-[16px] md:text-[18px] mb-6 max-w-md font-medium leading-[1.7]">
               Corporate events, business experiences, and professional execution—delivered with precision.
             </p>
             <Link href="/add-event">
-              <button className="bg-primary text-black px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
+              <button className="bg-primary text-black px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-[16px] hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
                 Plan Your Event
               </button>
             </Link>
