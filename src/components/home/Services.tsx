@@ -191,7 +191,7 @@ const Services = () => {
               animate={{ opacity: 1, y: 0 }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] h-[320px] rounded-[32px] overflow-hidden transition-all duration-500 cursor-pointer ${
+              className={`group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] h-[260px] rounded-[32px] overflow-hidden transition-all duration-500 cursor-pointer ${
                 hoveredIndex === index 
                   ? 'bg-[#1a1a1a] shadow-2xl scale-[1.02]' 
                   : 'bg-white border border-gray-100 hover:border-gray-200 shadow-sm'
@@ -200,15 +200,9 @@ const Services = () => {
               {/* Blur Background for Active State */}
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-primary/20 via-transparent to-transparent blur-3xl`} />
 
-              <div className="relative h-full p-8 flex flex-col items-start text-left justify-between z-10">
+              <div className="relative h-full p-6 flex flex-col items-start text-left justify-between z-10">
                 <div className="w-full">
-                  <div className={`text-[10px] font-black tracking-widest uppercase mb-6 ${
-                    hoveredIndex === index ? 'text-primary' : 'text-primary'
-                  }`}>
-                    More
-                  </div>
-                  
-                  <h3 className={`text-2xl font-black leading-tight tracking-tighter mb-4 ${
+                  <h3 className={`text-2xl font-black leading-tight tracking-tighter mb-3 ${
                     hoveredIndex === index ? 'text-white' : 'text-black'
                   }`}>
                     {service.title}
