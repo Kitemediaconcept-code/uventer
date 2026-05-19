@@ -35,8 +35,8 @@ const PastEvents = () => {
   }
 
   return (
-    <section id="past-events" className="max-w-7xl mx-auto px-6 py-24 border-t border-accent/30">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+    <section id="past-events" className="max-w-7xl mx-auto px-6 py-16 border-t border-accent/30">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
         <div>
           <h2 className="text-[28px] md:text-[42px] font-bold tracking-tight mb-4">
             Past <span className="text-muted">Experiences</span>

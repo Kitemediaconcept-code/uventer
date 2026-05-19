@@ -238,7 +238,7 @@ const Services = () => {
         </div>
 
         {/* How We Work Section - Redesigned Staggered Layout */}
-        <div className="max-w-[1100px] mx-auto mt-20 mb-12 relative">
+        <div className="max-w-7xl mx-auto mt-20 mb-12 relative">
           <div className="flex flex-col items-start text-left mb-12">
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-6 h-px bg-[#e0e02a]" />
@@ -323,7 +323,7 @@ const Services = () => {
       </div>
 
         {/* CTA Footer */}
-        <div className="max-w-[1100px] mx-auto bg-white border border-gray-100 rounded-[32px] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="max-w-7xl mx-auto bg-white border border-gray-100 rounded-[32px] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center gap-6">
             <div className="w-14 h-14 bg-[#e0e02a] rounded-full flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#e0e02a]/20">
               <span className="text-[#1a2e8f] text-2xl font-black leading-none">u</span>
