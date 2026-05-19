@@ -159,17 +159,17 @@ const Services = () => {
           <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
             APPEARANCE MATTERS
           </p>
-          <h2 className="text-[32px] md:text-[48px] font-black text-black leading-[1] mb-8 tracking-tight max-w-4xl">
+          <h2 className="text-[26px] md:text-[48px] font-black text-black leading-[1.1] mb-6 tracking-tight max-w-4xl">
             Our Services Impact <span className="text-gray-300">Your Event in Many Ways</span>
           </h2>
 
           {/* Categories Tabs */}
-          <div className="flex flex-wrap items-center justify-start gap-2 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-10">
+          <div className="flex items-center justify-start gap-1 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-8 w-fit">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveTab(cat)}
-                className={`px-8 py-3 rounded-xl text-sm font-black transition-all duration-300 ${
+                className={`px-5 md:px-8 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-black transition-all duration-300 ${
                   activeTab === cat 
                     ? 'bg-[#1a1a1a] text-white shadow-xl shadow-black/10' 
                     : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100/50'
@@ -182,40 +182,40 @@ const Services = () => {
         </div>
 
         {/* Services Carousel - Auto Sliding */}
-        <div className="relative mb-16 overflow-hidden">
+        <div className="relative mb-12 overflow-hidden -mx-6">
           {/* Left blur fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-10 md:w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           {/* Right blur fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-10 md:w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-          <div className="flex animate-scroll-left hover:[animation-play-state:paused]">
+          <div className="flex animate-scroll-left hover:[animation-play-state:paused] pl-6">
             {/* Duplicate cards for seamless loop */}
             {[...filteredServices, ...filteredServices].map((service, index) => (
               <div
                 key={index}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className={`group relative flex-shrink-0 w-[280px] mx-2 rounded-[20px] overflow-hidden transition-all duration-500 cursor-pointer ${
+                className={`group relative flex-shrink-0 w-[220px] md:w-[280px] mx-1.5 md:mx-2 rounded-[16px] md:rounded-[20px] overflow-hidden transition-all duration-500 cursor-pointer ${
                   hoveredIndex === index 
                     ? 'bg-[#1a1a1a] shadow-2xl scale-[1.02]' 
                     : 'bg-white border border-gray-100 hover:border-gray-200 shadow-sm'
                 }`}
               >
-                <div className="p-5 flex flex-col gap-3">
-                  <h3 className={`text-base font-black leading-tight tracking-tighter ${
+                <div className="p-4 md:p-5 flex flex-col gap-2 md:gap-3">
+                  <h3 className={`text-sm md:text-base font-black leading-tight tracking-tighter ${
                     hoveredIndex === index ? 'text-white' : 'text-black'
                   }`}>
                     {service.title}
                   </h3>
                   
-                  <p className={`text-xs font-medium leading-relaxed ${
+                  <p className={`text-[11px] md:text-xs font-medium leading-relaxed ${
                     hoveredIndex === index ? 'text-gray-400' : 'text-gray-500'
                   }`}>
                     {service.desc}
                   </p>
 
                   <div className="flex items-center justify-end">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-500 ${
+                    <div className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center transition-all duration-500 ${
                       hoveredIndex === index ? 'bg-primary text-black rotate-[-45deg]' : 'bg-gray-50 text-gray-400'
                     }`}>
                       <ArrowRight size={12} />
@@ -232,7 +232,7 @@ const Services = () => {
               100% { transform: translateX(-50%); }
             }
             .animate-scroll-left {
-              animation: scroll-left 25s linear infinite;
+              animation: scroll-left 20s linear infinite;
             }
           `}} />
         </div>
