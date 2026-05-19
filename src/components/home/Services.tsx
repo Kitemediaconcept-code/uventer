@@ -159,7 +159,7 @@ const Services = () => {
           <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
             APPEARANCE MATTERS
           </p>
-          <h2 className="text-[26px] md:text-[48px] font-black text-black leading-[1.1] mb-6 tracking-tight max-w-4xl">
+          <h2 className="text-[24px] md:text-[36px] font-black text-black leading-[1.1] mb-6 tracking-tight max-w-4xl">
             Our Services Impact <span className="text-gray-300">Your Event in Many Ways</span>
           </h2>
 
