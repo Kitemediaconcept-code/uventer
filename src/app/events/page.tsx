@@ -204,6 +204,17 @@ const EventsPage = () => {
                       </span>
                     </div>
 
+                    {/* Event Image */}
+                    <div className="hidden sm:block flex-shrink-0 w-[100px] md:w-[130px] h-[100px] md:h-[120px] my-auto ml-2 overflow-hidden rounded-2xl">
+                      <Image
+                        src={event.image_url}
+                        alt={event.event_name}
+                        width={130}
+                        height={120}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+
                     {/* Event Details */}
                     <div className="flex-1 p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
                       <div className="flex-1 min-w-0">
