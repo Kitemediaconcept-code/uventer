@@ -159,7 +159,7 @@ const Services = () => {
           <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
             APPEARANCE MATTERS
           </p>
-          <h2 className="text-[40px] md:text-[64px] font-black text-black leading-[1] mb-8 tracking-tight max-w-4xl">
+          <h2 className="text-[32px] md:text-[48px] font-black text-black leading-[1] mb-8 tracking-tight max-w-4xl">
             Our Services Impact <span className="text-gray-300">Your Event in Many Ways</span>
           </h2>
 
@@ -265,14 +265,14 @@ const Services = () => {
             </h2>
           </div>
 
-          <div className="relative space-y-8 md:space-y-0 md:h-[1700px]">
+          <div className="relative space-y-8 md:space-y-0 md:h-[1200px]">
             {/* Dotted Connection Lines (Visible on Desktop) */}
             <div className="hidden md:block absolute top-0 left-1/2 w-full h-full -translate-x-1/2 pointer-events-none opacity-20">
-              <svg width="100%" height="100%" viewBox="0 0 1100 1700" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M450 160 Q 550 160 550 335 T 650 510" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
-                <path d="M650 510 Q 550 510 550 685 T 450 860" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
-                <path d="M450 860 Q 550 860 550 1035 T 650 1210" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
-                <path d="M650 1210 Q 550 1210 550 1385 T 450 1560" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
+              <svg width="100%" height="100%" viewBox="0 0 1100 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M450 120 Q 550 120 550 240 T 650 360" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
+                <path d="M650 360 Q 550 360 550 480 T 450 600" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
+                <path d="M450 600 Q 550 600 550 720 T 650 840" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
+                <path d="M650 840 Q 550 840 550 960 T 450 1080" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
               </svg>
             </div>
 
@@ -328,7 +328,7 @@ const Services = () => {
         </div>
         <style dangerouslySetInnerHTML={{ __html: `
           @media (min-width: 768px) {
-            ${steps.map((_, i) => `.step-top-${i} { top: ${i * 350}px; }`).join('\n')}
+            ${steps.map((_, i) => `.step-top-${i} { top: ${i * 240}px; }`).join('\n')}
           }
           @media (max-width: 767px) {
             ${steps.map((_, i) => `.step-top-${i} { top: 0px !important; }`).join('\n')}
