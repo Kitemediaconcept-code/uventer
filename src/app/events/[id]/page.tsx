@@ -111,6 +111,32 @@ export default function EventDetailPage() {
       );
     });
   };
+
+  const getValidMapUrl = (url?: string) => {
+    if (!url) return null;
+    
+    // 1. Try to extract src if they pasted an iframe tag
+    const iframeMatch = url.match(/src\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s>]+))/i);
+    if (iframeMatch) {
+      url = iframeMatch[1] || iframeMatch[2] || iframeMatch[3];
+    } else {
+      // 2. Otherwise, try to extract any http/https link from the text (in case they added extra text)
+      const httpMatch = url.match(/(https?:\/\/[^\s"'<>]+)/i);
+      if (httpMatch) {
+        url = httpMatch[1];
+      }
+    }
+    
+    // Clean up whitespace
+    url = url.trim();
+
+    // 3. If it still doesn't start with http/https, prepend https://
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
+    
+    return url;
+  };
   const searchParams = useSearchParams();
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
@@ -316,10 +342,10 @@ export default function EventDetailPage() {
             )}
           </section>
 
-          {event.map_url && (
+          {getValidMapUrl(event.map_url) && (
             <div className="rounded-[3rem] overflow-hidden border border-accent h-[400px] shadow-sm">
               <iframe 
-                src={event.map_url}
+                src={getValidMapUrl(event.map_url)!}
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 

@@ -156,9 +156,6 @@ const Services = () => {
     <section className="w-full bg-white py-[48px] md:py-[80px] px-5 md:px-6" id="services">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-start text-left mb-10">
-          <p className="text-[14px] font-black tracking-[0.3em] uppercase text-gray-400 mb-4">
-            APPEARANCE MATTERS
-          </p>
           <h2 className="text-[28px] md:text-[42px] font-black text-black leading-[1.1] mb-6 tracking-tight max-w-4xl">
             Our Services Impact <span className="text-gray-300">Your Event in Many Ways</span>
           </h2>
@@ -323,24 +320,24 @@ const Services = () => {
       </div>
 
         {/* CTA Footer */}
-        <div className="max-w-7xl mx-auto bg-white border border-gray-100 rounded-[32px] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="flex items-center gap-6">
+        <div className="max-w-7xl mx-auto bg-white border border-gray-100 rounded-[32px] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
             <div className="w-14 h-14 bg-[#e0e02a] rounded-full flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#e0e02a]/20">
               <span className="text-[#1a2e8f] text-2xl font-black leading-none">u</span>
             </div>
             <div className="text-left">
               <p className="font-black text-[18px] text-black leading-tight mb-1">Ready to host your next event?</p>
-              <p className="text-gray-400 text-[16px] font-medium">Let&apos;s create something extraordinary together.</p>
+              <p className="text-gray-400 text-[14px] md:text-[16px] font-medium">Let&apos;s create something extraordinary together.</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 flex-shrink-0">
-            <Link href="/#events">
-              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-gray-100 text-gray-600 font-bold text-[16px] hover:border-[#1a2e8f] hover:text-[#1a2e8f] transition-all">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full md:w-auto flex-shrink-0">
+            <Link href="/#events" className="w-full sm:w-auto">
+              <button className="w-full justify-center flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-full border-2 border-gray-100 text-gray-600 font-bold text-[14px] md:text-[16px] hover:border-[#1a2e8f] hover:text-[#1a2e8f] transition-all">
                 Explore Events <ArrowRight size={14} />
               </button>
             </Link>
-            <Link href="/contact">
-              <button className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#e0e02a] text-black font-bold text-[16px] hover:bg-[#d4d420] transition-all shadow-md shadow-[#e0e02a]/10 hover:shadow-lg hover:shadow-[#e0e02a]/20">
+            <Link href="/contact" className="w-full sm:w-auto">
+              <button className="w-full justify-center flex items-center gap-2 px-6 md:px-8 py-3.5 rounded-full bg-[#e0e02a] text-black font-bold text-[14px] md:text-[16px] hover:bg-[#d4d420] transition-all shadow-md shadow-[#e0e02a]/10 hover:shadow-lg hover:shadow-[#e0e02a]/20">
                 Book a Consultation <ArrowRight size={14} />
               </button>
             </Link>
