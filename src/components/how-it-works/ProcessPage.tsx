@@ -130,8 +130,6 @@ export default function ProcessPage() {
     <div className="w-full bg-[#fafafa] text-black min-h-screen pb-20">
       {/* Premium Hero Header */}
       <section className="relative w-full bg-white border-b border-gray-100 py-16 md:py-24 px-5 md:px-6 overflow-hidden">
-        {/* Subtle grid background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto text-left relative z-10">
           <motion.div
