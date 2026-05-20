@@ -35,10 +35,10 @@ const PastEvents = () => {
   }
 
   return (
-    <section id="past-events" className="max-w-7xl mx-auto px-5 md:px-6 py-[64px] md:py-[100px] border-t border-accent/30">
+    <section id="past-events" className="max-w-7xl mx-auto px-5 md:px-6 py-[48px] md:py-[80px] border-t border-accent/30">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
         <div>
-          <h2 className="text-[28px] md:text-[42px] font-bold tracking-tight mb-4">
+          <h2 className="text-[28px] md:text-[42px] font-bold tracking-tight mb-6">
             Past <span className="text-muted">Experiences</span>
           </h2>
           <p className="text-muted max-w-md">

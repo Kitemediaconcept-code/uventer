@@ -15,7 +15,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="w-full bg-white py-[64px] md:py-[100px] px-5 md:px-6">
+    <section className="w-full bg-white py-[48px] md:py-[80px] px-5 md:px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-6">
         {/* Left Card */}
         <motion.div
@@ -37,7 +37,7 @@ const Hero = () => {
           </div>
 
           <div className="relative z-10">
-            <h1 className="text-[42px] md:text-[48px] lg:text-[64px] font-bold text-white mb-4 leading-[1.1] tracking-tight">
+            <h1 className="text-[42px] md:text-[48px] lg:text-[64px] font-bold text-white mb-6 leading-[1.1] tracking-tight">
               We execute events that matter.
             </h1>
             <p className="text-white/80 text-[16px] md:text-[18px] mb-6 max-w-md font-medium leading-[1.7]">
