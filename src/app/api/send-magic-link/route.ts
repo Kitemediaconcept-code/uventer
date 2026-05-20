@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     }
 
     // ── MAGIC LINK ───────────────────────────────────────────────────────────
-    const origin = request.headers.get('origin') || 'http://localhost:3000';
+    const origin = request.headers.get('origin') || 'https://uventerevents.com';
     const redirectUrl = `${origin}${redirectTo || '/'}`;
 
     const { error } = await supabase.auth.signInWithOtp({

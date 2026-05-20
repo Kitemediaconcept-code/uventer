@@ -185,11 +185,11 @@ const EventsPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.06 }}
-                  className={`group bg-white rounded-[24px] border border-gray-100 hover:border-gray-200 hover:shadow-xl hover:shadow-black/[0.03] transition-all duration-500 overflow-hidden ${isPast ? 'opacity-75 hover:opacity-100' : ''}`}
+                  className={`group bg-white rounded-[24px] border border-neutral-100 hover:border-neutral-200/80 hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${isPast ? 'opacity-75 hover:opacity-100' : ''}`}
                 >
                   <div className="flex items-stretch">
                     {/* Date Column */}
-                    <div className="flex-shrink-0 w-[100px] md:w-[120px] flex flex-col items-center justify-center border-r border-gray-50 p-4 md:p-6">
+                    <div className="flex-shrink-0 w-[100px] md:w-[120px] flex flex-col items-center justify-center border-r border-neutral-100/60 p-4 md:p-6">
                       {today ? (
                         <span className="text-[10px] font-black tracking-widest uppercase text-[#e0e02a] bg-[#e0e02a]/10 px-3 py-1 rounded-full mb-2">
                           TODAY
@@ -203,37 +203,38 @@ const EventsPage = () => {
                         {day}
                       </span>
                     </div>
-
+ 
                     {/* Event Image */}
-                    <div className="hidden sm:block flex-shrink-0 w-[100px] md:w-[130px] h-[100px] md:h-[120px] my-auto ml-2 overflow-hidden rounded-2xl">
+                    <div className="hidden sm:block flex-shrink-0 w-[100px] md:w-[130px] h-[100px] md:h-[120px] my-auto ml-2 overflow-hidden rounded-2xl relative">
                       <Image
                         src={event.image_url}
                         alt={event.event_name}
                         width={130}
                         height={120}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)]"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
                     </div>
-
+ 
                     {/* Event Details */}
                     <div className="flex-1 p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1.5">
                           {event.category && (
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#e0e02a]">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-neutral-100 text-neutral-600 group-hover:bg-[#e0e02a]/10 group-hover:text-black transition-colors duration-300">
                               {event.category}
                             </span>
                           )}
                         </div>
-                        <h3 className="text-[17px] md:text-[19px] font-bold text-black leading-snug mb-1.5 group-hover:text-[#1a2e8f] transition-colors">
+                        <h3 className="text-[17px] md:text-[19px] font-bold text-gray-900 leading-snug mb-1.5 group-hover:text-black transition-colors duration-300">
                           {event.event_name}
                         </h3>
                         <p className="text-[13px] text-gray-400 font-medium leading-relaxed line-clamp-2">
                           {event.description || `Join us for ${event.event_name}, a premium event experience curated by Uventer.`}
                         </p>
                         {event.location && (
-                          <div className="flex items-center gap-1.5 mt-2 text-gray-400">
-                            <MapPin size={12} />
+                          <div className="flex items-center gap-1.5 mt-2 text-gray-400 group-hover:text-gray-600 transition-colors duration-300">
+                            <MapPin size={12} className="shrink-0 text-gray-400 group-hover:text-[#e0e02a] transition-colors duration-300" />
                             <span className="text-[11px] font-medium">{event.location}</span>
                           </div>
                         )}

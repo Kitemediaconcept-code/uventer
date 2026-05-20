@@ -9,7 +9,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function sendMagicLink(email: string, redirectToPath: string) {
   try {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://uventerevents.com';
     const redirectUrl = `${siteUrl}${redirectToPath.startsWith('/') ? redirectToPath : `/${redirectToPath}`}`;
     
     console.log('Sending magic link to', email, 'with redirect:', redirectUrl);

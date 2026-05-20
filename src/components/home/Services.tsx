@@ -14,11 +14,6 @@ import {
   Settings,
   MapPin,
   ArrowRight,
-  Search,
-  Palette,
-  Smartphone,
-  Send,
-  PenTool,
 } from 'lucide-react';
 
 const services = [
@@ -98,53 +93,6 @@ const services = [
 
 const categories = ['Events', 'Experience', 'Execution'];
 
-const steps = [
-  {
-    number: '01',
-    title: 'Understand',
-    duration: '1-2 Days',
-    icon: <Search size={20} />,
-    description: 'We explore your event goals and audience needs to uncover what attendees truly value.',
-    color: '#e0e02a',
-    delay: 0
-  },
-  {
-    number: '02',
-    title: 'Plan',
-    duration: '1 Week',
-    icon: <PenTool size={20} />,
-    description: 'We build a clean, energetic strategy with easy scheduling and motivating event flow.',
-    color: '#10B981',
-    delay: 0.2
-  },
-  {
-    number: '03',
-    title: 'Design',
-    duration: '1-2 Weeks',
-    icon: <Palette size={20} />,
-    description: 'We craft the experience down to every detail, making sure the atmosphere feels smooth.',
-    color: '#3B82F6',
-    delay: 0.4
-  },
-  {
-    number: '04',
-    title: 'Execute',
-    duration: '2-4 Weeks',
-    icon: <Smartphone size={20} />,
-    description: 'We run multiple test rounds to refine the guest experience and ensure it is enjoyable.',
-    color: '#8B5CF6',
-    delay: 0.6
-  },
-  {
-    number: '05',
-    title: 'Deliver',
-    duration: 'Final Day',
-    icon: <Send size={20} />,
-    description: 'We wrap it all up with a polished execution that delivers maximum event value.',
-    color: '#F59E0B',
-    delay: 0.8
-  }
-];
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState('Events');
@@ -153,7 +101,7 @@ const Services = () => {
   const filteredServices = services.filter(s => s.category === activeTab);
 
   return (
-    <section className="w-full bg-white py-[48px] md:py-[80px] px-5 md:px-6" id="services">
+    <section className="w-full bg-white pt-6 md:pt-10 pb-[48px] md:pb-[80px] px-5 md:px-6" id="services">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-start text-left mb-10">
           <h2 className="text-[28px] md:text-[42px] font-black text-black leading-[1.1] mb-6 tracking-tight max-w-4xl">
@@ -161,30 +109,32 @@ const Services = () => {
           </h2>
 
           {/* Categories Tabs */}
-          <div className="flex items-center justify-start gap-1 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 mb-8 w-fit">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveTab(cat)}
-                className={`px-5 md:px-8 py-2.5 md:py-3 rounded-xl text-[14px] md:text-[16px] font-black transition-all duration-300 ${
-                  activeTab === cat 
-                    ? 'bg-[#1a1a1a] text-white shadow-xl shadow-black/10' 
-                    : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100/50'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-4 mb-8">
+            <div className="flex items-center justify-start gap-1 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 w-fit">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveTab(cat)}
+                  className={`px-5 md:px-8 py-2.5 md:py-3 rounded-xl text-[14px] md:text-[16px] font-black transition-all duration-300 ${
+                    activeTab === cat 
+                      ? 'bg-[#1a1a1a] text-white shadow-xl shadow-black/10' 
+                      : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100/50'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            <Link href="/how-it-works" className="hidden md:inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gray-50 border border-gray-100 hover:bg-gray-100 hover:border-gray-200 text-sm font-bold text-gray-700 transition-all duration-300">
+              <span>How We Work</span>
+              <ArrowRight size={14} className="text-[#e0e02a]" />
+            </Link>
           </div>
         </div>
 
         {/* Services Carousel - Auto Sliding */}
         <div className="relative mb-12 overflow-hidden -mx-6">
-          {/* Left blur fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-10 md:w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          {/* Right blur fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-10 md:w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-
           <div className="flex animate-scroll-left hover:[animation-play-state:paused] pl-6">
             {/* Duplicate cards for seamless loop */}
             {[...filteredServices, ...filteredServices].map((service, index) => (
@@ -234,90 +184,7 @@ const Services = () => {
           `}} />
         </div>
 
-        {/* How We Work Section - Redesigned Staggered Layout */}
-        <div className="max-w-7xl mx-auto mt-20 mb-12 relative">
-          <div className="flex flex-col items-start text-left mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="block w-6 h-px bg-[#e0e02a]" />
-              <p className="text-[14px] tracking-[5px] uppercase text-gray-500 font-black">
-                HOW WE WORK
-              </p>
-            </div>
-            <h2 className="text-[28px] md:text-[42px] font-black text-black leading-[1.1] tracking-tight">
-              A clear process. <span className="text-[#e0e02a]">Five steady steps.</span>
-            </h2>
-          </div>
 
-          <div className="relative space-y-8 md:space-y-0 md:h-[1200px]">
-            {/* Dotted Connection Lines (Visible on Desktop) */}
-            <div className="hidden md:block absolute top-0 left-1/2 w-full h-full -translate-x-1/2 pointer-events-none opacity-20">
-              <svg width="100%" height="100%" viewBox="0 0 1100 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M450 120 Q 550 120 550 240 T 650 360" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
-                <path d="M650 360 Q 550 360 550 480 T 450 600" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
-                <path d="M450 600 Q 550 600 550 720 T 650 840" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
-                <path d="M650 840 Q 550 840 550 960 T 450 1080" stroke="black" strokeWidth="1.5" strokeDasharray="6 6" />
-              </svg>
-            </div>
-
-            {/* Vertical Dotted Line (Visible on Mobile) */}
-            <div className="md:hidden absolute left-[44px] top-10 bottom-10 w-px border-l-2 border-dashed border-gray-200 pointer-events-none" />
-
-            {steps.map((step, index) => {
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: step.delay }}
-                  className={`relative md:absolute w-full md:w-[450px] group step-top-${index} ${
-                    index % 2 === 0 ? 'md:left-0' : 'md:right-0'
-                  }`}
-                >
-                  <div className="bg-white border border-gray-100 rounded-[32px] p-6 md:p-10 shadow-sm hover:shadow-xl transition-all duration-500 group-hover:-translate-y-2 flex gap-4 md:gap-8">
-                  {/* Vertical Pill Duration */}
-                  <div className="flex flex-col items-center">
-                    <div 
-                      className="w-10 h-32 rounded-full flex items-center justify-center relative overflow-hidden"
-                      style={{ backgroundColor: '#1a1a1a' }}
-                    >
-                      <span className="text-[10px] text-white font-black uppercase tracking-widest -rotate-90 whitespace-nowrap">
-                        {step.duration}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="bg-[#e0e02a]/10 p-2 rounded-lg text-[#1a2e8f]">
-                        {step.icon}
-                      </div>
-                      <span className="text-gray-400 font-bold text-[14px]">{step.number} {step.title}</span>
-                    </div>
-                    
-                    <p className="text-[16px] leading-[1.7] text-gray-600 font-medium">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Number Float (Visible on hover) */}
-                <div className="absolute -top-6 -right-6 w-16 h-16 bg-[#e0e02a] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-xl shadow-[#e0e02a]/20 scale-50 group-hover:scale-100">
-                  <span className="text-black font-black text-xl italic">{step.number}</span>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-        <style dangerouslySetInnerHTML={{ __html: `
-          @media (min-width: 768px) {
-            ${steps.map((_, i) => `.step-top-${i} { top: ${i * 240}px; }`).join('\n')}
-          }
-          @media (max-width: 767px) {
-            ${steps.map((_, i) => `.step-top-${i} { top: 0px !important; }`).join('\n')}
-          }
-        ` }} />
-      </div>
 
         {/* CTA Footer */}
         <div className="max-w-7xl mx-auto bg-white border border-gray-100 rounded-[32px] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-sm hover:shadow-md transition-all duration-300">
