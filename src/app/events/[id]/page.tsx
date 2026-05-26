@@ -185,7 +185,7 @@ export default function EventDetailPage() {
   return (
     <div className="min-h-screen bg-white pb-20">
       {/* Hero Section */}
-      <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
+      <div className="relative h-[40vh] md:h-[45vh] w-full overflow-hidden">
         <Image
           src={event.image_url || '/heroimg.png'}
           alt={event.event_name}
@@ -195,37 +195,37 @@ export default function EventDetailPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         
-        <div className="absolute top-10 left-6 right-6 flex justify-between items-center z-20">
+        <div className="absolute top-8 left-6 right-6 flex justify-between items-center z-20">
           <Link 
             href="/" 
-            className="h-12 w-12 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-all border border-white/20"
+            className="h-10 w-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-all border border-white/20"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </Link>
-          <button className="h-12 w-12 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-all border border-white/20">
-            <Share2 size={20} />
+          <button className="h-10 w-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-all border border-white/20">
+            <Share2 size={16} />
           </button>
         </div>
 
-        <div className="absolute bottom-12 left-6 right-6 z-20 max-w-7xl mx-auto">
+        <div className="absolute bottom-8 left-6 right-6 z-20 max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="px-4 py-1.5 bg-[#e0e02a] text-black text-[10px] font-black uppercase tracking-widest rounded-full mb-6 inline-block">
+            <span className="px-3 py-1 bg-[#e0e02a] text-black text-[9px] font-black uppercase tracking-widest rounded-full mb-3 inline-block">
               Confirmed Event
             </span>
-            <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
+            <h1 className="text-2xl md:text-4xl font-black text-white mb-3 leading-tight tracking-tight">
               {event.event_name}
             </h1>
-            <div className="flex flex-wrap items-center gap-6 text-white/90">
-              <div className="flex items-center gap-2">
-                <Calendar size={20} className="text-[#e0e02a]" />
+            <div className="flex flex-wrap items-center gap-5 text-white/90 text-sm">
+              <div className="flex items-center gap-1.5">
+                <Calendar size={16} className="text-[#e0e02a]" />
                 <span className="font-bold">{new Date(event.event_date).toLocaleDateString(undefined, { dateStyle: 'long' })}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <MapPin size={20} className="text-[#e0e02a]" />
+              <div className="flex items-center gap-1.5">
+                <MapPin size={16} className="text-[#e0e02a]" />
                 <span className="font-bold">{event.location}</span>
               </div>
             </div>
