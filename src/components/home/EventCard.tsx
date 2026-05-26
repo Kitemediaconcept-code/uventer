@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface EventCardProps {
   id: string;
@@ -19,6 +20,7 @@ interface EventCardProps {
 }
 
 const EventCard = ({ id, title, category, date, location, imageUrl, price, paymentLink, isPastEvent }: EventCardProps) => {
+  const router = useRouter();
   const parsedDate = new Date(date);
   const isInvalid = isNaN(parsedDate.getTime());
   const dayStr = isInvalid ? date : parsedDate.getDate().toString();
@@ -31,7 +33,8 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative bg-white border border-neutral-200 hover:border-neutral-300 transition-colors duration-300 flex flex-col h-full overflow-hidden rounded-2xl"
+      onClick={() => router.push(`/events/${id}`)}
+      className="group relative bg-white border border-neutral-200 hover:border-neutral-300 cursor-pointer transition-colors duration-300 flex flex-col h-full overflow-hidden rounded-2xl"
     >
       {/* Top Content Area */}
       <div className="p-5 md:p-7 flex flex-col flex-grow">
@@ -113,6 +116,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
             <Link
               href={`/events/${id}`}
               className="flex-grow py-[16px] text-center hover:text-black hover:bg-neutral-50 transition-colors duration-300 cursor-pointer"
+              onClick={(e) => e.stopPropagation()}
             >
               Details
             </Link>
@@ -121,6 +125,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
           <Link
             href={`/events/${id}`}
             className="w-full py-[16px] text-center hover:text-black hover:bg-neutral-50 transition-colors duration-300 cursor-pointer"
+            onClick={(e) => e.stopPropagation()}
           >
             View Memories
           </Link>
