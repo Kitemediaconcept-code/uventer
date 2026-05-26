@@ -110,7 +110,7 @@ const Services = () => {
 
           {/* Categories Tabs */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-4 mb-8">
-            <div className="flex items-center justify-start gap-1 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 w-fit">
+            <div className="flex items-center justify-start gap-1 p-1 bg-gray-50/50 rounded-2xl border border-gray-100 w-full sm:w-fit overflow-x-auto scrollbar-hide shrink-0">
               {categories.map((cat) => (
                 <button
                   key={cat}

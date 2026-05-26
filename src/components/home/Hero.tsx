@@ -22,7 +22,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-[#28347b] rounded-[24px] lg:rounded-[28px] p-6 md:p-10 lg:p-12 overflow-hidden flex flex-col justify-center min-h-[240px] lg:min-h-[450px] group"
+          className="relative bg-[#28347b] rounded-[24px] lg:rounded-[28px] p-5 md:p-10 lg:p-12 overflow-hidden flex flex-col justify-center min-h-[240px] lg:min-h-[450px] group"
         >
           {/* Decorative element */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-10 select-none">
@@ -37,7 +37,7 @@ const Hero = () => {
           </div>
 
           <div className="relative z-10">
-            <h1 className="text-[42px] md:text-[48px] lg:text-[64px] font-bold text-white mb-6 leading-[1.1] tracking-tight">
+            <h1 className="text-[36px] md:text-[48px] lg:text-[64px] font-bold text-white mb-4 md:mb-6 leading-[1.1] tracking-tight">
               We execute events that matter.
             </h1>
             <p className="text-white/80 text-[16px] md:text-[18px] mb-6 max-w-md font-medium leading-[1.7]">
