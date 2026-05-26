@@ -34,40 +34,54 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
       className="group relative bg-white border border-neutral-100 hover:border-neutral-200/80 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col h-full overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.08)] rounded-[24px] hover:-translate-y-2 will-change-transform"
     >
       {/* Top Content Area */}
-      <div className="p-3 md:p-7 flex flex-col flex-grow">
-        {/* Category Badge */}
-        <div className="mb-2 md:mb-3">
-          <span className="inline-flex items-center px-2 py-0.5 md:px-2.5 md:py-0.5 rounded-full text-[8px] md:text-[10px] font-extrabold uppercase tracking-wider bg-neutral-100 text-neutral-600 group-hover:bg-[#e0e02a]/10 group-hover:text-black transition-colors duration-300">
+      <div className="p-5 md:p-7 flex flex-col flex-grow">
+        {/* Category & FOMO Badges */}
+        <div className="mb-3 flex justify-between items-start">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-neutral-100 text-neutral-600 group-hover:bg-[#e0e02a]/10 group-hover:text-black transition-colors duration-300">
             {category}
           </span>
+          {!isPastEvent && (
+            <motion.span 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider bg-red-50 text-red-600 border border-red-100 shadow-sm"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+              </span>
+              Selling Fast
+            </motion.span>
+          )}
         </div>
 
         {/* Title */}
-        <h3 className="text-[14px] md:text-[18px] font-bold text-gray-900 leading-tight md:leading-snug tracking-tight mb-1.5 md:mb-3 min-h-[38px] md:min-h-[50px] line-clamp-2 group-hover:text-black transition-colors duration-300">
+        <h3 className="text-[16px] md:text-[18px] font-bold text-gray-900 leading-snug tracking-tight mb-2 md:mb-3 min-h-[40px] md:min-h-[50px] line-clamp-2 group-hover:text-black transition-colors duration-300">
           {title}
         </h3>
 
         {/* Location Info */}
-        <div className="flex items-center gap-1 md:gap-1.5 text-[9px] md:text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-4 md:mb-6 group-hover:text-gray-600 transition-colors duration-300">
-          <MapPin size={10} className="md:w-3 md:h-3 shrink-0 text-gray-400 group-hover:text-[#e0e02a] transition-colors duration-300" />
+        <div className="flex items-center gap-1.5 text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-6 group-hover:text-gray-600 transition-colors duration-300">
+          <MapPin size={12} className="shrink-0 text-gray-400 group-hover:text-[#e0e02a] transition-colors duration-300" />
           <span className="truncate">{location}</span>
         </div>
 
         {/* Big Date & Price Section */}
-        <div className="flex items-end justify-between mt-auto pt-3 md:pt-4 border-t border-neutral-100/80">
-          <div className="flex items-center gap-1 md:gap-2">
-            <span className="text-[28px] md:text-[54px] font-light leading-none text-gray-950 tracking-tighter">
+        <div className="flex items-end justify-between mt-auto pt-4 border-t border-neutral-100/80">
+          <div className="flex items-center gap-2">
+            <span className="text-[42px] md:text-[54px] font-light leading-none text-gray-950 tracking-tighter">
               {dayStr}
             </span>
-            <div className="text-[8px] md:text-[10px] leading-[1.1] text-gray-500 uppercase tracking-widest font-black flex flex-col">
+            <div className="text-[10px] leading-[1.1] text-gray-500 uppercase tracking-widest font-black flex flex-col">
               <span>{monthAbbr}</span>
               <span>{monthRest}</span>
             </div>
           </div>
 
           <div className="flex flex-col items-end text-right pb-1">
-            <span className="text-[7px] md:text-[9px] uppercase font-bold text-gray-400 tracking-widest leading-none mb-1">Entry From</span>
-            <span className="text-[14px] md:text-[18px] font-black text-gray-950 leading-none">₹{price}</span>
+            <span className="text-[9px] uppercase font-bold text-gray-400 tracking-widest leading-none mb-1">Entry From</span>
+            <span className="text-[18px] font-black text-gray-950 leading-none">₹{price}</span>
           </div>
         </div>
       </div>
@@ -86,19 +100,19 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
       </div>
 
       {/* Dark Action Footer */}
-      <div className="w-full bg-[#171717] text-white flex border-t border-neutral-800 text-[10px] md:text-[12px] font-black tracking-widest uppercase shrink-0">
+      <div className="w-full bg-[#171717] text-white flex border-t border-neutral-800 text-[12px] font-black tracking-widest uppercase shrink-0">
         {!isPastEvent ? (
           <>
             <Link
               href={`/events/${id}?book=true`}
-              className="flex-grow py-[10px] md:py-[16px] text-center hover:bg-[#e0e02a] hover:text-black transition-all duration-300 border-r border-neutral-800 cursor-pointer"
+              className="flex-grow py-[12px] md:py-[16px] text-center hover:bg-[#e0e02a] hover:text-black transition-all duration-300 border-r border-neutral-800 cursor-pointer"
               onClick={(e) => e.stopPropagation()}
             >
               Register
             </Link>
             <Link
               href={`/events/${id}`}
-              className="flex-grow py-[10px] md:py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+              className="flex-grow py-[12px] md:py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
             >
               More info
             </Link>
@@ -106,7 +120,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
         ) : (
           <Link
             href={`/events/${id}`}
-            className="w-full py-[10px] md:py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+            className="w-full py-[12px] md:py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
           >
             More info
           </Link>

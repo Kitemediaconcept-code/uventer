@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
+import MobileBottomNav from "@/components/layout/MobileBottomNav";
+
 export const metadata: Metadata = {
   title: "Uventer | Premium Event Booking",
   description: "Experience the best events with our minimalist booking platform.",
@@ -19,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col font-sans relative">
+      <body className="min-h-full flex flex-col font-sans relative pb-[60px] md:pb-0">
         {/* Global Subtle Grid Background Overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none z-30" />
 
@@ -28,6 +30,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <MobileBottomNav />
       </body>
     </html>
   );

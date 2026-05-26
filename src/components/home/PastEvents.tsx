@@ -47,7 +47,7 @@ const PastEvents = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8 opacity-80 transition-opacity hover:opacity-100">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 opacity-80 transition-opacity hover:opacity-100">
         {events.map((event) => (
           <div key={event.id} className="relative grayscale-[0.5] hover:grayscale-0 transition-all duration-500">
             <EventCard

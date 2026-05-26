@@ -33,6 +33,7 @@ const loadScript = (src: string) => {
 export default function BookingModal({ isOpen, onClose, event }: BookingModalProps) {
   const [showBetaNote, setShowBetaNote] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
@@ -124,7 +125,12 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
 
               {event.payment_link && (
                 <button
-                  onClick={() => window.location.href = event.payment_link!}
+                  onClick={() => {
+                    setIsRedirecting(true);
+                    setTimeout(() => {
+                      window.location.href = event.payment_link!;
+                    }, 1500);
+                  }}
                   className="w-full h-14 bg-primary text-black rounded-2xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-3 shadow-lg shadow-primary/20"
                 >
                   Proceed to Payment
@@ -139,6 +145,36 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
                 Close
               </button>
             </div>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
+  if (isRedirecting) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[120] flex flex-col items-center justify-center p-6 bg-black/90 backdrop-blur-md"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col items-center text-center"
+          >
+            <div className="relative w-20 h-20 mb-8">
+              <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
+              <div className="absolute inset-0 flex items-center justify-center text-primary">
+                <ShieldCheck size={24} />
+              </div>
+            </div>
+            <h2 className="text-3xl font-black text-white tracking-tight mb-3">Securing your spot...</h2>
+            <p className="text-neutral-400 font-medium max-w-sm text-lg">Redirecting you securely to our official ticketing partner.</p>
           </motion.div>
         </motion.div>
       </AnimatePresence>
