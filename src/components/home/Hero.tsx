@@ -44,7 +44,7 @@ const Hero = () => {
               Corporate events, business experiences, and professional execution—delivered with precision.
             </p>
             <Link href="/add-event">
-              <button className="bg-primary text-black px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-[16px] hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10">
+              <button className="bg-primary text-black px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-[16px] hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all">
                 Plan Your Event
               </button>
             </Link>
@@ -56,7 +56,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-[24px] lg:rounded-[28px] overflow-hidden flex flex-col min-h-[240px] lg:min-h-[450px] group shadow-2xl cursor-pointer"
+          className="relative rounded-[24px] lg:rounded-[28px] overflow-hidden flex flex-col min-h-[240px] lg:min-h-[450px] group cursor-pointer"
           onClick={scrollToEvents}
         >
           {/* Background Image */}

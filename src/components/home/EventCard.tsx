@@ -31,7 +31,7 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative bg-white border border-neutral-100 hover:border-neutral-200/80 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col h-full overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.08)] rounded-[24px] hover:-translate-y-2 will-change-transform"
+      className="group relative bg-white border border-neutral-200 hover:border-neutral-300 transition-colors duration-300 flex flex-col h-full overflow-hidden rounded-2xl"
     >
       {/* Top Content Area */}
       <div className="p-5 md:p-7 flex flex-col flex-grow">
@@ -99,30 +99,30 @@ const EventCard = ({ id, title, category, date, location, imageUrl, price, payme
         <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
       </div>
 
-      {/* Dark Action Footer */}
-      <div className="w-full bg-[#171717] text-white flex border-t border-neutral-800 text-[12px] font-black tracking-widest uppercase shrink-0">
+      {/* Minimal Action Footer */}
+      <div className="w-full bg-transparent flex border-t border-neutral-200 text-[11px] font-bold tracking-widest uppercase shrink-0 text-neutral-500">
         {!isPastEvent ? (
           <>
             <Link
               href={`/events/${id}?book=true`}
-              className="flex-grow py-[12px] md:py-[16px] text-center hover:bg-[#e0e02a] hover:text-black transition-all duration-300 border-r border-neutral-800 cursor-pointer"
+              className="flex-grow py-[16px] text-center hover:text-black hover:bg-neutral-50 transition-colors duration-300 border-r border-neutral-200 cursor-pointer"
               onClick={(e) => e.stopPropagation()}
             >
               Register
             </Link>
             <Link
               href={`/events/${id}`}
-              className="flex-grow py-[12px] md:py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+              className="flex-grow py-[16px] text-center hover:text-black hover:bg-neutral-50 transition-colors duration-300 cursor-pointer"
             >
-              More info
+              Details
             </Link>
           </>
         ) : (
           <Link
             href={`/events/${id}`}
-            className="w-full py-[12px] md:py-[16px] text-center hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+            className="w-full py-[16px] text-center hover:text-black hover:bg-neutral-50 transition-colors duration-300 cursor-pointer"
           >
-            More info
+            View Memories
           </Link>
         )}
       </div>
