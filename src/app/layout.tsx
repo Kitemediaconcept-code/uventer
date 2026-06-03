@@ -26,7 +26,7 @@ export default function RootLayout({
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000004_1px,transparent_1px),linear-gradient(to_bottom,#00000004_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none z-30" />
 
         <Navbar />
-        <main className="flex-grow pt-20 relative z-10">
+        <main className="flex-grow pt-20">
           {children}
         </main>
         <Footer />
