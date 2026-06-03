@@ -101,7 +101,7 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="bg-white w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl p-10 text-center"
+            className="bg-white w-full max-w-md rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl p-8 sm:p-10 text-center max-h-[90vh] overflow-y-auto"
           >
             <div className="h-20 w-20 bg-green-100 text-green-600 rounded-3xl flex items-center justify-center mx-auto mb-8">
               <ShieldCheck size={36} />
@@ -188,20 +188,20 @@ export default function BookingModal({ isOpen, onClose, event }: BookingModalPro
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm"
           onClick={onClose}
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="bg-white w-full max-w-xl rounded-[2.5rem] overflow-hidden shadow-2xl"
+            className="bg-white w-full max-w-xl rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl max-h-[90vh] sm:max-h-[85vh] flex flex-col overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
-            <div className="relative p-8 md:p-12">
+            <div className="relative p-6 sm:p-8 md:p-12 overflow-y-auto">
               <button 
                 onClick={onClose}
-                className="absolute top-8 right-8 text-muted hover:text-foreground transition-colors"
+                className="absolute top-6 right-6 md:top-8 md:right-8 text-muted hover:text-foreground transition-colors z-10 bg-white/80 rounded-full p-1 backdrop-blur-sm"
               >
                 <X size={24} />
               </button>
